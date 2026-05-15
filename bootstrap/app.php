@@ -16,6 +16,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.installed'      => \App\Http\Middleware\CheckInstalled::class,
             'check.installed.done' => \App\Http\Middleware\CheckInstalledDone::class,
             'track.pageview'       => \App\Http\Middleware\TrackPageView::class,
+            'maintenance.mode'     => \App\Http\Middleware\MaintenanceMode::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -67,18 +67,18 @@
 
                 {{-- Default Language --}}
                 <div>
-                    <label for="default_language" class="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label for="default_locale" class="block text-sm font-medium text-gray-700 mb-1.5">
                         Default Language
                     </label>
                     <select
-                        id="default_language"
-                        name="default_language"
+                        id="default_locale"
+                        name="default_locale"
                         class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-700 text-sm
                                focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
                     >
                         @foreach (['ar' => 'Arabic (العربية)', 'en' => 'English', 'nl' => 'Dutch (Nederlands)', 'de' => 'German (Deutsch)'] as $code => $label)
                             <option value="{{ $code }}"
-                                {{ old('default_language', $settings['default_language'] ?? 'en') === $code ? 'selected' : '' }}>
+                                {{ old('default_locale', $settings['default_locale'] ?? 'en') === $code ? 'selected' : '' }}>
                                 {{ $label }}
                             </option>
                         @endforeach
@@ -156,28 +156,42 @@
 
                 {{-- Maintenance Mode --}}
                 <div class="flex items-center justify-between rounded-xl border border-gray-200 px-4 py-4"
-                     x-data="{ maintenance: {{ old('maintenance_mode', $settings['maintenance_mode'] ?? false) ? 'true' : 'false' }} }">
+                     x-data="{
+                         maintenance: {{ ($settings['maintenance_mode'] ?? '0') === '1' ? 'true' : 'false' }},
+                         saving: false,
+                         async toggle() {
+                             this.saving = true;
+                             try {
+                                 const resp = await fetch('{{ route('admin.settings.maintenance') }}', {
+                                     method: 'POST',
+                                     headers: {
+                                         'Content-Type': 'application/json',
+                                         'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                                     },
+                                     body: JSON.stringify({ enabled: this.maintenance }),
+                                 });
+                                 if (!resp.ok) throw new Error();
+                             } catch(e) {
+                                 this.maintenance = !this.maintenance;
+                             } finally {
+                                 this.saving = false;
+                             }
+                         }
+                     }">
                     <div>
                         <p class="text-sm font-medium text-gray-800">Maintenance Mode</p>
-                        <p class="text-xs text-gray-500 mt-0.5">When enabled, the frontend will show a maintenance page to visitors.</p>
+                        <p class="text-xs text-gray-500 mt-0.5">When enabled, the frontend shows a maintenance page to visitors.</p>
                     </div>
-                    <label class="relative inline-flex items-center cursor-pointer ml-4 flex-shrink-0">
-                        <input
-                            type="checkbox"
-                            name="maintenance_mode"
-                            value="1"
-                            x-model="maintenance"
-                            :checked="maintenance"
-                            class="sr-only peer"
-                        >
-                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer
-                                    peer-checked:after:translate-x-full peer-checked:after:border-white
-                                    after:content-[''] after:absolute after:top-[2px] after:left-[2px]
-                                    after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all
-                                    transition-colors"
-                             :style="maintenance ? 'background-color:#FF8528;' : ''">
+                    <button type="button"
+                            @click="maintenance = !maintenance; toggle()"
+                            :disabled="saving"
+                            class="relative inline-flex items-center flex-shrink-0 ml-4 cursor-pointer focus:outline-none disabled:opacity-60">
+                        <div class="w-11 h-6 rounded-full transition-colors duration-200"
+                             :style="maintenance ? 'background-color:#FF8528;' : 'background-color:#d1d5db;'">
+                            <div class="absolute top-[2px] left-[2px] w-5 h-5 bg-white rounded-full shadow transition-transform duration-200"
+                                 :class="maintenance ? 'translate-x-5' : 'translate-x-0'"></div>
                         </div>
-                    </label>
+                    </button>
                 </div>
 
                 {{-- Save Button --}}
@@ -197,6 +211,32 @@
                     </button>
                 </div>
             </form>
+        </div>
+
+        {{-- Cache Management --}}
+        <div class="mt-5 bg-white rounded-2xl shadow-sm border border-gray-100">
+            <div class="px-6 py-5 border-b border-gray-100">
+                <h2 class="text-base font-semibold text-gray-800">Cache Management</h2>
+                <p class="text-sm text-gray-500 mt-0.5">Clear cached settings, views, and application data.</p>
+            </div>
+            <div class="px-6 py-5 flex items-center justify-between flex-wrap gap-4">
+                <div>
+                    <p class="text-sm text-gray-700">Application Cache</p>
+                    <p class="text-xs text-gray-400 mt-0.5">Clears settings cache, compiled views, and general application cache.</p>
+                </div>
+                <form method="POST" action="{{ route('admin.settings.cache.clear') }}">
+                    @csrf
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
+                        onclick="return confirm('Clear all cache?')">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                        </svg>
+                        Clear Cache
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
 

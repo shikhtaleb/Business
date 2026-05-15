@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\InstallController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ContentController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\ActivityController;
 
 // ── Installation wizard ───────────────────────────────────────────────────────
 Route::prefix('install')->name('install.')->middleware('check.installed')->group(function () {
@@ -68,18 +70,33 @@ Route::prefix('admin')->name('admin.')->middleware('check.installed.done')->grou
         Route::post('/profile/password',[ProfileController::class, 'updatePassword'])->name('profile.password');
 
         // Roles
-        Route::get('/roles',             [RoleController::class, 'index'])->name('roles.index');
-        Route::post('/roles',            [RoleController::class, 'store'])->name('roles.store');
-        Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
-        Route::put('/roles/{role}',      [RoleController::class, 'update'])->name('roles.update');
-        Route::delete('/roles/{role}',   [RoleController::class, 'destroy'])->name('roles.destroy');
+        Route::get('/roles',              [RoleController::class, 'index'])->name('roles.index');
+        Route::get('/roles/create',       [RoleController::class, 'create'])->name('roles.create');
+        Route::post('/roles',             [RoleController::class, 'store'])->name('roles.store');
+        Route::get('/roles/{role}/edit',  [RoleController::class, 'edit'])->name('roles.edit');
+        Route::put('/roles/{role}',       [RoleController::class, 'update'])->name('roles.update');
+        Route::delete('/roles/{role}',    [RoleController::class, 'destroy'])->name('roles.destroy');
 
         // Analytics
         Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics.index');
+
+        // Activity Log
+        Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
+
+        // Cache management
+        Route::post('/settings/cache/clear', [SettingsController::class, 'clearCache'])->name('settings.cache.clear');
+
+        // Maintenance mode toggle (AJAX)
+        Route::post('/settings/maintenance', [SettingsController::class, 'toggleMaintenance'])->name('settings.maintenance');
     });
 });
 
 // ── Frontend ──────────────────────────────────────────────────────────────────
-Route::middleware(['check.installed.done', 'track.pageview'])->group(function () {
+Route::middleware(['check.installed.done', 'maintenance.mode', 'track.pageview'])->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('home');
+    Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
 });
+
+// SEO files (no maintenance mode or pageview tracking needed)
+Route::get('/sitemap.xml', [FrontendController::class, 'sitemap'])->middleware('check.installed.done');
+Route::get('/robots.txt',  [FrontendController::class, 'robots'])->middleware('check.installed.done');

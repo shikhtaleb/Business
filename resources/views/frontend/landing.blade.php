@@ -484,7 +484,46 @@
           <div class="v">+966 555 123 456</div>
           <div class="l">{{ $content['contact']['ct.phoneL'] ?? 'Sunday – Thursday · 9 AM – 6 PM' }}</div>
         </div>
-        <a href="#" class="btn btn-primary">{{ $content['contact']['ct.book'] ?? 'Book a demo' }}</a>
+
+        {{-- Contact Form --}}
+        @if(session('contact_success'))
+        <div style="margin-top:1.5rem;padding:1rem 1.25rem;border-radius:.75rem;background:color-mix(in srgb,var(--brand) 10%,transparent);border:1px solid color-mix(in srgb,var(--brand) 30%,transparent);">
+          <p style="color:var(--brand);font-weight:600;font-size:.9rem;">✓ {{ $lang === 'ar' ? 'تم إرسال رسالتك بنجاح!' : 'Message sent successfully!' }}</p>
+        </div>
+        @else
+        <form id="contactForm" method="POST" action="{{ route('contact.submit') }}" style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.85rem;">
+          @csrf
+          @if($errors->any())
+          <div style="padding:.75rem 1rem;border-radius:.75rem;background:#fff0f0;border:1px solid #fca5a5;font-size:.85rem;color:#dc2626;">
+            @foreach($errors->all() as $e)<div>{{ $e }}</div>@endforeach
+          </div>
+          @endif
+          <div style="display:flex;flex-direction:column;gap:.35rem;">
+            <label style="font-size:.8rem;font-weight:600;color:#555;">{{ $lang === 'ar' ? 'الاسم' : 'Name' }}</label>
+            <input type="text" name="name" value="{{ old('name') }}" required
+              style="padding:.65rem 1rem;border-radius:.6rem;border:1px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;background:#fff;color:#1a1a1a;"
+              onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
+              placeholder="{{ $lang === 'ar' ? 'اكتب اسمك' : 'Your name' }}">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.35rem;">
+            <label style="font-size:.8rem;font-weight:600;color:#555;">{{ $lang === 'ar' ? 'البريد الإلكتروني' : 'Email' }}</label>
+            <input type="email" name="email" value="{{ old('email') }}" required
+              style="padding:.65rem 1rem;border-radius:.6rem;border:1px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;background:#fff;color:#1a1a1a;"
+              onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
+              placeholder="{{ $lang === 'ar' ? 'بريدك الإلكتروني' : 'your@email.com' }}">
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.35rem;">
+            <label style="font-size:.8rem;font-weight:600;color:#555;">{{ $lang === 'ar' ? 'الرسالة' : 'Message' }}</label>
+            <textarea name="message" required rows="4"
+              style="padding:.65rem 1rem;border-radius:.6rem;border:1px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical;background:#fff;color:#1a1a1a;font-family:inherit;"
+              onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
+              placeholder="{{ $lang === 'ar' ? 'اكتب رسالتك هنا…' : 'How can we help you?' }}">{{ old('message') }}</textarea>
+          </div>
+          <button type="submit" class="btn btn-primary" style="margin-top:.25rem;align-self:flex-start;">
+            {{ $lang === 'ar' ? 'إرسال الرسالة' : 'Send Message' }}
+          </button>
+        </form>
+        @endif
       </div>
       <div class="contact-img">
         <span class="blob b1"></span>

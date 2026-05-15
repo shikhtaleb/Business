@@ -178,6 +178,35 @@ class SettingsController extends Controller
         file_put_contents(public_path('css/brand.css'), $css);
     }
 
+    // -------------------------------------------------------------------------
+    // Cache
+    // -------------------------------------------------------------------------
+
+    public function clearCache()
+    {
+        \App\Models\Setting::clearCache();
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+
+        ActivityLog::record('Cache cleared', 'settings');
+
+        return back()->with('success', 'Cache cleared successfully.');
+    }
+
+    // -------------------------------------------------------------------------
+    // Maintenance toggle (AJAX)
+    // -------------------------------------------------------------------------
+
+    public function toggleMaintenance(Request $request)
+    {
+        $on = $request->boolean('enabled');
+        Setting::set('maintenance_mode', $on ? '1' : '0', 'general');
+
+        ActivityLog::record('Maintenance mode ' . ($on ? 'enabled' : 'disabled'), 'settings');
+
+        return response()->json(['ok' => true, 'maintenance' => $on]);
+    }
+
     private function generateSitemap(): void
     {
         $siteUrl = rtrim(Setting::get('site_url', config('app.url')), '/');

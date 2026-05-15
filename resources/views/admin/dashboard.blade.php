@@ -96,6 +96,10 @@
         <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
                 <h2 class="text-base font-semibold text-gray-800">Recent Activity</h2>
+                <a href="{{ route('admin.activity.index') }}"
+                   class="text-xs font-medium hover:underline" style="color:#FF8528;">
+                    View all →
+                </a>
             </div>
             <div class="divide-y divide-gray-50">
                 @forelse ($recentActivity ?? [] as $activity)
