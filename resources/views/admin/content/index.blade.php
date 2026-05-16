@@ -70,7 +70,7 @@
                     <template x-for="lang in ['ar','en','nl','de']" :key="lang">
                         <a
                             x-show="activeLang === lang"
-                            :href="`{{ route('admin.content.export', '') }}/` + lang"
+                            :href="`{{ route('admin.content.export', '__lang__') }}`.replace('__lang__', lang)"
                             class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-colors"
                         >
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
