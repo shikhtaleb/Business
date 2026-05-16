@@ -18,6 +18,12 @@ return Application::configure(basePath: dirname(__DIR__))
             'track.pageview'       => \App\Http\Middleware\TrackPageView::class,
             'maintenance.mode'     => \App\Http\Middleware\MaintenanceMode::class,
             'admin.locale'         => \App\Http\Middleware\SetAdminLocale::class,
+            'handle.redirects'     => \App\Http\Middleware\HandleRedirects::class,
+        ]);
+
+        // Run redirect checks on all web requests (before maintenance/pageview)
+        $middleware->web(append: [
+            \App\Http\Middleware\HandleRedirects::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -17,6 +17,21 @@ use App\Http\Controllers\Admin\ActivityController;
 use App\Http\Controllers\Admin\MessageController;
 use App\Http\Controllers\Admin\PlanController;
 use App\Http\Controllers\Admin\LanguageManagerController;
+use App\Http\Controllers\Admin\PageController;
+use App\Http\Controllers\Admin\MenuController;
+use App\Http\Controllers\Admin\RedirectController;
+use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\PostCategoryController;
+use App\Http\Controllers\Admin\LeadController;
+use App\Http\Controllers\Admin\SubscriberController;
+use App\Http\Controllers\Admin\CampaignController;
+use App\Http\Controllers\Admin\TicketController;
+use App\Http\Controllers\Admin\ApiKeyController;
+use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\TwoFactorController;
+use App\Http\Controllers\Admin\SystemHealthController;
+use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\BackupController;
 
 // ── Installation wizard ───────────────────────────────────────────────────────
 Route::prefix('install')->name('install.')->middleware('check.installed')->group(function () {
@@ -132,6 +147,124 @@ Route::prefix('admin')->name('admin.')->middleware('check.installed.done')->grou
         Route::put('/languages/{language}',                   [LanguageManagerController::class, 'update'])->name('languages.update');
         Route::delete('/languages/{language}',                [LanguageManagerController::class, 'destroy'])->name('languages.destroy');
         Route::get('/languages/{language}/export',            [LanguageManagerController::class, 'exportTranslations'])->name('languages.export');
+
+        // Pages
+        Route::get('/pages',                [PageController::class, 'index'])->name('pages.index');
+        Route::get('/pages/create',         [PageController::class, 'create'])->name('pages.create');
+        Route::post('/pages',               [PageController::class, 'store'])->name('pages.store');
+        Route::get('/pages/{page}/edit',    [PageController::class, 'edit'])->name('pages.edit');
+        Route::put('/pages/{page}',         [PageController::class, 'update'])->name('pages.update');
+        Route::delete('/pages/{page}',      [PageController::class, 'destroy'])->name('pages.destroy');
+
+        // Menus
+        Route::get('/menus',                                            [MenuController::class, 'index'])->name('menus.index');
+        Route::post('/menus',                                           [MenuController::class, 'store'])->name('menus.store');
+        Route::get('/menus/{menu}',                                     [MenuController::class, 'show'])->name('menus.show');
+        Route::put('/menus/{menu}',                                     [MenuController::class, 'update'])->name('menus.update');
+        Route::delete('/menus/{menu}',                                  [MenuController::class, 'destroy'])->name('menus.destroy');
+        Route::post('/menus/{menu}/items',                              [MenuController::class, 'storeItem'])->name('menus.items.store');
+        Route::put('/menus/{menu}/items/{item}',                        [MenuController::class, 'updateItem'])->name('menus.items.update');
+        Route::delete('/menus/{menu}/items/{item}',                     [MenuController::class, 'destroyItem'])->name('menus.items.destroy');
+        Route::post('/menus/{menu}/items/{item}/move-up',               [MenuController::class, 'moveItemUp'])->name('menus.items.move-up');
+        Route::post('/menus/{menu}/items/{item}/move-down',             [MenuController::class, 'moveItemDown'])->name('menus.items.move-down');
+        Route::post('/menus/{menu}/reorder',                            [MenuController::class, 'reorderItems'])->name('menus.reorder');
+
+        // Redirects
+        Route::get('/redirects',                [RedirectController::class, 'index'])->name('redirects.index');
+        Route::post('/redirects',               [RedirectController::class, 'store'])->name('redirects.store');
+        Route::get('/redirects/{redirect}/edit',[RedirectController::class, 'edit'])->name('redirects.edit');
+        Route::put('/redirects/{redirect}',     [RedirectController::class, 'update'])->name('redirects.update');
+        Route::delete('/redirects/{redirect}',  [RedirectController::class, 'destroy'])->name('redirects.destroy');
+        Route::post('/redirects/{redirect}/toggle', [RedirectController::class, 'toggle'])->name('redirects.toggle');
+        Route::post('/redirects/import',        [RedirectController::class, 'import'])->name('redirects.import');
+
+        // Blog — Posts
+        Route::get('/posts',                  [PostController::class, 'index'])->name('posts.index');
+        Route::get('/posts/create',           [PostController::class, 'create'])->name('posts.create');
+        Route::post('/posts',                 [PostController::class, 'store'])->name('posts.store');
+        Route::get('/posts/{post}/edit',      [PostController::class, 'edit'])->name('posts.edit');
+        Route::put('/posts/{post}',           [PostController::class, 'update'])->name('posts.update');
+        Route::delete('/posts/{post}',        [PostController::class, 'destroy'])->name('posts.destroy');
+        Route::post('/posts/{post}/publish',  [PostController::class, 'publish'])->name('posts.publish');
+
+        // Blog — Categories
+        Route::get('/categories',             [PostCategoryController::class, 'index'])->name('categories.index');
+        Route::post('/categories',            [PostCategoryController::class, 'store'])->name('categories.store');
+        Route::get('/categories/{category}/edit', [PostCategoryController::class, 'edit'])->name('categories.edit');
+        Route::put('/categories/{category}',  [PostCategoryController::class, 'update'])->name('categories.update');
+        Route::delete('/categories/{category}', [PostCategoryController::class, 'destroy'])->name('categories.destroy');
+
+        // Leads (CRM)
+        Route::get('/leads',                  [LeadController::class, 'index'])->name('leads.index');
+        Route::get('/leads/create',           [LeadController::class, 'create'])->name('leads.create');
+        Route::post('/leads',                 [LeadController::class, 'store'])->name('leads.store');
+        Route::get('/leads/{lead}',           [LeadController::class, 'show'])->name('leads.show');
+        Route::get('/leads/{lead}/edit',      [LeadController::class, 'edit'])->name('leads.edit');
+        Route::put('/leads/{lead}',           [LeadController::class, 'update'])->name('leads.update');
+        Route::delete('/leads/{lead}',        [LeadController::class, 'destroy'])->name('leads.destroy');
+        Route::post('/leads/{lead}/note',     [LeadController::class, 'addNote'])->name('leads.note');
+        Route::post('/leads/{lead}/status',   [LeadController::class, 'updateStatus'])->name('leads.status');
+        Route::get('/leads/export',           [LeadController::class, 'export'])->name('leads.export');
+
+        // Subscribers
+        Route::get('/subscribers',            [SubscriberController::class, 'index'])->name('subscribers.index');
+        Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
+        Route::post('/subscribers/bulk',      [SubscriberController::class, 'bulkAction'])->name('subscribers.bulk');
+        Route::post('/subscribers/import',    [SubscriberController::class, 'import'])->name('subscribers.import');
+        Route::get('/subscribers/export',     [SubscriberController::class, 'export'])->name('subscribers.export');
+
+        // Email Campaigns
+        Route::get('/campaigns',              [CampaignController::class, 'index'])->name('campaigns.index');
+        Route::get('/campaigns/create',       [CampaignController::class, 'create'])->name('campaigns.create');
+        Route::post('/campaigns',             [CampaignController::class, 'store'])->name('campaigns.store');
+        Route::get('/campaigns/{campaign}/edit', [CampaignController::class, 'edit'])->name('campaigns.edit');
+        Route::put('/campaigns/{campaign}',   [CampaignController::class, 'update'])->name('campaigns.update');
+        Route::delete('/campaigns/{campaign}', [CampaignController::class, 'destroy'])->name('campaigns.destroy');
+        Route::post('/campaigns/{campaign}/send', [CampaignController::class, 'send'])->name('campaigns.send');
+
+        // Support Tickets
+        Route::get('/tickets',                [TicketController::class, 'index'])->name('tickets.index');
+        Route::get('/tickets/{ticket}',       [TicketController::class, 'show'])->name('tickets.show');
+        Route::post('/tickets/{ticket}/reply',[TicketController::class, 'reply'])->name('tickets.reply');
+        Route::post('/tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.status');
+        Route::post('/tickets/{ticket}/priority', [TicketController::class, 'updatePriority'])->name('tickets.priority');
+        Route::post('/tickets/{ticket}/assign', [TicketController::class, 'assign'])->name('tickets.assign');
+        Route::delete('/tickets/{ticket}',    [TicketController::class, 'destroy'])->name('tickets.destroy');
+
+        // API Keys
+        Route::get('/api-keys',               [ApiKeyController::class, 'index'])->name('api-keys.index');
+        Route::post('/api-keys',              [ApiKeyController::class, 'store'])->name('api-keys.store');
+        Route::delete('/api-keys/{apiKey}',   [ApiKeyController::class, 'destroy'])->name('api-keys.destroy');
+        Route::post('/api-keys/{apiKey}/toggle', [ApiKeyController::class, 'toggle'])->name('api-keys.toggle');
+
+        // Notifications
+        Route::get('/notifications',          [NotificationController::class, 'index'])->name('notifications.index');
+        Route::post('/notifications/{id}/read', [NotificationController::class, 'markRead'])->name('notifications.read');
+        Route::post('/notifications/read-all', [NotificationController::class, 'markAllRead'])->name('notifications.read-all');
+        Route::delete('/notifications/{id}',  [NotificationController::class, 'destroy'])->name('notifications.destroy');
+
+        // Two-Factor Authentication
+        Route::get('/two-factor',             [TwoFactorController::class, 'index'])->name('two-factor.index');
+        Route::post('/two-factor/enable',     [TwoFactorController::class, 'enable'])->name('two-factor.enable');
+        Route::post('/two-factor/disable',    [TwoFactorController::class, 'disable'])->name('two-factor.disable');
+        Route::post('/two-factor/verify',     [TwoFactorController::class, 'verify'])->name('two-factor.verify');
+
+        // System Health
+        Route::get('/system/health',          [SystemHealthController::class, 'index'])->name('system.health');
+
+        // Coupons
+        Route::get('/coupons',                [CouponController::class, 'index'])->name('coupons.index');
+        Route::get('/coupons/create',         [CouponController::class, 'create'])->name('coupons.create');
+        Route::post('/coupons',               [CouponController::class, 'store'])->name('coupons.store');
+        Route::get('/coupons/{coupon}/edit',  [CouponController::class, 'edit'])->name('coupons.edit');
+        Route::put('/coupons/{coupon}',       [CouponController::class, 'update'])->name('coupons.update');
+        Route::delete('/coupons/{coupon}',    [CouponController::class, 'destroy'])->name('coupons.destroy');
+
+        // Backups
+        Route::get('/backups',                [BackupController::class, 'index'])->name('backups.index');
+        Route::post('/backups',               [BackupController::class, 'create'])->name('backups.create');
+        Route::get('/backups/{backup}/download', [BackupController::class, 'download'])->name('backups.download');
+        Route::delete('/backups/{backup}',    [BackupController::class, 'destroy'])->name('backups.destroy');
     });
 });
 

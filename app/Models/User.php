@@ -16,19 +16,24 @@ class User extends Authenticatable
         'email',
         'password',
         'force_password_reset',
+        'totp_secret',
+        'two_factor_enabled',
+        'two_factor_recovery_codes',
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
+        'totp_secret',
     ];
 
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password'          => 'hashed',
-            'force_password_reset' => 'boolean',
+            'email_verified_at'       => 'datetime',
+            'password'                => 'hashed',
+            'force_password_reset'    => 'boolean',
+            'two_factor_enabled'      => 'boolean',
         ];
     }
 }
