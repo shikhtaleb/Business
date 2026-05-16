@@ -251,13 +251,13 @@ footer{border-top:1px solid var(--line);padding:26px 0;background:var(--card)}
 [dir="rtl"] .lang-menu{right:auto;left:0}
 .lang-menu.open{display:flex;animation:fadeUp .18s ease}
 @keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-.lang-menu button{width:100%;border:0;background:transparent;text-align:start;padding:10px 12px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:10px;cursor:pointer;line-height:1.2}
-.lang-menu button:hover{background:var(--brand-50);color:var(--brand)}
-.lang-menu button.on{background:var(--brand);color:#fff}
-.lang-menu button .flag{font-size:18px;line-height:1;flex-shrink:0}
-.lang-menu button .lbl{flex:1;text-align:start}
-.lang-menu button .ck{font-size:14px;opacity:0;color:currentColor;font-weight:700}
-.lang-menu button.on .ck{opacity:1}
+.lang-menu button,.lang-menu a{width:100%;border:0;background:transparent;text-align:start;padding:10px 12px;border-radius:9px;font-size:13.5px;font-weight:600;color:var(--ink-2);display:flex;align-items:center;gap:10px;cursor:pointer;line-height:1.2;text-decoration:none}
+.lang-menu button:hover,.lang-menu a:hover{background:var(--brand-50);color:var(--brand)}
+.lang-menu button.on,.lang-menu a.on,.lang-menu a.active{background:var(--brand);color:#fff}
+.lang-menu button .flag,.lang-menu a .flag{font-size:18px;line-height:1;flex-shrink:0}
+.lang-menu button .lbl,.lang-menu a .lbl{flex:1;text-align:start}
+.lang-menu button .ck,.lang-menu a .ck{font-size:14px;opacity:0;color:currentColor;font-weight:700}
+.lang-menu button.on .ck,.lang-menu a.on .ck,.lang-menu a.active .ck{opacity:1}
 
 /* Mobile nav toggle */
 .nav-toggle{display:none;width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink-2);align-items:center;justify-content:center;cursor:pointer;transition:.15s}

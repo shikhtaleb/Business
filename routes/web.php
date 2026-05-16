@@ -197,6 +197,7 @@ Route::prefix('admin')->name('admin.')->middleware('check.installed.done')->grou
         // Leads (CRM)
         Route::get('/leads',                  [LeadController::class, 'index'])->name('leads.index');
         Route::get('/leads/create',           [LeadController::class, 'create'])->name('leads.create');
+        Route::get('/leads/export',           [LeadController::class, 'export'])->name('leads.export');
         Route::post('/leads',                 [LeadController::class, 'store'])->name('leads.store');
         Route::get('/leads/{lead}',           [LeadController::class, 'show'])->name('leads.show');
         Route::get('/leads/{lead}/edit',      [LeadController::class, 'edit'])->name('leads.edit');
@@ -204,14 +205,13 @@ Route::prefix('admin')->name('admin.')->middleware('check.installed.done')->grou
         Route::delete('/leads/{lead}',        [LeadController::class, 'destroy'])->name('leads.destroy');
         Route::post('/leads/{lead}/note',     [LeadController::class, 'addNote'])->name('leads.note');
         Route::post('/leads/{lead}/status',   [LeadController::class, 'updateStatus'])->name('leads.status');
-        Route::get('/leads/export',           [LeadController::class, 'export'])->name('leads.export');
 
         // Subscribers
         Route::get('/subscribers',            [SubscriberController::class, 'index'])->name('subscribers.index');
-        Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
+        Route::get('/subscribers/export',     [SubscriberController::class, 'export'])->name('subscribers.export');
         Route::post('/subscribers/bulk',      [SubscriberController::class, 'bulkAction'])->name('subscribers.bulk');
         Route::post('/subscribers/import',    [SubscriberController::class, 'import'])->name('subscribers.import');
-        Route::get('/subscribers/export',     [SubscriberController::class, 'export'])->name('subscribers.export');
+        Route::delete('/subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
         // Email Campaigns
         Route::get('/campaigns',              [CampaignController::class, 'index'])->name('campaigns.index');

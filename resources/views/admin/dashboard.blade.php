@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
+@section('title', 'لوحة التحكم')
+@section('page-title', 'لوحة التحكم')
 
 @section('content')
 
@@ -11,7 +11,7 @@
         {{-- Views Today --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Views Today</span>
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">زيارات اليوم</span>
                 <div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background-color:#FFF4EA;">
                     <svg class="w-5 h-5" style="color:#FF8528;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -20,13 +20,13 @@
                 </div>
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['views_today'] ?? 0) }}</p>
-            <p class="mt-1 text-xs text-gray-400">page views</p>
+            <p class="mt-1 text-xs text-gray-400">مشاهدة</p>
         </div>
 
         {{-- Views This Week --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">This Week</span>
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">هذا الأسبوع</span>
                 <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-blue-50">
                     <svg class="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -35,13 +35,13 @@
                 </div>
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['views_week'] ?? 0) }}</p>
-            <p class="mt-1 text-xs text-gray-400">page views</p>
+            <p class="mt-1 text-xs text-gray-400">مشاهدة</p>
         </div>
 
         {{-- Views This Month --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">This Month</span>
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">هذا الشهر</span>
                 <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-purple-50">
                     <svg class="w-5 h-5 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -50,13 +50,13 @@
                 </div>
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['views_month'] ?? 0) }}</p>
-            <p class="mt-1 text-xs text-gray-400">page views</p>
+            <p class="mt-1 text-xs text-gray-400">مشاهدة</p>
         </div>
 
         {{-- Unique Today --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
             <div class="flex items-center justify-between mb-3">
-                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">Unique Today</span>
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">زوار فريدون اليوم</span>
                 <div class="w-9 h-9 rounded-xl flex items-center justify-center bg-green-50">
                     <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -65,7 +65,7 @@
                 </div>
             </div>
             <p class="text-3xl font-bold text-gray-900">{{ number_format($stats['unique_today'] ?? 0) }}</p>
-            <p class="mt-1 text-xs text-gray-400">unique visitors</p>
+            <p class="mt-1 text-xs text-gray-400">زائر فريد</p>
         </div>
     </div>
 
@@ -104,15 +104,15 @@
     {{-- ── Chart ───────────────────────────────────────────────────────────────── --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 mb-6">
         <div class="flex items-center justify-between mb-4">
-            <h2 class="text-base font-semibold text-gray-800">Traffic — Last 30 Days</h2>
+            <h2 class="text-base font-semibold text-gray-800">الزيارات — آخر 30 يوماً</h2>
             <div class="flex items-center gap-4 text-xs text-gray-500">
                 <span class="flex items-center gap-1.5">
                     <span class="inline-block w-3 h-3 rounded-full" style="background:#FF8528;"></span>
-                    Total Views
+                    إجمالي الزيارات
                 </span>
                 <span class="flex items-center gap-1.5">
                     <span class="inline-block w-3 h-3 rounded-full bg-blue-500"></span>
-                    Unique Visitors
+                    زوار فريدون
                 </span>
             </div>
         </div>
@@ -127,10 +127,10 @@
         {{-- Recent Activity --}}
         <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
-                <h2 class="text-base font-semibold text-gray-800">Recent Activity</h2>
+                <h2 class="text-base font-semibold text-gray-800">آخر الأنشطة</h2>
                 <a href="{{ route('admin.activity.index') }}"
                    class="text-xs font-medium hover:underline" style="color:#FF8528;">
-                    View all →
+                    عرض الكل →
                 </a>
             </div>
             <div class="divide-y divide-gray-50">
@@ -163,7 +163,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
                         </svg>
-                        <p class="text-sm text-gray-400">No recent activity</p>
+                        <p class="text-sm text-gray-400">لا توجد أنشطة حديثة</p>
                     </div>
                 @endforelse
             </div>
@@ -264,7 +264,7 @@
             labels: days,
             datasets: [
                 {
-                    label: 'Total Views',
+                    label: 'إجمالي الزيارات',
                     data: totals,
                     borderColor: '#FF8528',
                     backgroundColor: 'rgba(255,133,40,0.10)',
@@ -276,7 +276,7 @@
                     fill: true,
                 },
                 {
-                    label: 'Unique Visitors',
+                    label: 'زوار فريدون',
                     data: unique,
                     borderColor: '#3B82F6',
                     backgroundColor: 'rgba(59,130,246,0.08)',

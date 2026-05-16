@@ -146,6 +146,11 @@ return [
     'language_deleted'          => 'تم حذف اللغة.',
     'cannot_delete_default_lang'=> 'لا يمكن حذف اللغة الافتراضية.',
 
+    // Notifications
+    'notifications'          => 'الإشعارات',
+    'no_notifications'       => 'لا توجد إشعارات بعد.',
+    'view_all_notifications' => 'عرض كل الإشعارات',
+
     // Common
     'active'      => 'مفعّل',
     'inactive'    => 'معطّل',

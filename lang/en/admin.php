@@ -81,4 +81,9 @@ return [
     'brand_color_hint'     => 'This color is used for buttons, highlights, and brand accents.',
     'font_hint'            => 'Primary font used across the frontend.',
     'seo_label'            => 'SEO',
+
+    // Notifications
+    'notifications'          => 'Notifications',
+    'no_notifications'       => 'No notifications yet.',
+    'view_all_notifications' => 'View all notifications',
 ];

@@ -74,7 +74,7 @@
             padding: 0.5rem 0.75rem 0.2rem;
             font-size: 0.65rem;
             font-weight: 700;
-            color: #334155;
+            color: #475569;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-top: 0.5rem;
@@ -261,7 +261,9 @@ function adminApp() {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
                           d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
-                @php $unread = \App\Models\Message::unreadCount(); @endphp
+                @php
+                    try { $unread = \App\Models\Message::unreadCount(); } catch (\Throwable) { $unread = 0; }
+                @endphp
                 @if($unread > 0)
                     <span class="absolute -top-1 -end-1 w-4 h-4 rounded-full text-white text-[9px] font-bold flex items-center justify-center" style="background:#FF8528;">{{ $unread > 9 ? '9+' : $unread }}</span>
                 @endif
@@ -605,7 +607,10 @@ function adminApp() {
             <div class="flex items-center gap-1.5">
 
                 {{-- Notifications Bell --}}
-                @php $unreadNotifCount = auth()->user() ? auth()->user()->unreadNotifications()->count() : 0; @endphp
+                @php
+                    try { $unreadNotifCount = auth()->user() ? auth()->user()->unreadNotifications()->count() : 0; }
+                    catch (\Throwable) { $unreadNotifCount = 0; }
+                @endphp
                 <div class="relative" x-data="{notifOpen:false}" @click.outside="notifOpen=false">
                     <button @click="notifOpen=!notifOpen"
                             class="relative w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
@@ -630,19 +635,20 @@ function adminApp() {
                          class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-80 rounded-2xl shadow-xl border z-50 overflow-hidden"
                          style="background:#1e2244; border-color:#252848;">
                         <div class="flex items-center justify-between px-4 py-3 border-b" style="border-color:#252848;">
-                            <p class="text-white font-semibold text-sm">Notifications</p>
+                            <p class="text-white font-semibold text-sm">{{ __('admin.notifications') }}</p>
                             @if($unreadNotifCount > 0)
                             <span class="text-xs px-2 py-0.5 rounded-full text-white font-bold" style="background:#FF8528;">
-                                {{ $unreadNotifCount }} new
+                                {{ $unreadNotifCount }} {{ __('admin.new') }}
                             </span>
                             @endif
                         </div>
                         @php
-                            $recentNotifs = auth()->user() ? auth()->user()->notifications()->latest()->limit(5)->get() : collect();
+                            try { $recentNotifs = auth()->user() ? auth()->user()->notifications()->latest()->limit(5)->get() : collect(); }
+                            catch (\Throwable) { $recentNotifs = collect(); }
                         @endphp
                         @if($recentNotifs->isEmpty())
                         <div class="px-4 py-8 text-center">
-                            <p class="text-slate-400 text-sm">No notifications yet.</p>
+                            <p class="text-slate-400 text-sm">{{ __('admin.no_notifications') }}</p>
                         </div>
                         @else
                         <ul>
@@ -672,7 +678,7 @@ function adminApp() {
                         <a href="{{ route('admin.notifications.index') }}"
                            class="block px-4 py-2.5 text-center text-xs font-semibold transition-colors hover:bg-white/5"
                            style="color:#FF8528;">
-                            View all notifications &rarr;
+                            {{ __('admin.view_all_notifications') }} &rarr;
                         </a>
                     </div>
                 </div>
