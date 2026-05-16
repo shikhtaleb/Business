@@ -59,17 +59,29 @@ class SettingsController extends Controller
     public function saveAppearance(Request $request)
     {
         $request->validate([
-            'brand_color'       => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
-            'dark_mode_default' => 'required|in:light,dark,system',
-            'font_family'       => 'required|string',
+            'brand_color'           => 'required|regex:/^#[0-9A-Fa-f]{6}$/',
+            'dark_mode_default'     => 'required|in:light,dark,system',
+            'font_family'           => 'required|string',
+            'logo_url'              => 'nullable|string|max:500',
+            'dark_logo_url'         => 'nullable|string|max:500',
         ]);
 
         Setting::set('brand_color',       $request->input('brand_color'),       'appearance');
         Setting::set('dark_mode_default', $request->input('dark_mode_default'), 'appearance');
         Setting::set('font_family',       $request->input('font_family'),       'appearance');
 
-        if ($request->filled('logo_path')) {
-            Setting::set('logo_path', $request->input('logo_path'), 'appearance');
+        if ($request->filled('logo_url')) {
+            Setting::set('logo_url', $request->input('logo_url'), 'appearance');
+        }
+
+        if ($request->has('dark_logo_url')) {
+            Setting::set('dark_logo_url', $request->input('dark_logo_url', ''), 'appearance');
+        }
+
+        // Handle uploaded logo
+        if ($request->hasFile('logo') && $request->file('logo')->isValid()) {
+            $path = $request->file('logo')->store('logos', 'public');
+            Setting::set('logo_url', asset('storage/' . $path), 'appearance');
         }
 
         $this->generateBrandCss($request->input('brand_color'));

@@ -51,8 +51,14 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <div class="brand">
-      @if(!empty($settings['logo_path']))
-      <img src="{{ asset($settings['logo_path']) }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
+      @if(!empty($settings['logo_url']) || !empty($settings['logo_path']))
+        @php $logoUrl = $settings['logo_url'] ?? asset($settings['logo_path']); @endphp
+        @if(!empty($settings['dark_logo_url']))
+          <img src="{{ $logoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" />
+          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-dark" />
+        @else
+          <img src="{{ $logoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
+        @endif
       @else
       <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
       @endif
@@ -546,8 +552,14 @@
 <footer>
   <div class="wrap foot">
     <div class="brand">
-      @if(!empty($settings['logo_path']))
-      <img src="{{ asset($settings['logo_path']) }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" style="width:28px;height:28px;object-fit:contain" />
+      @if(!empty($settings['logo_url']) || !empty($settings['logo_path']))
+        @php $footerLogoUrl = $settings['logo_url'] ?? asset($settings['logo_path']); @endphp
+        @if(!empty($settings['dark_logo_url']))
+          <img src="{{ $footerLogoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" style="width:28px;height:28px;object-fit:contain" />
+          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-dark" style="width:28px;height:28px;object-fit:contain" />
+        @else
+          <img src="{{ $footerLogoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" style="width:28px;height:28px;object-fit:contain" />
+        @endif
       @else
       <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" style="width:28px;height:28px;object-fit:contain" />
       @endif

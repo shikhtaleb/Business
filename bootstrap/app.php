@@ -17,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'check.installed.done' => \App\Http\Middleware\CheckInstalledDone::class,
             'track.pageview'       => \App\Http\Middleware\TrackPageView::class,
             'maintenance.mode'     => \App\Http\Middleware\MaintenanceMode::class,
+            'admin.locale'         => \App\Http\Middleware\SetAdminLocale::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

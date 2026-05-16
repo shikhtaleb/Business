@@ -34,14 +34,25 @@ Route::prefix('admin')->name('admin.')->middleware('check.installed.done')->grou
     Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
     Route::post('/reset-password',        [AuthController::class, 'resetPassword'])->name('password.update');
 
+    // Admin language switcher (no locale middleware needed)
+    Route::post('/language', function (\Illuminate\Http\Request $request) {
+        $lang = $request->input('lang', 'en');
+        if (in_array($lang, ['ar', 'en', 'nl', 'de'])) {
+            session(['admin_lang' => $lang]);
+        }
+        return back();
+    })->name('language');
+
     // Authenticated admin routes
-    Route::middleware('admin.auth')->group(function () {
+    Route::middleware(['admin.auth', 'admin.locale'])->group(function () {
 
         Route::get('/',          [DashboardController::class, 'index'])->name('dashboard');
 
         // Content
-        Route::get('/content',   [ContentController::class, 'index'])->name('content.index');
-        Route::post('/content',  [ContentController::class, 'save'])->name('content.save');
+        Route::get('/content',                        [ContentController::class, 'index'])->name('content.index');
+        Route::post('/content',                       [ContentController::class, 'save'])->name('content.save');
+        Route::get('/content/export/{lang}',          [ContentController::class, 'export'])->name('content.export');
+        Route::post('/content/import',                [ContentController::class, 'import'])->name('content.import');
 
         // Media
         Route::get('/media',             [MediaController::class, 'index'])->name('media.index');

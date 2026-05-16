@@ -14,9 +14,10 @@ class RoleController extends Controller
 
     public function index()
     {
-        $roles = Role::withCount('permissions')->orderBy('name')->get();
+        $roles       = Role::with('permissions')->withCount('permissions')->orderBy('name')->get();
+        $permissions = Permission::orderBy('name')->get();
 
-        return view('admin.roles.index', compact('roles'));
+        return view('admin.roles.index', compact('roles', 'permissions'));
     }
 
     public function create()

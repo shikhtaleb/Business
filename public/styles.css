@@ -33,6 +33,12 @@
   --shadow-card:0 14px 40px -20px rgba(0,0,0,.55);
   --shadow-pop:0 12px 30px -12px rgba(0,0,0,.6);
 }
+/* Dark logo switching */
+.logo-dark { display: none; }
+.logo-light { display: block; }
+[data-theme="dark"] .logo-dark { display: block; }
+[data-theme="dark"] .logo-light { display: none; }
+
 html{transition:background-color .25s ease,color .25s ease;scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 section{scroll-margin-top:80px}

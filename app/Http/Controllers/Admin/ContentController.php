@@ -58,6 +58,68 @@ class ContentController extends Controller
         ));
     }
 
+    public function export(string $lang)
+    {
+        if (!in_array($lang, $this->langs)) {
+            abort(404);
+        }
+
+        $data = [];
+        foreach ($this->sections as $section) {
+            $blocks = ContentBlock::where('section', $section)
+                ->where('lang', $lang)
+                ->pluck('value', 'key')
+                ->toArray();
+            if (!empty($blocks)) {
+                $data[$section] = $blocks;
+            }
+        }
+
+        $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+        ActivityLog::record("Translations exported: lang={$lang}", 'content', ['lang' => $lang]);
+
+        return response($json, 200, [
+            'Content-Type'        => 'application/json; charset=utf-8',
+            'Content-Disposition' => "attachment; filename=\"translations_{$lang}.json\"",
+        ]);
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'lang' => 'required|in:ar,en,nl,de',
+            'file' => 'required|file|max:1024',
+        ]);
+
+        $lang = $request->input('lang');
+        $raw  = file_get_contents($request->file('file')->getRealPath());
+        $data = json_decode($raw, true);
+
+        if (!is_array($data)) {
+            return back()->with('error', 'Invalid JSON file format. Expected an object with section keys.');
+        }
+
+        $count = 0;
+        foreach ($data as $section => $blocks) {
+            if (!in_array($section, $this->sections) || !is_array($blocks)) {
+                continue;
+            }
+            foreach ($blocks as $key => $value) {
+                ContentBlock::upsert($section, (string) $key, $lang, (string) ($value ?? ''));
+                $count++;
+            }
+        }
+
+        ActivityLog::record(
+            "Translations imported: lang={$lang}, keys={$count}",
+            'content',
+            ['lang' => $lang]
+        );
+
+        return back()->with('success', "Imported {$count} translation keys for language: {$lang}.");
+    }
+
     public function save(Request $request)
     {
         $request->validate([

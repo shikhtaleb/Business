@@ -98,7 +98,10 @@
     updatePriceDisplay();
   }
 
-  var savedLang = localStorage.getItem('rt_lang') || (document.documentElement.getAttribute('lang') || 'ar');
+  // Always trust the server-rendered language to avoid localStorage/server mismatch
+  var serverLang = document.documentElement.getAttribute('lang') || 'ar';
+  var savedLang = serverLang;
+  localStorage.setItem('rt_lang', serverLang);
   applyLang(savedLang);
 
   // ---------- LANGUAGE MENU ----------

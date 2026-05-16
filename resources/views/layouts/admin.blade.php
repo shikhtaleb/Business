@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+      dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}"
+      class="h-full"
+      x-data="adminApp()"
+      :data-admin-theme="darkMode ? 'dark' : 'light'">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin') — Retont Business</title>
+    <title>@yield('title', __('admin.dashboard')) — Retont Business</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -37,6 +42,7 @@
 
     <style>
         [x-cloak] { display: none !important; }
+
         .sidebar-link {
             display: flex;
             align-items: center;
@@ -60,6 +66,12 @@
             border-left: 2px solid #FF8528;
             padding-left: calc(0.75rem - 2px);
         }
+        [dir="rtl"] .sidebar-link.active {
+            border-left: none;
+            border-right: 2px solid #FF8528;
+            padding-left: 0.75rem;
+            padding-right: calc(0.75rem - 2px);
+        }
         .sidebar-group-label {
             display: block;
             padding: 0.375rem 0.75rem;
@@ -71,9 +83,76 @@
             margin-top: 1.25rem;
             margin-bottom: 0.25rem;
         }
+
+        /* ── Admin Dark Mode ─────────────────────────────────────────────────── */
+        [data-admin-theme="dark"] .adm-bg   { background-color: #0f172a !important; }
+        [data-admin-theme="dark"] .adm-header {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        [data-admin-theme="dark"] .adm-footer {
+            background-color: #1e293b !important;
+            border-color: #334155 !important;
+        }
+        [data-admin-theme="dark"] .bg-white  { background-color: #1e293b !important; }
+        [data-admin-theme="dark"] .bg-gray-100 { background-color: #0f172a !important; }
+        [data-admin-theme="dark"] .bg-gray-50  { background-color: #1e293b !important; }
+        [data-admin-theme="dark"] .border-gray-100 { border-color: #334155 !important; }
+        [data-admin-theme="dark"] .border-gray-200 { border-color: #334155 !important; }
+        [data-admin-theme="dark"] .text-gray-800 { color: #f1f5f9 !important; }
+        [data-admin-theme="dark"] .text-gray-700 { color: #e2e8f0 !important; }
+        [data-admin-theme="dark"] .text-gray-600 { color: #cbd5e1 !important; }
+        [data-admin-theme="dark"] .text-gray-500 { color: #94a3b8 !important; }
+        [data-admin-theme="dark"] .text-gray-400 { color: #64748b !important; }
+        [data-admin-theme="dark"] .text-gray-900 { color: #f8fafc !important; }
+        [data-admin-theme="dark"] input,
+        [data-admin-theme="dark"] textarea,
+        [data-admin-theme="dark"] select {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
+            color: #f1f5f9 !important;
+        }
+        [data-admin-theme="dark"] input::placeholder,
+        [data-admin-theme="dark"] textarea::placeholder { color: #64748b !important; }
+        [data-admin-theme="dark"] thead,
+        [data-admin-theme="dark"] .bg-gray-50 thead { background-color: #334155 !important; }
+        [data-admin-theme="dark"] .divide-gray-50 > * { border-color: #1e293b !important; }
+        [data-admin-theme="dark"] .hover\:bg-gray-50:hover { background-color: #334155 !important; }
+        [data-admin-theme="dark"] .shadow-sm { box-shadow: 0 1px 2px 0 rgba(0,0,0,0.4) !important; }
+        [data-admin-theme="dark"] .bg-green-50 { background-color: #052e16 !important; }
+        [data-admin-theme="dark"] .border-green-200 { border-color: #166534 !important; }
+        [data-admin-theme="dark"] .text-green-800 { color: #4ade80 !important; }
+        [data-admin-theme="dark"] .bg-red-50 { background-color: #2d0a0a !important; }
+        [data-admin-theme="dark"] .border-red-200 { border-color: #7f1d1d !important; }
+        [data-admin-theme="dark"] .text-red-800 { color: #f87171 !important; }
+        [data-admin-theme="dark"] .text-red-600 { color: #f87171 !important; }
+        [data-admin-theme="dark"] .hover\:bg-red-50:hover { background-color: #2d0a0a !important; }
+        [data-admin-theme="dark"] .hover\:bg-gray-50:hover { background-color: #1e293b !important; }
+        [data-admin-theme="dark"] .border-gray-300 { border-color: #334155 !important; }
+        [data-admin-theme="dark"] .text-blue-100 { background-color: #1e3a5f !important; }
+        [data-admin-theme="dark"] .bg-blue-100 { background-color: #1e3a5f !important; }
+        [data-admin-theme="dark"] .bg-gray-100 { background-color: #0f172a !important; }
+        [data-admin-theme="dark"] .overflow-hidden { border-color: #334155 !important; }
+        [data-admin-theme="dark"] .font-mono { color: #94a3b8 !important; }
+        [data-admin-theme="dark"] .adm-topbar-text { color: #94a3b8 !important; }
     </style>
 </head>
-<body class="h-full bg-gray-100" x-data="{ sidebarOpen: false }">
+<body class="h-full adm-bg" x-bind:class="darkMode ? 'bg-gray-900' : 'bg-gray-100'">
+
+<script>
+    function adminApp() {
+        return {
+            sidebarOpen: false,
+            darkMode: localStorage.getItem('adminTheme') === 'dark',
+            userMenuOpen: false,
+            langMenuOpen: false,
+            toggleDark() {
+                this.darkMode = !this.darkMode;
+                localStorage.setItem('adminTheme', this.darkMode ? 'dark' : 'light');
+            }
+        }
+    }
+</script>
 
     <!-- Mobile sidebar overlay -->
     <div
@@ -115,18 +194,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zm10 0a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z"/>
                 </svg>
-                Dashboard
+                {{ __('admin.dashboard') }}
             </a>
 
             <!-- Content -->
-            <div class="sidebar-group-label">Content</div>
+            <div class="sidebar-group-label">{{ __('admin.content_label') }}</div>
             <a href="{{ route('admin.content.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.content.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                 </svg>
-                Content
+                {{ __('admin.content') }}
             </a>
             <a href="{{ route('admin.media.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
@@ -134,11 +213,11 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                 </svg>
-                Media
+                {{ __('admin.media') }}
             </a>
 
             <!-- Settings -->
-            <div class="sidebar-group-label">Settings</div>
+            <div class="sidebar-group-label">{{ __('admin.settings_label') }}</div>
             <a href="{{ route('admin.settings.general') }}"
                class="sidebar-link {{ request()->routeIs('admin.settings.general*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,7 +225,7 @@
                           d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
                 </svg>
-                General
+                {{ __('admin.general') }}
             </a>
             <a href="{{ route('admin.settings.appearance') }}"
                class="sidebar-link {{ request()->routeIs('admin.settings.appearance*') ? 'active' : '' }}">
@@ -154,7 +233,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
                 </svg>
-                Appearance
+                {{ __('admin.appearance') }}
             </a>
             <a href="{{ route('admin.settings.seo') }}"
                class="sidebar-link {{ request()->routeIs('admin.settings.seo*') ? 'active' : '' }}">
@@ -162,18 +241,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                 </svg>
-                SEO
+                {{ __('admin.seo') }}
             </a>
 
             <!-- Users & Access -->
-            <div class="sidebar-group-label">Users & Access</div>
+            <div class="sidebar-group-label">{{ __('admin.users_access_label') }}</div>
             <a href="{{ route('admin.users.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                 </svg>
-                Users
+                {{ __('admin.users') }}
             </a>
             <a href="{{ route('admin.roles.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
@@ -181,18 +260,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
                 </svg>
-                Roles
+                {{ __('admin.roles') }}
             </a>
 
             <!-- Reporting -->
-            <div class="sidebar-group-label">Reporting</div>
+            <div class="sidebar-group-label">{{ __('admin.reporting_label') }}</div>
             <a href="{{ route('admin.analytics.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                 </svg>
-                Analytics
+                {{ __('admin.analytics') }}
             </a>
             <a href="{{ route('admin.activity.index') }}"
                class="sidebar-link {{ request()->routeIs('admin.activity.*') ? 'active' : '' }}">
@@ -200,18 +279,17 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m0 7h-3m3 4H9"/>
                 </svg>
-                Activity Log
+                {{ __('admin.activity') }}
             </a>
 
             <!-- Site -->
-            <div class="sidebar-group-label">Site</div>
-            <a href="{{ url('/') }}" target="_blank"
-               class="sidebar-link">
+            <div class="sidebar-group-label">{{ __('admin.site_label') }}</div>
+            <a href="{{ url('/') }}" target="_blank" class="sidebar-link">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
                 </svg>
-                View Site
+                {{ __('admin.view_site') }}
             </a>
         </nav>
 
@@ -225,17 +303,17 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                     </svg>
-                    Sign Out
+                    {{ __('admin.sign_out') }}
                 </button>
             </form>
         </div>
     </aside>
 
-    <!-- Main wrapper (offset by sidebar width on lg) -->
+    <!-- Main wrapper -->
     <div class="lg:pl-64 flex flex-col min-h-screen">
 
         <!-- Top Bar -->
-        <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm">
+        <header class="sticky top-0 z-30 bg-white border-b border-gray-200 shadow-sm adm-header">
             <div class="flex items-center justify-between px-4 sm:px-6 h-16">
                 <!-- Left: hamburger + page title -->
                 <div class="flex items-center gap-4">
@@ -246,53 +324,108 @@
                         </svg>
                     </button>
                     <h1 class="text-lg font-semibold text-gray-800">
-                        @yield('page-title', 'Dashboard')
+                        @yield('page-title', __('admin.dashboard'))
                     </h1>
                 </div>
 
-                <!-- Right: user menu -->
-                <div class="flex items-center gap-3" x-data="{ userMenuOpen: false }">
-                    <span class="hidden sm:block text-sm text-gray-600">
-                        {{ auth()->user()->name ?? 'Admin' }}
-                    </span>
-                    <div class="relative">
-                        <button @click="userMenuOpen = !userMenuOpen"
-                                class="flex items-center gap-2 focus:outline-none">
-                            <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
-                                 style="background-color:#FF8528;">
-                                {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
-                            </div>
+                <!-- Right: actions + user menu -->
+                <div class="flex items-center gap-2">
+
+                    <!-- Dark Mode Toggle -->
+                    <button @click="toggleDark()"
+                            :title="darkMode ? '{{ __('admin.light_mode') }}' : '{{ __('admin.dark_mode') }}'"
+                            class="w-9 h-9 flex items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:text-gray-700 hover:bg-gray-50 transition-colors">
+                        <svg x-show="!darkMode" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                        </svg>
+                        <svg x-show="darkMode" x-cloak class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+                        </svg>
+                    </button>
+
+                    <!-- Admin Language Selector -->
+                    <div class="relative" @click.outside="langMenuOpen = false">
+                        <button @click="langMenuOpen = !langMenuOpen"
+                                class="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-gray-200 text-gray-600 text-xs font-semibold hover:bg-gray-50 transition-colors">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9" stroke-width="2"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3a13.5 13.5 0 0 1 0 18M12 3a13.5 13.5 0 0 0 0 18"/>
+                            </svg>
+                            {{ strtoupper(session('admin_lang', 'en')) }}
                         </button>
-                        <div x-show="userMenuOpen"
-                             x-cloak
+                        <div x-show="langMenuOpen" x-cloak
                              x-transition:enter="transition ease-out duration-100"
                              x-transition:enter-start="opacity-0 scale-95"
                              x-transition:enter-end="opacity-100 scale-100"
                              x-transition:leave="transition ease-in duration-75"
                              x-transition:leave-start="opacity-100 scale-100"
                              x-transition:leave-end="opacity-0 scale-95"
-                             @click.outside="userMenuOpen = false"
-                             class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
-                            <a href="{{ route('admin.profile') }}"
-                               class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                          d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
-                                </svg>
-                                My Profile
-                            </a>
-                            <div class="border-t border-gray-100 my-1"></div>
-                            <form method="POST" action="{{ route('admin.logout') }}">
-                                @csrf
-                                <button type="submit"
-                                    class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                             class="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
+                            @foreach(['en' => ['🇬🇧', 'English'], 'ar' => ['🇸🇦', 'العربية'], 'nl' => ['🇳🇱', 'Nederlands'], 'de' => ['🇩🇪', 'Deutsch']] as $code => [$flag, $label])
+                                <form method="POST" action="{{ route('admin.language') }}">
+                                    @csrf
+                                    <input type="hidden" name="lang" value="{{ $code }}">
+                                    <button type="submit"
+                                            class="w-full flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 transition-colors {{ session('admin_lang', 'en') === $code ? 'font-semibold' : '' }}">
+                                        <span>{{ $flag }}</span>
+                                        <span>{{ $label }}</span>
+                                        @if(session('admin_lang', 'en') === $code)
+                                            <svg class="w-3.5 h-3.5 ms-auto text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:#FF8528">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/>
+                                            </svg>
+                                        @endif
+                                    </button>
+                                </form>
+                            @endforeach
+                        </div>
+                    </div>
+
+                    <!-- User Menu -->
+                    <div class="flex items-center gap-2" @click.outside="userMenuOpen = false">
+                        <span class="hidden sm:block text-sm text-gray-600 adm-topbar-text">
+                            {{ auth()->user()->name ?? 'Admin' }}
+                        </span>
+                        <div class="relative">
+                            <button @click="userMenuOpen = !userMenuOpen"
+                                    class="flex items-center gap-2 focus:outline-none">
+                                <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold"
+                                     style="background-color:#FF8528;">
+                                    {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
+                                </div>
+                            </button>
+                            <div x-show="userMenuOpen"
+                                 x-cloak
+                                 x-transition:enter="transition ease-out duration-100"
+                                 x-transition:enter-start="opacity-0 scale-95"
+                                 x-transition:enter-end="opacity-100 scale-100"
+                                 x-transition:leave="transition ease-in duration-75"
+                                 x-transition:leave-start="opacity-100 scale-100"
+                                 x-transition:leave-end="opacity-0 scale-95"
+                                 class="absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
+                                <a href="{{ route('admin.profile') }}"
+                                   class="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                                     </svg>
-                                    Sign Out
-                                </button>
-                            </form>
+                                    {{ __('admin.my_profile') }}
+                                </a>
+                                <div class="border-t border-gray-100 my-1"></div>
+                                <form method="POST" action="{{ route('admin.logout') }}">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                                        </svg>
+                                        {{ __('admin.sign_out') }}
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -314,7 +447,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <p class="text-sm flex-1">{{ session('success') }}</p>
-                    <button @click="show = false" class="text-green-500 hover:text-green-700 ml-auto">
+                    <button @click="show = false" class="text-green-500 hover:text-green-700 ms-auto">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -333,7 +466,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                     <p class="text-sm flex-1">{{ session('error') }}</p>
-                    <button @click="show = false" class="text-red-500 hover:text-red-700 ml-auto">
+                    <button @click="show = false" class="text-red-500 hover:text-red-700 ms-auto">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
@@ -345,7 +478,7 @@
         </main>
 
         <!-- Page Footer -->
-        <footer class="px-4 sm:px-6 py-4 border-t border-gray-200 bg-white">
+        <footer class="px-4 sm:px-6 py-4 border-t border-gray-200 bg-white adm-footer">
             <p class="text-xs text-gray-400 text-center">
                 &copy; {{ date('Y') }} Retont Business &mdash; Admin Panel
             </p>
