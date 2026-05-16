@@ -51,13 +51,12 @@
 <header class="nav">
   <div class="wrap nav-inner">
     <div class="brand">
-      @if(!empty($settings['logo_url']) || !empty($settings['logo_path']))
-        @php $logoUrl = $settings['logo_url'] ?? asset($settings['logo_path']); @endphp
+      @if(!empty($settings['logo_url']))
         @if(!empty($settings['dark_logo_url']))
-          <img src="{{ $logoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" />
           <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-dark" />
         @else
-          <img src="{{ $logoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
         @endif
       @else
       <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />

@@ -10,7 +10,7 @@ class ActivityLog extends Model
 {
     public $timestamps = false;
     protected $table = 'activity_log';
-    protected $fillable = ['log_name', 'description', 'subject_type', 'subject_id', 'causer_type', 'causer_id', 'properties'];
+    protected $fillable = ['log_name', 'description', 'subject_type', 'subject_id', 'causer_type', 'causer_id', 'properties', 'created_at'];
 
     protected $casts = [
         'properties' => 'array',

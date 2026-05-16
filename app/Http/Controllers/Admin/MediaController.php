@@ -37,10 +37,10 @@ class MediaController extends Controller
             $uniqueName
         );
 
-        $allowedTypes = ['logo', 'favicon', 'general'];
-        $type         = $request->input('type', 'general');
+        $allowedTypes = ['logo', 'favicon', 'image'];
+        $type         = $request->input('type', 'image');
         if (!in_array($type, $allowedTypes)) {
-            $type = 'general';
+            $type = 'image';
         }
 
         $url = Storage::disk('public')->url($relativePath);

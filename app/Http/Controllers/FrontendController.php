@@ -41,7 +41,8 @@ class FrontendController extends Controller
             'dark_mode'   => Setting::get('dark_mode_default', 'light'),
             'font_family' => Setting::get('font_family', 'IBM Plex Sans Arabic'),
             'ga_id'       => Setting::get('ga_id', ''),
-            'logo_path'   => Setting::get('logo_path', ''),
+            'logo_url'      => Setting::get('logo_url', ''),
+            'dark_logo_url' => Setting::get('dark_logo_url', ''),
         ];
 
         // SEO settings per language

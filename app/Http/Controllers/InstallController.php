@@ -190,7 +190,8 @@ class InstallController extends Controller
             ['key' => 'brand_color',       'value' => '#FF8528',             'group' => 'appearance'],
             ['key' => 'dark_mode_default', 'value' => 'light',               'group' => 'appearance'],
             ['key' => 'font_family',       'value' => 'IBM Plex Sans Arabic','group' => 'appearance'],
-            ['key' => 'logo_path',         'value' => '',                    'group' => 'appearance'],
+            ['key' => 'logo_url',          'value' => '',                    'group' => 'appearance'],
+            ['key' => 'dark_logo_url',     'value' => '',                    'group' => 'appearance'],
         ];
 
         foreach ($defaults as $s) {
