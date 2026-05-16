@@ -14,6 +14,9 @@ use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\ActivityController;
+use App\Http\Controllers\Admin\MessageController;
+use App\Http\Controllers\Admin\PlanController;
+use App\Http\Controllers\Admin\LanguageManagerController;
 
 // ── Installation wizard ───────────────────────────────────────────────────────
 Route::prefix('install')->name('install.')->middleware('check.installed')->group(function () {
@@ -94,11 +97,41 @@ Route::prefix('admin')->name('admin.')->middleware('check.installed.done')->grou
         // Activity Log
         Route::get('/activity', [ActivityController::class, 'index'])->name('activity.index');
 
+        // SMTP settings
+        Route::get('/settings/smtp',       [SettingsController::class, 'smtp'])->name('settings.smtp');
+        Route::post('/settings/smtp',      [SettingsController::class, 'saveSmtp'])->name('settings.smtp.save');
+        Route::post('/settings/smtp/test', [SettingsController::class, 'testSmtp'])->name('settings.smtp.test');
+
         // Cache management
         Route::post('/settings/cache/clear', [SettingsController::class, 'clearCache'])->name('settings.cache.clear');
 
         // Maintenance mode toggle (AJAX)
         Route::post('/settings/maintenance', [SettingsController::class, 'toggleMaintenance'])->name('settings.maintenance');
+
+        // Messages / Inbox
+        Route::get('/messages',                     [MessageController::class, 'index'])->name('messages.index');
+        Route::get('/messages/{message}',           [MessageController::class, 'show'])->name('messages.show');
+        Route::post('/messages/{message}/reply',    [MessageController::class, 'reply'])->name('messages.reply');
+        Route::delete('/messages/{message}',        [MessageController::class, 'destroy'])->name('messages.destroy');
+        Route::post('/messages/bulk',               [MessageController::class, 'bulkAction'])->name('messages.bulk');
+
+        // Plans & Pricing
+        Route::get('/plans',             [PlanController::class, 'index'])->name('plans.index');
+        Route::get('/plans/create',      [PlanController::class, 'create'])->name('plans.create');
+        Route::post('/plans',            [PlanController::class, 'store'])->name('plans.store');
+        Route::get('/plans/{plan}/edit', [PlanController::class, 'edit'])->name('plans.edit');
+        Route::put('/plans/{plan}',      [PlanController::class, 'update'])->name('plans.update');
+        Route::delete('/plans/{plan}',   [PlanController::class, 'destroy'])->name('plans.destroy');
+        Route::post('/plans/reorder',    [PlanController::class, 'reorder'])->name('plans.reorder');
+
+        // Language Manager
+        Route::get('/languages',                              [LanguageManagerController::class, 'index'])->name('languages.index');
+        Route::get('/languages/create',                       [LanguageManagerController::class, 'create'])->name('languages.create');
+        Route::post('/languages',                             [LanguageManagerController::class, 'store'])->name('languages.store');
+        Route::get('/languages/{language}/edit',              [LanguageManagerController::class, 'edit'])->name('languages.edit');
+        Route::put('/languages/{language}',                   [LanguageManagerController::class, 'update'])->name('languages.update');
+        Route::delete('/languages/{language}',                [LanguageManagerController::class, 'destroy'])->name('languages.destroy');
+        Route::get('/languages/{language}/export',            [LanguageManagerController::class, 'exportTranslations'])->name('languages.export');
     });
 });
 

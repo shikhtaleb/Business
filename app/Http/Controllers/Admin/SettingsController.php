@@ -191,6 +191,83 @@ class SettingsController extends Controller
     }
 
     // -------------------------------------------------------------------------
+    // SMTP / Email
+    // -------------------------------------------------------------------------
+
+    public function smtp()
+    {
+        $settings = Setting::getGroup('smtp');
+        return view('admin.settings.smtp', compact('settings'));
+    }
+
+    public function saveSmtp(Request $request)
+    {
+        $request->validate([
+            'smtp_host'       => 'nullable|string|max:255',
+            'smtp_port'       => 'nullable|integer|min:1|max:65535',
+            'smtp_username'   => 'nullable|string|max:255',
+            'smtp_password'   => 'nullable|string|max:255',
+            'smtp_encryption' => 'required|in:tls,ssl,none',
+            'smtp_from_email' => 'nullable|email|max:255',
+            'smtp_from_name'  => 'nullable|string|max:150',
+        ]);
+
+        Setting::set('smtp_host',       $request->input('smtp_host', ''),       'smtp');
+        Setting::set('smtp_port',       $request->input('smtp_port', 587),      'smtp');
+        Setting::set('smtp_username',   $request->input('smtp_username', ''),   'smtp');
+        if ($request->filled('smtp_password')) {
+            Setting::set('smtp_password', $request->input('smtp_password'), 'smtp');
+        }
+        Setting::set('smtp_encryption', $request->input('smtp_encryption', 'tls'), 'smtp');
+        Setting::set('smtp_from_email', $request->input('smtp_from_email', ''), 'smtp');
+        Setting::set('smtp_from_name',  $request->input('smtp_from_name', ''),  'smtp');
+
+        ActivityLog::record('SMTP settings updated', 'settings');
+
+        return back()->with('success', __('admin.smtp_saved'));
+    }
+
+    public function testSmtp(Request $request)
+    {
+        $request->validate(['test_email' => 'required|email']);
+
+        try {
+            $smtpHost    = Setting::get('smtp_host', '');
+            $smtpPort    = Setting::get('smtp_port', 587);
+            $smtpUser    = Setting::get('smtp_username', '');
+            $smtpPass    = Setting::get('smtp_password', '');
+            $smtpEncrypt = Setting::get('smtp_encryption', 'tls');
+            $fromEmail   = Setting::get('smtp_from_email', $smtpUser);
+            $fromName    = Setting::get('smtp_from_name', Setting::get('site_name', 'Retont Business'));
+
+            if (!$smtpHost || !$smtpUser) {
+                return back()->with('error', __('admin.smtp_not_configured'));
+            }
+
+            config([
+                'mail.mailers.smtp.host'       => $smtpHost,
+                'mail.mailers.smtp.port'       => (int) $smtpPort,
+                'mail.mailers.smtp.username'   => $smtpUser,
+                'mail.mailers.smtp.password'   => $smtpPass,
+                'mail.mailers.smtp.encryption' => $smtpEncrypt === 'none' ? null : $smtpEncrypt,
+                'mail.from.address'            => $fromEmail,
+                'mail.from.name'               => $fromName,
+            ]);
+
+            \Illuminate\Support\Facades\Mail::raw(
+                'Test email from ' . Setting::get('site_name', 'Retont Business') . ' — SMTP is working!',
+                fn($m) => $m->to($request->input('test_email'))->subject('SMTP Test')
+            );
+
+            ActivityLog::record('SMTP test email sent to ' . $request->input('test_email'), 'settings');
+
+            return back()->with('success', __('admin.smtp_test_sent'));
+        } catch (\Throwable $e) {
+            return back()->with('error', __('admin.smtp_test_failed') . ': ' . $e->getMessage());
+        }
+    }
+
+    // -------------------------------------------------------------------------
     // Cache
     // -------------------------------------------------------------------------
 

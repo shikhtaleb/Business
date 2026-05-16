@@ -214,25 +214,6 @@ function adminApp() {
         </button>
     </div>
 
-    {{-- ─── User Info ─── --}}
-    <div class="px-3 py-3 flex-shrink-0 border-b border-white/5">
-        <div class="flex items-center gap-2.5">
-            <div class="relative flex-shrink-0">
-                <a href="{{ route('admin.profile') }}"
-                   class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
-                   style="background: linear-gradient(135deg,#FF8528,#c45e00);">
-                    {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
-                </a>
-                <span class="absolute -bottom-0.5 {{ $isRtl ? '-left-0.5' : '-right-0.5' }} w-2.5 h-2.5 bg-emerald-400 rounded-full border-2"
-                      style="border-color:#0f172a;"></span>
-            </div>
-            <div x-show="isExpanded" x-cloak class="overflow-hidden min-w-0 flex-1">
-                <p class="text-white text-xs font-semibold truncate leading-tight">{{ auth()->user()->name ?? 'Admin' }}</p>
-                <p class="text-emerald-400 text-xs leading-tight mt-0.5">● Online</p>
-            </div>
-        </div>
-    </div>
-
     {{-- ─── Navigation ─── --}}
     <nav class="flex-1 overflow-y-auto overflow-x-hidden px-2 py-3 space-y-0.5 scrollbar-thin">
 
@@ -271,6 +252,39 @@ function adminApp() {
             <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.media') }}</span>
         </a>
 
+        {{-- Inbox --}}
+        <a href="{{ route('admin.messages.index') }}" title="{{ __('admin.messages') }}"
+           :class="!isExpanded && 'justify-center !px-2'"
+           class="sidebar-link {{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">
+            <div class="relative flex-shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                @php $unread = \App\Models\Message::unreadCount(); @endphp
+                @if($unread > 0)
+                    <span class="absolute -top-1 -end-1 w-4 h-4 rounded-full text-white text-[9px] font-bold flex items-center justify-center" style="background:#FF8528;">{{ $unread > 9 ? '9+' : $unread }}</span>
+                @endif
+            </div>
+            <span x-show="isExpanded" x-cloak class="truncate flex items-center gap-2">
+                {{ __('admin.messages') }}
+                @if($unread > 0)
+                    <span class="ms-auto text-xs font-bold px-1.5 py-0.5 rounded-full text-white" style="background:#FF8528;">{{ $unread }}</span>
+                @endif
+            </span>
+        </a>
+
+        {{-- Plans --}}
+        <a href="{{ route('admin.plans.index') }}" title="{{ __('admin.plans') }}"
+           :class="!isExpanded && 'justify-center !px-2'"
+           class="sidebar-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+            </svg>
+            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.plans') }}</span>
+        </a>
+
         {{-- Settings group --}}
         <div x-show="isExpanded" x-cloak class="sidebar-group-label">{{ __('admin.settings_label') }}</div>
         <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
@@ -304,6 +318,26 @@ function adminApp() {
                       d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
             <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.seo') }}</span>
+        </a>
+
+        <a href="{{ route('admin.settings.smtp') }}" title="{{ __('admin.smtp') }}"
+           :class="!isExpanded && 'justify-center !px-2'"
+           class="sidebar-link {{ request()->routeIs('admin.settings.smtp*') ? 'active' : '' }}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.smtp') }}</span>
+        </a>
+
+        <a href="{{ route('admin.languages.index') }}" title="{{ __('admin.languages') }}"
+           :class="!isExpanded && 'justify-center !px-2'"
+           class="sidebar-link {{ request()->routeIs('admin.languages.*') ? 'active' : '' }}">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                      d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+            </svg>
+            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.languages') }}</span>
         </a>
 
         {{-- Users & Access group --}}
@@ -447,16 +481,20 @@ function adminApp() {
                          x-transition:leave-end="opacity-0 scale-95"
                          class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-44 rounded-xl shadow-xl border py-1 z-50"
                          style="background:#1e2244; border-color:#252848;">
-                        @foreach(['en' => ['🇬🇧','English'],'ar' => ['🇸🇦','العربية'],'nl' => ['🇳🇱','Nederlands'],'de' => ['🇩🇪','Deutsch']] as $code => [$flag, $label])
+                        @foreach(['en' => ['EN','English'],'ar' => ['AR','العربية'],'nl' => ['NL','Nederlands'],'de' => ['DE','Deutsch']] as $code => [$abbr, $label])
+                            @php $active = session('admin_lang','en') === $code; @endphp
                             <form method="POST" action="{{ route('admin.language') }}">
                                 @csrf
                                 <input type="hidden" name="lang" value="{{ $code }}">
                                 <button type="submit"
-                                        class="w-full flex items-center gap-2.5 px-4 py-2 text-sm hover:bg-white/5 transition-colors {{ session('admin_lang','en') === $code ? 'text-white font-semibold' : 'text-slate-400' }}">
-                                    <span>{{ $flag }}</span>
+                                        class="w-full flex items-center gap-2.5 px-4 py-2 text-sm hover:bg-white/5 transition-colors {{ $active ? 'text-white font-semibold' : 'text-slate-400' }}">
+                                    <span class="w-7 h-5 rounded text-[10px] font-bold flex items-center justify-center flex-shrink-0"
+                                          style="{{ $active ? 'background:#FF8528;color:#fff;' : 'background:rgba(255,255,255,0.08);color:#94a3b8;' }}">
+                                        {{ $abbr }}
+                                    </span>
                                     <span>{{ $label }}</span>
-                                    @if(session('admin_lang','en') === $code)
-                                        <svg class="w-3 h-3 ms-auto" fill="none" stroke="#FF8528" viewBox="0 0 24 24">
+                                    @if($active)
+                                        <svg class="w-3 h-3 ms-auto flex-shrink-0" fill="none" stroke="#FF8528" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"/>
                                         </svg>
                                     @endif
