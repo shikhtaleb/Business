@@ -5,7 +5,26 @@
 
 @section('content')
 
-    <div class="max-w-2xl">
+    {{-- Settings Tabs --}}
+    <div class="flex gap-1 mb-5 bg-white rounded-2xl shadow-sm border border-gray-100 p-1.5">
+        @foreach([
+            'admin.settings.general'    => ['label' => 'General',    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
+            'admin.settings.appearance' => ['label' => 'Appearance', 'icon' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'],
+            'admin.settings.seo'        => ['label' => 'SEO',        'icon' => 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'],
+        ] as $routeName => $tab)
+            @php $active = request()->routeIs($routeName.'*'); @endphp
+            <a href="{{ route($routeName) }}"
+               class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ $active ? 'text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50' }}"
+               @if($active) style="background-color:#FF8528;" @endif>
+                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $tab['icon'] }}"/>
+                </svg>
+                {{ $tab['label'] }}
+            </a>
+        @endforeach
+    </div>
+
+    <div class="max-w-3xl">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-6 py-5 border-b border-gray-100">
                 <h2 class="text-base font-semibold text-gray-800">Appearance</h2>
@@ -87,13 +106,13 @@
                     </label>
                     <select
                         id="dark_mode"
-                        name="dark_mode"
+                        name="dark_mode_default"
                         class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-700 text-sm
                                focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
                     >
                         @foreach (['light' => 'Light', 'dark' => 'Dark', 'system' => 'System (follow device)'] as $val => $label)
                             <option value="{{ $val }}"
-                                {{ old('dark_mode', $settings['dark_mode'] ?? 'light') === $val ? 'selected' : '' }}>
+                                {{ old('dark_mode', $settings['dark_mode_default'] ?? 'light') === $val ? 'selected' : '' }}>
                                 {{ $label }}
                             </option>
                         @endforeach

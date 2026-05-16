@@ -45,7 +45,7 @@
 </script>
 @endif
 </head>
-<body@if(!empty($settings['dark_mode']) && $settings['dark_mode']) class="dark"@endif>
+<body class="{{ (!empty($settings['dark_mode']) && $settings['dark_mode'] === 'dark') ? 'dark' : '' }}">
 
 <!-- NAV -->
 <header class="nav">
@@ -468,6 +468,8 @@
     <h2>{!! $content['contact']['sec.contactTitle'] ?? 'Get in <span class="accent">touch</span>' !!}</h2>
     <p class="lead">{{ $content['contact']['sec.contactLead'] ?? 'Our team is ready to answer your questions and prepare a custom demo for your business.' }}</p>
     <div class="contact-row">
+
+      {{-- Left: Contact info --}}
       <div class="contact-info">
         <div class="field">
           <h4>{{ $content['contact']['ct.loc'] ?? 'Location' }}</h4>
@@ -484,55 +486,58 @@
           <div class="v">+966 555 123 456</div>
           <div class="l">{{ $content['contact']['ct.phoneL'] ?? 'Sunday – Thursday · 9 AM – 6 PM' }}</div>
         </div>
+      </div>
 
-        {{-- Contact Form --}}
+      {{-- Right: Contact form --}}
+      <div style="flex:1;min-width:280px;">
         @if(session('contact_success'))
-        <div style="margin-top:1.5rem;padding:1rem 1.25rem;border-radius:.75rem;background:color-mix(in srgb,var(--brand) 10%,transparent);border:1px solid color-mix(in srgb,var(--brand) 30%,transparent);">
-          <p style="color:var(--brand);font-weight:600;font-size:.9rem;">✓ {{ $lang === 'ar' ? 'تم إرسال رسالتك بنجاح!' : 'Message sent successfully!' }}</p>
+        <div style="padding:1.5rem;border-radius:1rem;background:color-mix(in srgb,var(--brand) 8%,transparent);border:1px solid color-mix(in srgb,var(--brand) 25%,transparent);text-align:center;">
+          <svg style="margin:0 auto 1rem;display:block;width:40px;height:40px;color:var(--brand);" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <p style="color:var(--brand);font-weight:700;font-size:1rem;">{{ $lang === 'ar' ? 'تم إرسال رسالتك بنجاح!' : 'Message sent successfully!' }}</p>
+          <p style="color:#666;font-size:.9rem;margin-top:.5rem;">{{ $lang === 'ar' ? 'سنتواصل معك قريباً.' : 'We\'ll get back to you shortly.' }}</p>
         </div>
         @else
-        <form id="contactForm" method="POST" action="{{ route('contact.submit') }}" style="margin-top:1.5rem;display:flex;flex-direction:column;gap:.85rem;">
+        <form id="contactForm" method="POST" action="{{ route('contact.submit') }}" style="display:flex;flex-direction:column;gap:1rem;">
           @csrf
           @if($errors->any())
-          <div style="padding:.75rem 1rem;border-radius:.75rem;background:#fff0f0;border:1px solid #fca5a5;font-size:.85rem;color:#dc2626;">
-            @foreach($errors->all() as $e)<div>{{ $e }}</div>@endforeach
+          <div style="padding:.75rem 1rem;border-radius:.75rem;background:#fff0f0;border:1px solid #fca5a5;font-size:.875rem;color:#dc2626;">
+            @foreach($errors->all() as $e)<div>• {{ $e }}</div>@endforeach
           </div>
           @endif
-          <div style="display:flex;flex-direction:column;gap:.35rem;">
-            <label style="font-size:.8rem;font-weight:600;color:#555;">{{ $lang === 'ar' ? 'الاسم' : 'Name' }}</label>
-            <input type="text" name="name" value="{{ old('name') }}" required
-              style="padding:.65rem 1rem;border-radius:.6rem;border:1px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;background:#fff;color:#1a1a1a;"
-              onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
-              placeholder="{{ $lang === 'ar' ? 'اكتب اسمك' : 'Your name' }}">
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+            <div style="display:flex;flex-direction:column;gap:.4rem;">
+              <label style="font-size:.8rem;font-weight:600;color:var(--text-muted,#666);">{{ $lang === 'ar' ? 'الاسم' : 'Name' }} *</label>
+              <input type="text" name="name" value="{{ old('name') }}" required
+                style="padding:.7rem 1rem;border-radius:.65rem;border:1.5px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;background:var(--card-bg,#fff);color:var(--text,#1a1a1a);width:100%;box-sizing:border-box;"
+                onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
+                placeholder="{{ $lang === 'ar' ? 'اكتب اسمك' : 'Full name' }}">
+            </div>
+            <div style="display:flex;flex-direction:column;gap:.4rem;">
+              <label style="font-size:.8rem;font-weight:600;color:var(--text-muted,#666);">{{ $lang === 'ar' ? 'البريد الإلكتروني' : 'Email' }} *</label>
+              <input type="email" name="email" value="{{ old('email') }}" required
+                style="padding:.7rem 1rem;border-radius:.65rem;border:1.5px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;background:var(--card-bg,#fff);color:var(--text,#1a1a1a);width:100%;box-sizing:border-box;"
+                onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
+                placeholder="{{ $lang === 'ar' ? 'بريدك الإلكتروني' : 'your@email.com' }}">
+            </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:.35rem;">
-            <label style="font-size:.8rem;font-weight:600;color:#555;">{{ $lang === 'ar' ? 'البريد الإلكتروني' : 'Email' }}</label>
-            <input type="email" name="email" value="{{ old('email') }}" required
-              style="padding:.65rem 1rem;border-radius:.6rem;border:1px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;background:#fff;color:#1a1a1a;"
-              onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
-              placeholder="{{ $lang === 'ar' ? 'بريدك الإلكتروني' : 'your@email.com' }}">
-          </div>
-          <div style="display:flex;flex-direction:column;gap:.35rem;">
-            <label style="font-size:.8rem;font-weight:600;color:#555;">{{ $lang === 'ar' ? 'الرسالة' : 'Message' }}</label>
-            <textarea name="message" required rows="4"
-              style="padding:.65rem 1rem;border-radius:.6rem;border:1px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical;background:#fff;color:#1a1a1a;font-family:inherit;"
+
+          <div style="display:flex;flex-direction:column;gap:.4rem;">
+            <label style="font-size:.8rem;font-weight:600;color:var(--text-muted,#666);">{{ $lang === 'ar' ? 'الرسالة' : 'Message' }} *</label>
+            <textarea name="message" required rows="5"
+              style="padding:.7rem 1rem;border-radius:.65rem;border:1.5px solid #e2e8f0;font-size:.9rem;outline:none;transition:border-color .2s;resize:vertical;background:var(--card-bg,#fff);color:var(--text,#1a1a1a);font-family:inherit;width:100%;box-sizing:border-box;"
               onfocus="this.style.borderColor='var(--brand)'" onblur="this.style.borderColor='#e2e8f0'"
               placeholder="{{ $lang === 'ar' ? 'اكتب رسالتك هنا…' : 'How can we help you?' }}">{{ old('message') }}</textarea>
           </div>
-          <button type="submit" class="btn btn-primary" style="margin-top:.25rem;align-self:flex-start;">
+
+          <button type="submit" class="btn btn-primary" style="align-self:flex-start;padding:.75rem 2rem;font-size:.95rem;">
             {{ $lang === 'ar' ? 'إرسال الرسالة' : 'Send Message' }}
+            <svg style="width:16px;height:16px;margin-{{ $lang === 'ar' ? 'right' : 'left' }}:.4rem;display:inline-block;vertical-align:middle;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
           </button>
         </form>
         @endif
       </div>
-      <div class="contact-img">
-        <span class="blob b1"></span>
-        <span class="blob b2"></span>
-        <div class="label">
-          <span>{{ $content['contact']['ct.imgTitle'] ?? "We're here to help" }}</span>
-          <small>{{ $content['contact']['ct.imgSub'] ?? 'Reach out anytime — the Retont Business team is ready to serve you.' }}</small>
-        </div>
-      </div>
+
     </div>
   </div>
 </section>
