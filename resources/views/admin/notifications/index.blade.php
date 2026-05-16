@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Notifications')
-@section('page-title', 'Notifications')
+@section('title', 'الإشعارات')
+@section('page-title', 'الإشعارات')
 
 @section('content')
 <div class="space-y-6">
@@ -9,12 +9,14 @@
     {{-- Header --}}
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h2 class="text-xl font-bold text-gray-900">Notifications</h2>
+            <h2 class="text-xl font-bold text-gray-900">الإشعارات</h2>
+            @php
+                try { $unreadCount = auth()->user()->unreadNotifications()->count(); } catch (\Throwable) { $unreadCount = 0; }
+            @endphp
             <p class="text-sm text-gray-500 mt-0.5">
-                {{ $notifications->total() }} notification{{ $notifications->total() !== 1 ? 's' : '' }}
-                @php $unreadCount = auth()->user()->unreadNotifications()->count(); @endphp
+                {{ $notifications->total() }} إشعار
                 @if($unreadCount > 0)
-                    &mdash; <span class="font-semibold" style="color:#FF8528;">{{ $unreadCount }} unread</span>
+                    &mdash; <span class="font-semibold" style="color:#FF8528;">{{ $unreadCount }} غير مقروء</span>
                 @endif
             </p>
         </div>
@@ -26,7 +28,7 @@
                 <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
-                Mark all as read
+                تعليم الكل كمقروء
             </button>
         </form>
         @endif
@@ -42,8 +44,8 @@
                           d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                 </svg>
             </div>
-            <p class="text-gray-500 font-medium">All caught up!</p>
-            <p class="text-sm text-gray-400 mt-1">No notifications to display.</p>
+            <p class="text-gray-500 font-medium">لا توجد إشعارات!</p>
+            <p class="text-sm text-gray-400 mt-1">لم يتم استلام أي إشعارات بعد.</p>
         </div>
         @else
         <ul class="divide-y divide-gray-50">
@@ -75,7 +77,7 @@
                     <div class="flex items-start justify-between gap-2">
                         <div>
                             <p class="text-sm font-semibold text-gray-900 {{ $isRead ? 'font-normal' : '' }}">
-                                {{ $data['title'] ?? 'Notification' }}
+                                {{ $data['title'] ?? 'إشعار' }}
                                 @if(! $isRead)
                                     <span class="inline-block w-2 h-2 rounded-full ms-1.5 align-middle" style="background:#FF8528;"></span>
                                 @endif
@@ -94,21 +96,21 @@
                            @endif
                            class="text-xs font-medium hover:underline"
                            style="color:#FF8528;">
-                            View &rarr;
+                            عرض &rarr;
                         </a>
                         @endif
                         @if(! $isRead)
                         <button @click="fetch('{{ route('admin.notifications.read', $notification->id) }}', {method:'POST', headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}','Content-Type':'application/json'}}).then(()=>document.getElementById('notif-{{ $notification->id }}').classList.add('opacity-70'))"
                                 class="text-xs text-gray-400 hover:text-gray-600 transition-colors">
-                            Mark read
+                            تعليم كمقروء
                         </button>
                         @endif
                         <form method="POST" action="{{ route('admin.notifications.destroy', $notification->id) }}"
-                              onsubmit="return confirm('Delete this notification?')">
+                              onsubmit="return confirm('حذف هذا الإشعار؟')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-xs text-red-400 hover:text-red-600 transition-colors">
-                                Delete
+                                حذف
                             </button>
                         </form>
                     </div>

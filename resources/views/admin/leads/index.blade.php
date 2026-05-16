@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Leads / CRM')
-@section('page-title', 'Leads / CRM')
+@section('title', 'العملاء المحتملون')
+@section('page-title', 'إدارة العملاء المحتملين')
 
 @section('content')
 <div class="space-y-5">
@@ -9,8 +9,8 @@
     {{-- Header --}}
     <div class="flex flex-wrap items-center justify-between gap-3">
         <div>
-            <h2 class="text-lg font-bold text-gray-900">Leads</h2>
-            <p class="text-sm text-gray-500 mt-0.5">Manage your CRM leads pipeline</p>
+            <h2 class="text-lg font-bold text-gray-900">العملاء المحتملون</h2>
+            <p class="text-sm text-gray-500 mt-0.5">إدارة مسار المبيعات وتتبع العملاء</p>
         </div>
         <div class="flex items-center gap-2">
             <a href="{{ route('admin.leads.export') }}"
@@ -18,7 +18,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
                 </svg>
-                Export CSV
+                تصدير CSV
             </a>
             <a href="{{ route('admin.leads.create') }}"
                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-white text-sm font-medium transition-colors"
@@ -26,7 +26,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
-                New Lead
+                عميل جديد
             </a>
         </div>
     </div>
@@ -36,21 +36,21 @@
         <div class="flex overflow-x-auto border-b border-gray-100">
             @php
                 $tabStatuses = [
-                    'all'       => ['label' => 'All',       'color' => 'gray'],
-                    'new'       => ['label' => 'New',       'color' => 'blue'],
-                    'contacted' => ['label' => 'Contacted', 'color' => 'yellow'],
-                    'qualified' => ['label' => 'Qualified', 'color' => 'green'],
-                    'lost'      => ['label' => 'Lost',      'color' => 'red'],
-                    'converted' => ['label' => 'Converted', 'color' => 'purple'],
+                    'all'       => 'الكل',
+                    'new'       => 'جديد',
+                    'contacted' => 'تم التواصل',
+                    'qualified' => 'مؤهل',
+                    'lost'      => 'خُسر',
+                    'converted' => 'تحوّل',
                 ];
             @endphp
-            @foreach($tabStatuses as $key => $tab)
+            @foreach($tabStatuses as $key => $label)
                 <a href="{{ route('admin.leads.index', array_merge(request()->query(), ['status' => $key])) }}"
                    class="flex items-center gap-2 px-5 py-3.5 text-sm font-medium whitespace-nowrap border-b-2 transition-colors
                           {{ $status === $key
                               ? 'border-[#FF8528] text-[#FF8528]'
                               : 'border-transparent text-gray-500 hover:text-gray-700' }}">
-                    {{ $tab['label'] }}
+                    {{ $label }}
                     <span class="px-1.5 py-0.5 rounded-full text-xs font-bold
                                  {{ $status === $key ? 'bg-[#FF8528] text-white' : 'bg-gray-100 text-gray-600' }}">
                         {{ $counts[$key] }}
@@ -63,23 +63,19 @@
         <div class="px-5 py-3 border-b border-gray-100 bg-gray-50">
             <form method="GET" action="{{ route('admin.leads.index') }}" class="flex flex-wrap gap-3">
                 <input type="hidden" name="status" value="{{ $status }}">
-                <input type="text" name="search" value="{{ $search }}" placeholder="Search name, email, phone..."
-                       class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent sm:w-64"
-                       style="--tw-ring-color:#FF8528;">
+                <input type="text" name="search" value="{{ $search }}" placeholder="بحث بالاسم أو البريد أو الهاتف..."
+                       class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200 sm:w-64">
                 <select name="priority"
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent sm:w-40"
-                        style="--tw-ring-color:#FF8528;">
-                    <option value="">All Priorities</option>
-                    @foreach(['low','normal','high','urgent'] as $p)
-                        <option value="{{ $p }}" {{ $priority === $p ? 'selected' : '' }}>{{ ucfirst($p) }}</option>
+                        class="px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-orange-200">
+                    <option value="">كل الأولويات</option>
+                    @foreach(['low' => 'منخفضة', 'normal' => 'عادية', 'high' => 'عالية', 'urgent' => 'عاجلة'] as $k => $v)
+                        <option value="{{ $k }}" {{ $priority === $k ? 'selected' : '' }}>{{ $v }}</option>
                     @endforeach
                 </select>
-                <button type="submit"
-                        class="px-4 py-2.5 rounded-xl text-white text-sm font-medium"
-                        style="background:#FF8528;">Filter</button>
+                <button type="submit" class="px-4 py-2.5 rounded-xl text-white text-sm font-medium" style="background:#FF8528;">تصفية</button>
                 @if($search || $priority)
                     <a href="{{ route('admin.leads.index', ['status' => $status]) }}"
-                       class="px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-sm text-gray-600 hover:bg-gray-50">Clear</a>
+                       class="px-4 py-2.5 rounded-xl border border-gray-300 bg-white text-sm text-gray-600 hover:bg-gray-50">مسح</a>
                 @endif
             </form>
         </div>
@@ -89,14 +85,14 @@
             <table class="w-full text-sm">
                 <thead class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wider">
                     <tr>
-                        <th class="px-5 py-3 text-start font-semibold">Lead</th>
-                        <th class="px-5 py-3 text-start font-semibold">Phone</th>
-                        <th class="px-5 py-3 text-start font-semibold">Source</th>
-                        <th class="px-5 py-3 text-start font-semibold">Priority</th>
-                        <th class="px-5 py-3 text-start font-semibold">Status</th>
-                        <th class="px-5 py-3 text-start font-semibold">Assigned</th>
-                        <th class="px-5 py-3 text-start font-semibold">Last Contact</th>
-                        <th class="px-5 py-3 text-end font-semibold">Actions</th>
+                        <th class="px-5 py-3 text-start font-semibold">العميل</th>
+                        <th class="px-5 py-3 text-start font-semibold">الهاتف</th>
+                        <th class="px-5 py-3 text-start font-semibold">المصدر</th>
+                        <th class="px-5 py-3 text-start font-semibold">الأولوية</th>
+                        <th class="px-5 py-3 text-start font-semibold">الحالة</th>
+                        <th class="px-5 py-3 text-start font-semibold">المسؤول</th>
+                        <th class="px-5 py-3 text-start font-semibold">آخر تواصل</th>
+                        <th class="px-5 py-3 text-end font-semibold">إجراءات</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-50">
@@ -109,45 +105,32 @@
                         <td class="px-5 py-3.5 text-gray-600">{{ $lead->phone ?? '—' }}</td>
                         <td class="px-5 py-3.5">
                             @php
-                                $sourceBadge = [
-                                    'contact_form' => 'bg-blue-100 text-blue-700',
-                                    'manual'       => 'bg-gray-100 text-gray-700',
-                                    'import'       => 'bg-purple-100 text-purple-700',
-                                    'api'          => 'bg-cyan-100 text-cyan-700',
-                                ];
+                                $sourceLabels = ['contact_form' => 'نموذج تواصل', 'manual' => 'يدوي', 'import' => 'استيراد', 'api' => 'API'];
+                                $sourceBadge  = ['contact_form' => 'bg-blue-100 text-blue-700', 'manual' => 'bg-gray-100 text-gray-700', 'import' => 'bg-purple-100 text-purple-700', 'api' => 'bg-cyan-100 text-cyan-700'];
                             @endphp
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium {{ $sourceBadge[$lead->source] ?? 'bg-gray-100 text-gray-700' }}">
-                                {{ str_replace('_', ' ', $lead->source) }}
+                                {{ $sourceLabels[$lead->source] ?? $lead->source }}
                             </span>
                         </td>
                         <td class="px-5 py-3.5">
                             @php
-                                $priorityBadge = [
-                                    'low'    => 'bg-gray-100 text-gray-600',
-                                    'normal' => 'bg-blue-100 text-blue-700',
-                                    'high'   => 'bg-orange-100 text-orange-700',
-                                    'urgent' => 'bg-red-100 text-red-700',
-                                ];
+                                $priorityLabels = ['low' => 'منخفضة', 'normal' => 'عادية', 'high' => 'عالية', 'urgent' => 'عاجلة'];
+                                $priorityBadge  = ['low' => 'bg-gray-100 text-gray-600', 'normal' => 'bg-blue-100 text-blue-700', 'high' => 'bg-orange-100 text-orange-700', 'urgent' => 'bg-red-100 text-red-700'];
                             @endphp
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium {{ $priorityBadge[$lead->priority] ?? 'bg-gray-100 text-gray-600' }}">
-                                {{ ucfirst($lead->priority) }}
+                                {{ $priorityLabels[$lead->priority] ?? $lead->priority }}
                             </span>
                         </td>
                         <td class="px-5 py-3.5">
                             @php
-                                $statusBadge = [
-                                    'new'       => 'bg-blue-100 text-blue-700',
-                                    'contacted' => 'bg-yellow-100 text-yellow-700',
-                                    'qualified' => 'bg-green-100 text-green-700',
-                                    'lost'      => 'bg-red-100 text-red-700',
-                                    'converted' => 'bg-purple-100 text-purple-700',
-                                ];
+                                $statusLabels = ['new' => 'جديد', 'contacted' => 'تم التواصل', 'qualified' => 'مؤهل', 'lost' => 'خُسر', 'converted' => 'تحوّل'];
+                                $statusBadge  = ['new' => 'bg-blue-100 text-blue-700', 'contacted' => 'bg-yellow-100 text-yellow-700', 'qualified' => 'bg-green-100 text-green-700', 'lost' => 'bg-red-100 text-red-700', 'converted' => 'bg-purple-100 text-purple-700'];
                             @endphp
                             <span class="px-2 py-0.5 rounded-full text-xs font-medium {{ $statusBadge[$lead->status] ?? 'bg-gray-100 text-gray-600' }}">
-                                {{ ucfirst($lead->status) }}
+                                {{ $statusLabels[$lead->status] ?? $lead->status }}
                             </span>
                         </td>
-                        <td class="px-5 py-3.5 text-gray-600">{{ $lead->assignedTo?->name ?? '—' }}</td>
+                        <td class="px-5 py-3.5 text-gray-600 text-xs">{{ $lead->assignedTo?->name ?? '—' }}</td>
                         <td class="px-5 py-3.5 text-gray-500 text-xs">
                             {{ $lead->last_contacted_at?->diffForHumans() ?? '—' }}
                         </td>
@@ -167,7 +150,7 @@
                                     </svg>
                                 </a>
                                 <form method="POST" action="{{ route('admin.leads.destroy', $lead) }}"
-                                      onsubmit="return confirm('Delete this lead?')">
+                                      onsubmit="return confirm('هل أنت متأكد من حذف هذا العميل؟')">
                                     @csrf @method('DELETE')
                                     <button type="submit"
                                             class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors">
@@ -185,7 +168,7 @@
                             <svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
                             </svg>
-                            <p class="text-sm font-medium">No leads found</p>
+                            <p class="text-sm font-medium">لا يوجد عملاء محتملون</p>
                         </td>
                     </tr>
                     @endforelse
