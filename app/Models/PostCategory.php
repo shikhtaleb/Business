@@ -14,6 +14,8 @@ class PostCategory extends Model
         'name_en',
         'name_nl',
         'name_de',
+        'description_ar',
+        'description_en',
         'parent_id',
         'sort_order',
     ];

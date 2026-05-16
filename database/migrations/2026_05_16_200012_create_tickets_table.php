@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('priority', 20)->default('normal'); // low|normal|high|urgent
             $table->string('requester_name', 150);
             $table->string('requester_email', 255);
+            $table->text('body')->nullable();
+            $table->string('channel', 30)->default('web'); // web|email|manual
             $table->foreignId('assigned_to')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('resolved_at')->nullable();
             $table->timestamps();

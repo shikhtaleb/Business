@@ -16,6 +16,7 @@ class PostCategoryController extends Controller
     public function index(): View
     {
         $categories = PostCategory::with('parent')
+                                  ->withCount('posts')
                                   ->orderBy('sort_order')
                                   ->orderBy('name_ar')
                                   ->get();
@@ -30,13 +31,15 @@ class PostCategoryController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'name_ar'   => 'required|string|max:255',
-            'name_en'   => 'nullable|string|max:255',
-            'name_nl'   => 'nullable|string|max:255',
-            'name_de'   => 'nullable|string|max:255',
-            'slug'      => 'nullable|string|max:255|unique:post_categories,slug',
-            'parent_id' => 'nullable|exists:post_categories,id',
-            'sort_order'=> 'nullable|integer|min:0',
+            'name_ar'        => 'required|string|max:255',
+            'name_en'        => 'nullable|string|max:255',
+            'name_nl'        => 'nullable|string|max:255',
+            'name_de'        => 'nullable|string|max:255',
+            'slug'           => 'nullable|string|max:255|unique:post_categories,slug',
+            'parent_id'      => 'nullable|exists:post_categories,id',
+            'sort_order'     => 'nullable|integer|min:0',
+            'description_ar' => 'nullable|string|max:2000',
+            'description_en' => 'nullable|string|max:2000',
         ]);
 
         $validated['slug'] = $this->resolveSlug(
@@ -68,13 +71,15 @@ class PostCategoryController extends Controller
     public function update(Request $request, PostCategory $category): RedirectResponse
     {
         $validated = $request->validate([
-            'name_ar'   => 'required|string|max:255',
-            'name_en'   => 'nullable|string|max:255',
-            'name_nl'   => 'nullable|string|max:255',
-            'name_de'   => 'nullable|string|max:255',
-            'slug'      => 'nullable|string|max:255|unique:post_categories,slug,' . $category->id,
-            'parent_id' => 'nullable|exists:post_categories,id',
-            'sort_order'=> 'nullable|integer|min:0',
+            'name_ar'        => 'required|string|max:255',
+            'name_en'        => 'nullable|string|max:255',
+            'name_nl'        => 'nullable|string|max:255',
+            'name_de'        => 'nullable|string|max:255',
+            'slug'           => 'nullable|string|max:255|unique:post_categories,slug,' . $category->id,
+            'parent_id'      => 'nullable|exists:post_categories,id',
+            'sort_order'     => 'nullable|integer|min:0',
+            'description_ar' => 'nullable|string|max:2000',
+            'description_en' => 'nullable|string|max:2000',
         ]);
 
         // Prevent a category from becoming its own parent

@@ -10,7 +10,8 @@ class Ticket extends Model
 {
     protected $fillable = [
         'ticket_number', 'subject', 'status', 'priority',
-        'requester_name', 'requester_email', 'assigned_to', 'resolved_at',
+        'requester_name', 'requester_email', 'body', 'channel',
+        'assigned_to', 'resolved_at',
     ];
 
     protected $casts = [

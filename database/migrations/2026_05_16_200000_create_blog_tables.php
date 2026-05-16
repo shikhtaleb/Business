@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('name_en');
             $table->string('name_nl')->nullable();
             $table->string('name_de')->nullable();
+            $table->text('description_ar')->nullable();
+            $table->text('description_en')->nullable();
             $table->foreignId('parent_id')
                   ->nullable()
                   ->constrained('post_categories')
