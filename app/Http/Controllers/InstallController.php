@@ -91,7 +91,7 @@ class InstallController extends Controller
                 'DB_USERNAME' => $db['username'],
                 'DB_PASSWORD' => $db['password'] ?? '',
                 'APP_URL'     => rtrim($site['url'], '/'),
-                'APP_NAME'    => '"' . addslashes($site['name']) . '"',
+                'APP_NAME'    => $site['name'],
                 'APP_LOCALE'  => $locale,
             ]);
 
@@ -226,9 +226,20 @@ class InstallController extends Controller
         $envPath = base_path('.env');
         $content = file_exists($envPath) ? file_get_contents($envPath) : '';
 
-        foreach ($data as $key => $value) {
-            $pattern = "/^{$key}=.*/m";
-            $line    = "{$key}={$value}";
+        foreach ($data as $key => $rawValue) {
+            $value = (string) $rawValue;
+
+            // Quote values not already wrapped in quotes if they contain
+            // characters that .env parsers treat as special (space, #, \, ")
+            if (!preg_match('/^".*"$/s', $value) && !preg_match("/^'.*'$/s", $value)) {
+                if ($value === '' || preg_match('/[\s#"\'\\\\]/', $value)) {
+                    $value = '"' . str_replace(['\\', '"'], ['\\\\', '\\"'], $value) . '"';
+                }
+            }
+
+            $escapedKey = preg_quote($key, '/');
+            $pattern    = "/^{$escapedKey}=.*/m";
+            $line       = "{$key}={$value}";
 
             if (preg_match($pattern, $content)) {
                 $content = preg_replace($pattern, $line, $content);
