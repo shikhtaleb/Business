@@ -37,9 +37,40 @@
 
     <style>
         [x-cloak] { display: none !important; }
-        .sidebar-link { @apply flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-colors duration-150 text-sm font-medium; }
-        .sidebar-link.active { @apply text-white bg-gray-800 border-l-2 border-brand; }
-        .sidebar-group-label { @apply px-3 py-1.5 text-xs font-semibold text-gray-500 uppercase tracking-wider mt-4 mb-1; }
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.15s, background-color 0.15s;
+            font-size: 0.875rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .sidebar-link:hover {
+            color: #ffffff;
+            background-color: #1f2937;
+        }
+        .sidebar-link.active {
+            color: #ffffff;
+            background-color: #1f2937;
+            border-left: 2px solid #FF8528;
+            padding-left: calc(0.75rem - 2px);
+        }
+        .sidebar-group-label {
+            display: block;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
     </style>
 </head>
 <body class="h-full bg-gray-100" x-data="{ sidebarOpen: false }">

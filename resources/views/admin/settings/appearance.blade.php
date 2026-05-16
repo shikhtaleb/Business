@@ -5,26 +5,36 @@
 
 @section('content')
 
-    {{-- Settings Tabs --}}
-    <div class="flex gap-1 mb-5 bg-white rounded-2xl shadow-sm border border-gray-100 p-1.5">
-        @foreach([
-            'admin.settings.general'    => ['label' => 'General',    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
-            'admin.settings.appearance' => ['label' => 'Appearance', 'icon' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'],
-            'admin.settings.seo'        => ['label' => 'SEO',        'icon' => 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'],
-        ] as $routeName => $tab)
-            @php $active = request()->routeIs($routeName.'*'); @endphp
-            <a href="{{ route($routeName) }}"
-               class="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 {{ $active ? 'text-white shadow-sm' : 'text-gray-600 hover:bg-gray-50' }}"
-               @if($active) style="background-color:#FF8528;" @endif>
-                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $tab['icon'] }}"/>
-                </svg>
-                {{ $tab['label'] }}
-            </a>
-        @endforeach
+@php
+$settingsTabs = [
+    'admin.settings.general'    => ['label' => 'General',    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
+    'admin.settings.appearance' => ['label' => 'Appearance', 'icon' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'],
+    'admin.settings.seo'        => ['label' => 'SEO',        'icon' => 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'],
+];
+@endphp
+
+<div class="flex gap-6 items-start">
+
+    {{-- ── Vertical Settings Tabs ─────────────────────────────────────────── --}}
+    <div class="w-52 flex-shrink-0">
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+            @foreach($settingsTabs as $routeName => $tab)
+                @php $active = request()->routeIs($routeName.'*'); @endphp
+                <a href="{{ route($routeName) }}"
+                   class="flex items-center gap-3 px-5 py-4 text-sm font-medium transition-all duration-150 border-b border-gray-50 last:border-0
+                          {{ $active ? 'text-white' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800' }}"
+                   @if($active) style="background-color:#FF8528;" @endif>
+                    <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $tab['icon'] }}"/>
+                    </svg>
+                    {{ $tab['label'] }}
+                </a>
+            @endforeach
+        </div>
     </div>
 
-    <div class="max-w-3xl">
+    {{-- ── Page Content ────────────────────────────────────────────────────── --}}
+    <div class="flex-1 min-w-0">
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-6 py-5 border-b border-gray-100">
                 <h2 class="text-base font-semibold text-gray-800">Appearance</h2>
@@ -36,15 +46,8 @@
                   class="px-6 py-6 space-y-6"
                   x-data="{
                       brandColor: '{{ old('brand_color', $settings['brand_color'] ?? '#FF8528') }}',
-
-                      syncFromPicker(val) {
-                          this.brandColor = val;
-                      },
-                      syncFromText(val) {
-                          if (/^#[0-9A-Fa-f]{6}$/.test(val)) {
-                              this.brandColor = val;
-                          }
-                      }
+                      syncFromPicker(val) { this.brandColor = val; },
+                      syncFromText(val) { if (/^#[0-9A-Fa-f]{6}$/.test(val)) this.brandColor = val; }
                   }"
             >
                 @csrf
@@ -63,16 +66,14 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Brand Color</label>
                     <div class="flex items-center gap-4 flex-wrap">
-                        <!-- Color Picker -->
                         <div class="flex items-center gap-3">
                             <input
                                 type="color"
                                 :value="brandColor"
                                 @input="syncFromPicker($event.target.value)"
-                                class="w-12 h-12 rounded-xl border border-gray-200 cursor-pointer p-0.5"
+                                class="w-12 h-12 rounded-xl border border-gray-200 cursor-pointer"
                                 style="padding: 2px;"
                             >
-                            <!-- Hex Text Input -->
                             <input
                                 type="text"
                                 name="brand_color"
@@ -84,8 +85,6 @@
                                 placeholder="#FF8528"
                             >
                         </div>
-
-                        <!-- Live Preview -->
                         <div class="flex items-center gap-3">
                             <div class="w-24 h-10 rounded-xl shadow-sm transition-all duration-150 flex items-center justify-center text-white text-xs font-semibold"
                                  :style="'background-color:' + brandColor">
@@ -112,7 +111,7 @@
                     >
                         @foreach (['light' => 'Light', 'dark' => 'Dark', 'system' => 'System (follow device)'] as $val => $label)
                             <option value="{{ $val }}"
-                                {{ old('dark_mode', $settings['dark_mode_default'] ?? 'light') === $val ? 'selected' : '' }}>
+                                {{ old('dark_mode_default', $settings['dark_mode_default'] ?? 'light') === $val ? 'selected' : '' }}>
                                 {{ $label }}
                             </option>
                         @endforeach
@@ -165,24 +164,11 @@
                         type="file"
                         name="logo"
                         accept="image/png,image/svg+xml,image/webp"
-                        class="w-full text-sm text-gray-500
-                               file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0
-                               file:text-sm file:font-semibold file:text-white file:cursor-pointer"
+                        class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:text-white file:cursor-pointer"
                     >
                     <style>
-                        input[type=file]::file-selector-button {
-                            background-color: #FF8528;
-                            color: white;
-                            border: none;
-                            padding: 0.5rem 1rem;
-                            border-radius: 0.5rem;
-                            font-size: 0.875rem;
-                            font-weight: 600;
-                            cursor: pointer;
-                        }
-                        input[type=file]::file-selector-button:hover {
-                            background-color: #E06800;
-                        }
+                        input[type=file]::file-selector-button { background-color:#FF8528; color:white; border:none; padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:600; cursor:pointer; }
+                        input[type=file]::file-selector-button:hover { background-color:#E06800; }
                     </style>
                 </div>
 
@@ -226,5 +212,6 @@
             </form>
         </div>
     </div>
+</div>
 
 @endsection
