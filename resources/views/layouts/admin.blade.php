@@ -81,21 +81,21 @@
         }
 
         /* ── Dark mode overrides ── */
-        [data-admin-theme="dark"] .adm-bg   { background-color: #0b1120 !important; }
+        [data-admin-theme="dark"] .adm-bg   { background-color: #181c34 !important; }
         [data-admin-theme="dark"] .adm-header {
-            background-color: #1e293b !important;
-            border-color: #1e293b !important;
+            background-color: #1e2244 !important;
+            border-color: #252848 !important;
         }
         [data-admin-theme="dark"] .adm-footer {
-            background-color: #1e293b !important;
-            border-color: #1e293b !important;
+            background-color: #1e2244 !important;
+            border-color: #252848 !important;
         }
-        [data-admin-theme="dark"] .bg-white      { background-color: #1e293b !important; }
-        [data-admin-theme="dark"] .bg-gray-100   { background-color: #0b1120 !important; }
-        [data-admin-theme="dark"] .bg-gray-50    { background-color: #1e293b !important; }
-        [data-admin-theme="dark"] .border-gray-100 { border-color: #334155 !important; }
-        [data-admin-theme="dark"] .border-gray-200 { border-color: #334155 !important; }
-        [data-admin-theme="dark"] .border-gray-300 { border-color: #334155 !important; }
+        [data-admin-theme="dark"] .bg-white      { background-color: #1e2244 !important; }
+        [data-admin-theme="dark"] .bg-gray-100   { background-color: #181c34 !important; }
+        [data-admin-theme="dark"] .bg-gray-50    { background-color: #1e2244 !important; }
+        [data-admin-theme="dark"] .border-gray-100 { border-color: #252848 !important; }
+        [data-admin-theme="dark"] .border-gray-200 { border-color: #2e3360 !important; }
+        [data-admin-theme="dark"] .border-gray-300 { border-color: #2e3360 !important; }
         [data-admin-theme="dark"] .text-gray-900 { color: #f8fafc !important; }
         [data-admin-theme="dark"] .text-gray-800 { color: #f1f5f9 !important; }
         [data-admin-theme="dark"] .text-gray-700 { color: #e2e8f0 !important; }
@@ -105,16 +105,16 @@
         [data-admin-theme="dark"] input,
         [data-admin-theme="dark"] textarea,
         [data-admin-theme="dark"] select {
-            background-color: #0f172a !important;
-            border-color: #334155 !important;
+            background-color: #141730 !important;
+            border-color: #2e3360 !important;
             color: #f1f5f9 !important;
         }
         [data-admin-theme="dark"] input::placeholder,
         [data-admin-theme="dark"] textarea::placeholder { color: #64748b !important; }
-        [data-admin-theme="dark"] thead { background-color: #334155 !important; }
-        [data-admin-theme="dark"] .divide-gray-50 > * { border-color: #1e293b !important; }
-        [data-admin-theme="dark"] .hover\:bg-gray-50:hover  { background-color: #1e293b !important; }
-        [data-admin-theme="dark"] .hover\:bg-gray-100:hover { background-color: #334155 !important; }
+        [data-admin-theme="dark"] thead { background-color: #252848 !important; }
+        [data-admin-theme="dark"] .divide-gray-50 > * { border-color: #1e2244 !important; }
+        [data-admin-theme="dark"] .hover\:bg-gray-50:hover  { background-color: #1e2244 !important; }
+        [data-admin-theme="dark"] .hover\:bg-gray-100:hover { background-color: #252848 !important; }
         [data-admin-theme="dark"] .shadow-sm  { box-shadow: 0 1px 3px 0 rgba(0,0,0,0.5) !important; }
         [data-admin-theme="dark"] .shadow-md  { box-shadow: 0 4px 12px 0 rgba(0,0,0,0.5) !important; }
         [data-admin-theme="dark"] .bg-green-50    { background-color: #052e16 !important; }
@@ -130,7 +130,7 @@
         [data-admin-theme="dark"] .adm-topbar-text { color: #94a3b8 !important; }
     </style>
 </head>
-<body class="h-full adm-bg" :class="darkMode ? 'bg-slate-950' : 'bg-gray-100'">
+<body class="h-full adm-bg" :class="darkMode ? '' : 'bg-gray-100'">
 
 <script>
 function adminApp() {
@@ -394,7 +394,7 @@ function adminApp() {
 
     {{-- Top Bar --}}
     <header class="sticky top-0 z-30 border-b shadow-sm adm-header"
-            style="background:#1e293b; border-color:#1e293b;">
+            style="background:#1e2244; border-color:#252848;">
         <div class="flex items-center justify-between px-4 sm:px-6 h-14">
 
             {{-- Left: hamburger + page title --}}
@@ -446,7 +446,7 @@ function adminApp() {
                          x-transition:leave-start="opacity-100 scale-100"
                          x-transition:leave-end="opacity-0 scale-95"
                          class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-44 rounded-xl shadow-xl border py-1 z-50"
-                         style="background:#1e293b; border-color:#334155;">
+                         style="background:#1e2244; border-color:#252848;">
                         @foreach(['en' => ['🇬🇧','English'],'ar' => ['🇸🇦','العربية'],'nl' => ['🇳🇱','Nederlands'],'de' => ['🇩🇪','Deutsch']] as $code => [$flag, $label])
                             <form method="POST" action="{{ route('admin.language') }}">
                                 @csrf
@@ -489,8 +489,8 @@ function adminApp() {
                          x-transition:leave-start="opacity-100 scale-100"
                          x-transition:leave-end="opacity-0 scale-95"
                          class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-52 rounded-xl shadow-xl border py-1 z-50"
-                         style="background:#1e293b; border-color:#334155;">
-                        <div class="px-4 py-2.5 border-b" style="border-color:#334155;">
+                         style="background:#1e2244; border-color:#252848;">
+                        <div class="px-4 py-2.5 border-b" style="border-color:#252848;">
                             <p class="text-white text-sm font-semibold truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
                             <p class="text-slate-400 text-xs truncate">{{ auth()->user()->email ?? '' }}</p>
                         </div>
@@ -502,7 +502,7 @@ function adminApp() {
                             </svg>
                             {{ __('admin.my_profile') }}
                         </a>
-                        <div class="border-t my-1" style="border-color:#334155;"></div>
+                        <div class="border-t my-1" style="border-color:#252848;"></div>
                         <form method="POST" action="{{ route('admin.logout') }}">
                             @csrf
                             <button type="submit"
@@ -567,7 +567,7 @@ function adminApp() {
     </main>
 
     {{-- Footer --}}
-    <footer class="px-6 py-3 border-t adm-footer" style="background:#1e293b; border-color:#1e293b;">
+    <footer class="px-6 py-3 border-t adm-footer" style="background:#1e2244; border-color:#252848;">
         <p class="text-xs text-slate-600 text-center">&copy; {{ date('Y') }} Retont Business</p>
     </footer>
 </div>

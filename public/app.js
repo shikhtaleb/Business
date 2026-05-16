@@ -98,10 +98,13 @@
     updatePriceDisplay();
   }
 
-  // Always trust the server-rendered language to avoid localStorage/server mismatch
   var serverLang = document.documentElement.getAttribute('lang') || 'ar';
-  var savedLang = serverLang;
-  localStorage.setItem('rt_lang', serverLang);
+  var savedLang  = localStorage.getItem('rt_lang');
+  // Keep localStorage in sync with server-rendered language (set via cookie/query-param)
+  if (!savedLang || !DICT[savedLang]) {
+    savedLang = serverLang;
+    localStorage.setItem('rt_lang', savedLang);
+  }
   applyLang(savedLang);
 
   // ---------- LANGUAGE MENU ----------

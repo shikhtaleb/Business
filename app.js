@@ -98,7 +98,13 @@
     updatePriceDisplay();
   }
 
-  var savedLang = localStorage.getItem('rt_lang') || (document.documentElement.getAttribute('lang') || 'ar');
+  var serverLang = document.documentElement.getAttribute('lang') || 'ar';
+  var savedLang  = localStorage.getItem('rt_lang');
+  // Keep localStorage in sync with server-rendered language (set via cookie/query-param)
+  if (!savedLang || !DICT[savedLang]) {
+    savedLang = serverLang;
+    localStorage.setItem('rt_lang', savedLang);
+  }
   applyLang(savedLang);
 
   // ---------- LANGUAGE MENU ----------

@@ -65,11 +65,11 @@
       <span>{{ $settings['site_name'] ?? 'Retont Business' }}</span>
     </div>
     <nav class="nav-links">
-      <a href="#home">{{ $content['nav']['nav.home'] ?? 'Home' }}</a>
-      <a href="#features">{{ $content['nav']['nav.features'] ?? 'Features' }}</a>
-      <a href="#pricing">{{ $content['nav']['nav.pricing'] ?? 'Pricing' }}</a>
-      <a href="#faq">{{ $content['nav']['nav.faq'] ?? 'FAQ' }}</a>
-      <a href="#contact">{{ $content['nav']['nav.contact'] ?? 'Contact' }}</a>
+      <a href="#home" data-i18n="nav.home">{{ $content['nav']['nav.home'] ?? 'الرئيسية' }}</a>
+      <a href="#features" data-i18n="nav.features">{{ $content['nav']['nav.features'] ?? 'المميزات' }}</a>
+      <a href="#pricing" data-i18n="nav.pricing">{{ $content['nav']['nav.pricing'] ?? 'الأسعار' }}</a>
+      <a href="#faq" data-i18n="nav.faq">{{ $content['nav']['nav.faq'] ?? 'الأسئلة الشائعة' }}</a>
+      <a href="#contact" data-i18n="nav.contact">{{ $content['nav']['nav.contact'] ?? 'تواصل معنا' }}</a>
     </nav>
     <div class="nav-cta">
       <button class="nav-toggle" id="navToggle" aria-label="menu" aria-expanded="false">
@@ -79,8 +79,8 @@
         <svg class="moon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79Z"/></svg>
         <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
       </button>
-      <a href="#" class="btn btn-ghost">{{ $content['nav']['nav.login'] ?? 'Login' }}</a>
-      <a href="#" class="btn btn-primary">{{ $content['nav']['nav.cta'] ?? 'Get Started' }}</a>
+      <a href="#" class="btn btn-ghost" data-i18n="nav.login">{{ $content['nav']['nav.login'] ?? 'تسجيل الدخول' }}</a>
+      <a href="#" class="btn btn-primary" data-i18n="nav.cta">{{ $content['nav']['nav.cta'] ?? 'ابدأ الآن' }}</a>
     </div>
   </div>
 </header>
@@ -92,11 +92,11 @@
   <span class="dot d1"></span>
   <span class="dot d2"></span>
   <div class="wrap">
-    <h1>{!! $content['hero']['hero.title'] ?? 'منصة <span class="accent">Retont Business</span><br/>لإدارة مشاريعك وفريقك بسلاسة' !!}</h1>
-    <p class="sub">{{ $content['hero']['hero.sub'] ?? 'أدر المشاريع والمهام والعملاء والفواتير من لوحة واحدة.' }}</p>
+    <h1 data-i18n-html="hero.title">{!! $content['hero']['hero.title'] ?? 'منصة <span class="accent">Retont Business</span><br/>لإدارة مشاريعك وفريقك بسلاسة' !!}</h1>
+    <p class="sub" data-i18n="hero.sub">{{ $content['hero']['hero.sub'] ?? 'أدر المشاريع والمهام والعملاء والفواتير من لوحة واحدة.' }}</p>
     <div class="cta-row">
-      <a href="#" class="btn btn-primary">{{ $content['hero']['hero.cta1'] ?? 'ابدأ تجربة ٣٠ يومًا مجانًا' }}</a>
-      <a href="#" class="btn btn-outline">{{ $content['hero']['hero.cta2'] ?? 'شاهد العرض التوضيحي' }}</a>
+      <a href="#" class="btn btn-primary" data-i18n="hero.cta1">{{ $content['hero']['hero.cta1'] ?? 'ابدأ تجربة ٣٠ يومًا مجانًا' }}</a>
+      <a href="#" class="btn btn-outline" data-i18n="hero.cta2">{{ $content['hero']['hero.cta2'] ?? 'شاهد العرض التوضيحي' }}</a>
     </div>
 
     <!-- Dashboard mock -->
@@ -104,45 +104,45 @@
       <div class="dash">
         <div class="dash-inner">
           <aside class="ds-side">
-            <div class="item active"><span class="ico"></span><span>{{ $content['hero']['ds.dashboard'] ?? 'Dashboard' }}</span></div>
-            <div class="group">{{ $content['hero']['ds.manage'] ?? 'Work' }}</div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.projects'] ?? 'Projects' }}</span></div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.tasks'] ?? 'Tasks' }}</span></div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.clients'] ?? 'Clients' }}</span></div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.invoices'] ?? 'Invoices' }}</span></div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.payments'] ?? 'Payments' }}</span></div>
-            <div class="group">{{ $content['hero']['ds.general'] ?? 'General' }}</div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.staff'] ?? 'Team' }}</span></div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.attendance'] ?? 'Attendance' }}</span></div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.reports'] ?? 'Reports' }}</span></div>
-            <div class="item"><span class="ico"></span><span>{{ $content['hero']['ds.settings'] ?? 'Settings' }}</span></div>
+            <div class="item active"><span class="ico"></span><span data-i18n="ds.dashboard">{{ $content['hero']['ds.dashboard'] ?? 'لوحة التحكم' }}</span></div>
+            <div class="group" data-i18n="ds.manage">{{ $content['hero']['ds.manage'] ?? 'إدارة العمل' }}</div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.projects">{{ $content['hero']['ds.projects'] ?? 'المشاريع' }}</span></div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.tasks">{{ $content['hero']['ds.tasks'] ?? 'المهام' }}</span></div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.clients">{{ $content['hero']['ds.clients'] ?? 'العملاء' }}</span></div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.invoices">{{ $content['hero']['ds.invoices'] ?? 'الفواتير' }}</span></div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.payments">{{ $content['hero']['ds.payments'] ?? 'المدفوعات' }}</span></div>
+            <div class="group" data-i18n="ds.general">{{ $content['hero']['ds.general'] ?? 'عام' }}</div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.staff">{{ $content['hero']['ds.staff'] ?? 'الموظفون' }}</span></div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.attendance">{{ $content['hero']['ds.attendance'] ?? 'الحضور والانصراف' }}</span></div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.reports">{{ $content['hero']['ds.reports'] ?? 'التقارير' }}</span></div>
+            <div class="item"><span class="ico"></span><span data-i18n="ds.settings">{{ $content['hero']['ds.settings'] ?? 'الإعدادات' }}</span></div>
           </aside>
           <main class="ds-main">
             <div class="ds-top">
               <div class="ds-tabs">
-                <span class="tab on">{{ $content['hero']['ds.tabToday'] ?? "Today's Tasks" }}</span>
-                <span class="tab">{{ $content['hero']['ds.tabRes'] ?? 'Active Projects' }}</span>
-                <span class="tab">{{ $content['hero']['ds.tabInv'] ?? 'Time Logs' }}</span>
+                <span class="tab on" data-i18n="ds.tabToday">{{ $content['hero']['ds.tabToday'] ?? 'مهام اليوم' }}</span>
+                <span class="tab" data-i18n="ds.tabRes">{{ $content['hero']['ds.tabRes'] ?? 'مشاريع نشطة' }}</span>
+                <span class="tab" data-i18n="ds.tabInv">{{ $content['hero']['ds.tabInv'] ?? 'ساعات العمل' }}</span>
               </div>
-              <div class="ds-search">{{ $content['hero']['ds.search'] ?? '🔍 Quick search…' }}</div>
+              <div class="ds-search" data-i18n="ds.search">{{ $content['hero']['ds.search'] ?? '🔍 بحث سريع…' }}</div>
             </div>
             <div class="ds-grid">
               <div style="display:flex;flex-direction:column;gap:10px">
                 <div class="ds-stats">
                   <div class="ds-card">
-                    <h4>{{ $content['hero']['ds.totalOrders'] ?? 'Active Projects' }}</h4>
+                    <h4 data-i18n="ds.totalOrders">{{ $content['hero']['ds.totalOrders'] ?? 'المشاريع النشطة' }}</h4>
                     <div class="big">24</div>
-                    <div class="delta">{{ $content['hero']['ds.delta1'] ?? '▲ 3 new projects this week' }}</div>
+                    <div class="delta" data-i18n="ds.delta1">{{ $content['hero']['ds.delta1'] ?? '▲ ٣ مشاريع جديدة هذا الأسبوع' }}</div>
                   </div>
                   <div class="ds-card">
-                    <h4>{{ $content['hero']['ds.avgInv'] ?? 'Tasks Completed' }}</h4>
+                    <h4 data-i18n="ds.avgInv">{{ $content['hero']['ds.avgInv'] ?? 'المهام المنجزة' }}</h4>
                     <div class="big">186</div>
-                    <div class="delta">{{ $content['hero']['ds.delta2'] ?? '▲ 12% vs last month' }}</div>
+                    <div class="delta" data-i18n="ds.delta2">{{ $content['hero']['ds.delta2'] ?? '▲ ١٢٪ عن الشهر الماضي' }}</div>
                   </div>
                 </div>
                 <div class="ds-card">
-                  <h4>{{ $content['hero']['ds.weeklySales'] ?? 'Weekly Revenue' }}</h4>
-                  <div class="big" style="font-size:22px"><span>{{ $content['hero']['ds.sales'] ?? '$11,400' }}</span></div>
+                  <h4 data-i18n="ds.weeklySales">{{ $content['hero']['ds.weeklySales'] ?? 'الإيرادات الأسبوعية' }}</h4>
+                  <div class="big" style="font-size:22px"><span data-i18n="ds.sales">{{ $content['hero']['ds.sales'] ?? '٤٢٬٧٥٠ ر.س' }}</span></div>
                   <div class="ds-chart" style="margin-top:10px">
                     <svg viewBox="0 0 400 160" preserveAspectRatio="none">
                       <defs>
@@ -158,12 +158,12 @@
                 </div>
               </div>
               <div class="ds-card ds-orders">
-                <h4 style="margin-bottom:10px">{{ $content['hero']['ds.todayOrders'] ?? "Today's Tasks" }}</h4>
-                <div class="order"><span class="av"></span><div class="name">{{ $content['hero']['ds.order103'] ?? 'Task 1' }}<span class="meta">{{ $content['hero']['ds.order103'] ?? '' }}</span></div><span class="badge">{{ $content['hero']['ds.paid'] ?? 'Done' }}</span></div>
-                <div class="order"><span class="av"></span><div class="name">{{ $content['hero']['ds.order102'] ?? 'Task 2' }}<span class="meta">{{ $content['hero']['ds.order102'] ?? '' }}</span></div><span class="badge warn">{{ $content['hero']['ds.preparing'] ?? 'In Progress' }}</span></div>
-                <div class="order"><span class="av"></span><div class="name">{{ $content['hero']['ds.order101'] ?? 'Task 3' }}<span class="meta">{{ $content['hero']['ds.order101'] ?? '' }}</span></div><span class="badge">{{ $content['hero']['ds.paid'] ?? 'Done' }}</span></div>
-                <div class="order"><span class="av"></span><div class="name">{{ $content['hero']['ds.order100'] ?? 'Task 4' }}<span class="meta">{{ $content['hero']['ds.order100'] ?? '' }}</span></div><span class="badge warn">{{ $content['hero']['ds.preparing'] ?? 'In Progress' }}</span></div>
-                <div class="order"><span class="av"></span><div class="name">{{ $content['hero']['ds.order099'] ?? 'Task 5' }}<span class="meta">{{ $content['hero']['ds.order099'] ?? '' }}</span></div><span class="badge">{{ $content['hero']['ds.paid'] ?? 'Done' }}</span></div>
+                <h4 style="margin-bottom:10px" data-i18n="ds.todayOrders">{{ $content['hero']['ds.todayOrders'] ?? 'مهام اليوم' }}</h4>
+                <div class="order"><span class="av"></span><div class="name"><span data-i18n="ds.order103">{{ $content['hero']['ds.order103'] ?? 'مشروع موقع شركة سواحل' }}</span><span class="meta"></span></div><span class="badge" data-i18n="ds.paid">{{ $content['hero']['ds.paid'] ?? 'مكتمل' }}</span></div>
+                <div class="order"><span class="av"></span><div class="name"><span data-i18n="ds.order102">{{ $content['hero']['ds.order102'] ?? 'مشروع تطبيق نقل' }}</span><span class="meta"></span></div><span class="badge warn" data-i18n="ds.preparing">{{ $content['hero']['ds.preparing'] ?? 'قيد التنفيذ' }}</span></div>
+                <div class="order"><span class="av"></span><div class="name"><span data-i18n="ds.order101">{{ $content['hero']['ds.order101'] ?? 'متجر بسمة الإلكتروني' }}</span><span class="meta"></span></div><span class="badge" data-i18n="ds.paid">{{ $content['hero']['ds.paid'] ?? 'مكتمل' }}</span></div>
+                <div class="order"><span class="av"></span><div class="name"><span data-i18n="ds.order100">{{ $content['hero']['ds.order100'] ?? 'فريق التطوير الداخلي' }}</span><span class="meta"></span></div><span class="badge warn" data-i18n="ds.preparing">{{ $content['hero']['ds.preparing'] ?? 'قيد التنفيذ' }}</span></div>
+                <div class="order"><span class="av"></span><div class="name"><span data-i18n="ds.order099">{{ $content['hero']['ds.order099'] ?? 'مؤسسة الأفق التجارية' }}</span><span class="meta"></span></div><span class="badge" data-i18n="ds.paid">{{ $content['hero']['ds.paid'] ?? 'مكتمل' }}</span></div>
               </div>
             </div>
           </main>
@@ -176,42 +176,42 @@
 <!-- SPOTLIGHT ROWS -->
 <section class="section" id="features">
   <div class="wrap">
-    <h2>{!! $content['spotlight1']['sec.controlTitle'] ?? 'Take control of <span class="accent">your business</span>' !!}</h2>
-    <p class="lead">{{ $content['spotlight1']['sec.controlLead'] ?? 'Three core modules in one platform.' }}</p>
+    <h2 data-i18n-html="sec.controlTitle">{!! $content['spotlight1']['sec.controlTitle'] ?? 'تحكّم في إدارة <span class="accent">أعمالك</span>' !!}</h2>
+    <p class="lead" data-i18n="sec.controlLead">{{ $content['spotlight1']['sec.controlLead'] ?? 'ثلاث وحدات أساسية في منصة واحدة لإدارة عملك اليومي.' }}</p>
 
     <!-- 1. Invoice / Billing -->
     <div class="spotlight">
       <div class="mock inv">
         <div class="head">
-          <div class="who"><span>{{ $content['spotlight1']['mock.customer1'] ?? 'Al‑Ofuq Trading Co.' }}</span><span class="date">{{ $content['spotlight1']['mock.date1'] ?? 'Invoice #INV‑2026‑047' }}</span></div>
-          <span class="tag">{{ $content['spotlight1']['mock.paid'] ?? 'Paid' }}</span>
+          <div class="who"><span data-i18n="mock.customer1">{{ $content['spotlight1']['mock.customer1'] ?? 'مؤسسة الأفق التجارية' }}</span><span class="date" data-i18n="mock.date1">{{ $content['spotlight1']['mock.date1'] ?? 'فاتورة #INV‑2026‑047 · ١٥ مايو ٢٠٢٦' }}</span></div>
+          <span class="tag" data-i18n="mock.paid">{{ $content['spotlight1']['mock.paid'] ?? 'مدفوعة' }}</span>
         </div>
         <table>
-          <thead><tr><th>{{ $content['spotlight1']['mock.item'] ?? 'Item' }}</th><th>{{ $content['spotlight1']['mock.qty'] ?? 'Hours' }}</th><th>{{ $content['spotlight1']['mock.price'] ?? 'Rate/hr' }}</th><th>{{ $content['spotlight1']['mock.sum'] ?? 'Total' }}</th></tr></thead>
+          <thead><tr><th data-i18n="mock.item">{{ $content['spotlight1']['mock.item'] ?? 'البند' }}</th><th data-i18n="mock.qty">{{ $content['spotlight1']['mock.qty'] ?? 'الساعات' }}</th><th data-i18n="mock.price">{{ $content['spotlight1']['mock.price'] ?? 'السعر/س' }}</th><th data-i18n="mock.sum">{{ $content['spotlight1']['mock.sum'] ?? 'المجموع' }}</th></tr></thead>
           <tbody>
-            <tr><td>{{ $content['spotlight1']['mock.burger'] ?? 'UI/UX Design' }}</td><td>{{ $content['spotlight1']['mock.n2'] ?? '32' }}</td><td>150</td><td>4,800</td></tr>
-            <tr><td>{{ $content['spotlight1']['mock.juice'] ?? 'Frontend Development' }}</td><td>{{ $content['spotlight1']['mock.n1'] ?? '24' }}</td><td>180</td><td>4,320</td></tr>
-            <tr><td>{{ $content['spotlight1']['mock.salad'] ?? 'Project Management' }}</td><td>١٢</td><td>120</td><td>1,440</td></tr>
+            <tr><td data-i18n="mock.burger">{{ $content['spotlight1']['mock.burger'] ?? 'تصميم واجهات المستخدم' }}</td><td data-i18n="mock.n2">{{ $content['spotlight1']['mock.n2'] ?? '٣٢' }}</td><td>150</td><td>4,800</td></tr>
+            <tr><td data-i18n="mock.juice">{{ $content['spotlight1']['mock.juice'] ?? 'تطوير الواجهة الأمامية' }}</td><td data-i18n="mock.n1">{{ $content['spotlight1']['mock.n1'] ?? '٢٤' }}</td><td>180</td><td>4,320</td></tr>
+            <tr><td data-i18n="mock.salad">{{ $content['spotlight1']['mock.salad'] ?? 'إدارة المشروع والمتابعة' }}</td><td>١٢</td><td>120</td><td>1,440</td></tr>
           </tbody>
         </table>
-        <div class="total"><span>{{ $content['spotlight1']['mock.total'] ?? 'Total (incl. VAT)' }}</span><span>{{ $content['spotlight1']['mock.totalVal'] ?? '$3,245' }}</span></div>
+        <div class="total"><span data-i18n="mock.total">{{ $content['spotlight1']['mock.total'] ?? 'الإجمالي (شامل الضريبة)' }}</span><span data-i18n="mock.totalVal">{{ $content['spotlight1']['mock.totalVal'] ?? '١٢٬١٧٢ ر.س' }}</span></div>
         <div class="float f1">
           <span class="a"></span>
-          <div class="n"><span>{{ $content['spotlight1']['mock.order047'] ?? 'Project #047' }}</span><span class="sm">{{ $content['spotlight1']['mock.cust2'] ?? 'Nasaem Tech Co.' }}</span></div>
-          <span class="badge">{{ $content['spotlight1']['mock.new'] ?? 'In Progress' }}</span>
+          <div class="n"><span data-i18n="mock.order047">{{ $content['spotlight1']['mock.order047'] ?? 'مشروع #٠٤٧' }}</span><span class="sm" data-i18n="mock.cust2">{{ $content['spotlight1']['mock.cust2'] ?? 'شركة نسائم للتقنية' }}</span></div>
+          <span class="badge" data-i18n="mock.new">{{ $content['spotlight1']['mock.new'] ?? 'قيد التنفيذ' }}</span>
         </div>
         <div class="float f2">
           <span class="a"></span>
-          <div class="n"><span>{{ $content['spotlight1']['mock.amount'] ?? '$1,985' }}</span><span class="sm">{{ $content['spotlight1']['mock.payOk'] ?? 'New payment received' }}</span></div>
+          <div class="n"><span data-i18n="mock.amount">{{ $content['spotlight1']['mock.amount'] ?? '٧٬٤٥٠ ر.س' }}</span><span class="sm" data-i18n="mock.payOk">{{ $content['spotlight1']['mock.payOk'] ?? 'دفعة جديدة مستلمة' }}</span></div>
         </div>
       </div>
       <div class="sp-text">
-        <h3>{{ $content['spotlight1']['sp.orders.h'] ?? 'From task to invoice, effortlessly' }}</h3>
-        <p>{{ $content['spotlight1']['sp.orders.p'] ?? 'Turn logged hours into accurate invoices in one click.' }}</p>
+        <h3 data-i18n="sp.orders.h">{{ $content['spotlight1']['sp.orders.h'] ?? 'من المهمة إلى الفاتورة دون جهد' }}</h3>
+        <p data-i18n="sp.orders.p">{{ $content['spotlight1']['sp.orders.p'] ?? 'حوّل ساعات العمل المسجّلة إلى فواتير دقيقة بضغطة زر.' }}</p>
         <ul>
-          <li>{{ $content['spotlight1']['sp.orders.l1'] ?? 'Professional multi‑currency invoices with tax compliance' }}</li>
-          <li>{{ $content['spotlight1']['sp.orders.l2'] ?? 'Automated payment reminders via email and WhatsApp' }}</li>
-          <li>{{ $content['spotlight1']['sp.orders.l3'] ?? 'Direct integration with Stripe, PayPal and local gateways' }}</li>
+          <li data-i18n="sp.orders.l1">{{ $content['spotlight1']['sp.orders.l1'] ?? 'فواتير احترافية بعملات متعدّدة مع توافق ضريبي كامل' }}</li>
+          <li data-i18n="sp.orders.l2">{{ $content['spotlight1']['sp.orders.l2'] ?? 'تذكيرات دفع آلية عبر البريد الإلكتروني والرسائل الفورية' }}</li>
+          <li data-i18n="sp.orders.l3">{{ $content['spotlight1']['sp.orders.l3'] ?? 'ربط مباشر بأنظمة الدفع الإلكترونية الرائدة' }}</li>
         </ul>
       </div>
     </div>
@@ -219,42 +219,42 @@
     <!-- 2. Tasks / Projects board -->
     <div class="spotlight">
       <div class="sp-text">
-        <h3>{{ $content['spotlight2']['sp.res.h'] ?? 'A visual board for task management' }}</h3>
-        <p>{{ $content['spotlight2']['sp.res.p'] ?? 'Organize your team\'s work visually: from draft to done.' }}</p>
+        <h3 data-i18n="sp.res.h">{{ $content['spotlight2']['sp.res.h'] ?? 'لوحة بصرية لإدارة المهام' }}</h3>
+        <p data-i18n="sp.res.p">{{ $content['spotlight2']['sp.res.p'] ?? 'نظّم مهام الفريق بطريقة بصرية مرنة: من المسودّة إلى الإنجاز.' }}</p>
         <ul>
-          <li>{{ $content['spotlight2']['sp.res.l1'] ?? 'Kanban, Gantt and list views on the same data' }}</li>
-          <li>{{ $content['spotlight2']['sp.res.l2'] ?? 'Assign tasks with due dates and priorities' }}</li>
-          <li>{{ $content['spotlight2']['sp.res.l3'] ?? 'Time tracking per task and team member' }}</li>
+          <li data-i18n="sp.res.l1">{{ $content['spotlight2']['sp.res.l1'] ?? 'عروض متعددة — البطاقات والمخطط الزمني والقائمة — بنفس البيانات' }}</li>
+          <li data-i18n="sp.res.l2">{{ $content['spotlight2']['sp.res.l2'] ?? 'إسناد المهام مع مواعيد نهائية وأولويات' }}</li>
+          <li data-i18n="sp.res.l3">{{ $content['spotlight2']['sp.res.l3'] ?? 'تتبّع ساعات العمل لكل مهمة وموظف' }}</li>
         </ul>
       </div>
       <div class="mock res">
-        <div class="res-title">{{ $content['spotlight2']['res.title'] ?? 'Project Board' }}</div>
+        <div class="res-title" data-i18n="res.title">{{ $content['spotlight2']['res.title'] ?? 'لوحة المشاريع' }}</div>
         <div class="row">
-          <div class="pill"><div><span class="lab">{{ $content['spotlight2']['res.from'] ?? 'Period' }}</span><span class="v">{{ $content['spotlight2']['res.dateA'] ?? 'May 15 – 22' }}</span></div></div>
-          <div class="pill"><div><span class="lab">{{ $content['spotlight2']['res.to'] ?? 'Project' }}</span><span class="v">{{ $content['spotlight2']['res.dateB'] ?? 'Sawahel Website' }}</span></div></div>
+          <div class="pill"><div><span class="lab" data-i18n="res.from">{{ $content['spotlight2']['res.from'] ?? 'الفترة' }}</span><span class="v" data-i18n="res.dateA">{{ $content['spotlight2']['res.dateA'] ?? '١٥ – ٢٢ مايو' }}</span></div></div>
+          <div class="pill"><div><span class="lab" data-i18n="res.to">{{ $content['spotlight2']['res.to'] ?? 'المشروع' }}</span><span class="v" data-i18n="res.dateB">{{ $content['spotlight2']['res.dateB'] ?? 'موقع سواحل' }}</span></div></div>
         </div>
         <div class="row">
           <div class="pill" style="background:var(--soft)">
-            <div style="flex:1"><span class="lab">{{ $content['spotlight2']['res.t4'] ?? 'Homepage design' }}</span><span class="v">{{ $content['spotlight2']['res.fam'] ?? 'Sarah Al‑Mutairi · High priority' }}</span></div>
-            <span class="chip ok">{{ $content['spotlight2']['res.confirmed'] ?? 'Done' }}</span>
+            <div style="flex:1"><span class="lab" data-i18n="res.t4">{{ $content['spotlight2']['res.t4'] ?? 'تصميم الصفحة الرئيسية' }}</span><span class="v" data-i18n="res.fam">{{ $content['spotlight2']['res.fam'] ?? 'سارة المطيري · أولوية عالية' }}</span></div>
+            <span class="chip ok" data-i18n="res.confirmed">{{ $content['spotlight2']['res.confirmed'] ?? 'مكتملة' }}</span>
           </div>
         </div>
         <div class="row">
           <div class="pill">
-            <div style="flex:1"><span class="lab">{{ $content['spotlight2']['res.t7'] ?? 'Frontend build' }}</span><span class="v">{{ $content['spotlight2']['res.phone'] ?? 'Due May 20 · 12 hours' }}</span></div>
-            <span class="chip">{{ $content['spotlight2']['res.pending'] ?? 'In Progress' }}</span>
+            <div style="flex:1"><span class="lab" data-i18n="res.t7">{{ $content['spotlight2']['res.t7'] ?? 'برمجة واجهة المستخدم' }}</span><span class="v" data-i18n="res.phone">{{ $content['spotlight2']['res.phone'] ?? 'يستحقّ ٢٠ مايو · ١٢ ساعة' }}</span></div>
+            <span class="chip" data-i18n="res.pending">{{ $content['spotlight2']['res.pending'] ?? 'قيد التنفيذ' }}</span>
           </div>
         </div>
         <div class="row">
           <div class="pill">
-            <div style="flex:1"><span class="lab">{{ $content['spotlight2']['res.t2'] ?? 'Database setup' }}</span><span class="v">{{ $content['spotlight2']['res.cust3'] ?? 'Faisal Al‑Nemer · Medium priority' }}</span></div>
-            <span class="chip ok">{{ $content['spotlight2']['res.arrived'] ?? 'In Review' }}</span>
+            <div style="flex:1"><span class="lab" data-i18n="res.t2">{{ $content['spotlight2']['res.t2'] ?? 'إعداد قاعدة البيانات' }}</span><span class="v" data-i18n="res.cust3">{{ $content['spotlight2']['res.cust3'] ?? 'فيصل النمر · أولوية متوسطة' }}</span></div>
+            <span class="chip ok" data-i18n="res.arrived">{{ $content['spotlight2']['res.arrived'] ?? 'قيد المراجعة' }}</span>
           </div>
         </div>
         <div class="row">
           <div class="pill">
-            <div style="flex:1"><span class="lab">{{ $content['spotlight2']['res.t9'] ?? 'QA testing' }}</span><span class="v">{{ $content['spotlight2']['res.cust4'] ?? 'Noura Al‑Zahrani · 4 subtasks' }}</span></div>
-            <span class="chip">{{ $content['spotlight2']['res.pending'] ?? 'In Progress' }}</span>
+            <div style="flex:1"><span class="lab" data-i18n="res.t9">{{ $content['spotlight2']['res.t9'] ?? 'اختبار الجودة' }}</span><span class="v" data-i18n="res.cust4">{{ $content['spotlight2']['res.cust4'] ?? 'نورة الزهراني · ٤ مهام فرعية' }}</span></div>
+            <span class="chip" data-i18n="res.pending">{{ $content['spotlight2']['res.pending'] ?? 'قيد التنفيذ' }}</span>
           </div>
         </div>
       </div>
@@ -264,42 +264,42 @@
     <div class="spotlight">
       <div class="mock menu">
         <div class="tabs">
-          <span class="t on"><span>{{ $content['spotlight3']['menu.tab1'] ?? 'Active Clients' }}</span><span class="ct">٤</span></span>
-          <span class="t"><span>{{ $content['spotlight3']['menu.tab2'] ?? 'Leads' }}</span><span class="ct">٦</span></span>
-          <span class="t"><span>{{ $content['spotlight3']['menu.tab3'] ?? 'Archived' }}</span><span class="ct">٢</span></span>
+          <span class="t on"><span data-i18n="menu.tab1">{{ $content['spotlight3']['menu.tab1'] ?? 'عملاء نشطون' }}</span><span class="ct">٤</span></span>
+          <span class="t"><span data-i18n="menu.tab2">{{ $content['spotlight3']['menu.tab2'] ?? 'عملاء محتملون' }}</span><span class="ct">٦</span></span>
+          <span class="t"><span data-i18n="menu.tab3">{{ $content['spotlight3']['menu.tab3'] ?? 'مؤرشف' }}</span><span class="ct">٢</span></span>
         </div>
         <div class="menu-head">
-          <span class="title">{{ $content['spotlight3']['menu.tab1'] ?? 'Active Clients' }}</span>
-          <span class="update">{{ $content['spotlight3']['menu.update'] ?? 'Add Client' }}</span>
+          <span class="title" data-i18n="menu.tab1">{{ $content['spotlight3']['menu.tab1'] ?? 'عملاء نشطون' }}</span>
+          <span class="update" data-i18n="menu.update">{{ $content['spotlight3']['menu.update'] ?? 'إضافة عميل' }}</span>
         </div>
         <div class="item-row">
           <div class="thumb"></div>
-          <div><div class="n">{{ $content['spotlight3']['menu.i1n'] ?? 'Al‑Ofuq Trading Co.' }}</div><div class="d">{{ $content['spotlight3']['menu.i1d'] ?? '3 active projects' }}</div></div>
-          <div class="price"><span>{{ $content['spotlight3']['menu.p42'] ?? '$11,200' }}</span></div>
+          <div><div class="n" data-i18n="menu.i1n">{{ $content['spotlight3']['menu.i1n'] ?? 'مؤسسة الأفق التجارية' }}</div><div class="d" data-i18n="menu.i1d">{{ $content['spotlight3']['menu.i1d'] ?? '٣ مشاريع نشطة · آخر تواصل قبل يومين' }}</div></div>
+          <div class="price"><span data-i18n="menu.p42">{{ $content['spotlight3']['menu.p42'] ?? '٤٢٬٠٠٠ ر.س' }}</span></div>
         </div>
         <div class="item-row">
           <div class="thumb b"></div>
-          <div><div class="n">{{ $content['spotlight3']['menu.i2n'] ?? 'Nasaem Tech Co.' }}</div><div class="d">{{ $content['spotlight3']['menu.i2d'] ?? '2 active projects' }}</div></div>
-          <div class="price"><span>{{ $content['spotlight3']['menu.p38'] ?? '$10,260' }}</span></div>
+          <div><div class="n" data-i18n="menu.i2n">{{ $content['spotlight3']['menu.i2n'] ?? 'شركة نسائم للتقنية' }}</div><div class="d" data-i18n="menu.i2d">{{ $content['spotlight3']['menu.i2d'] ?? 'مشروعان نشطان · فاتورة معلّقة' }}</div></div>
+          <div class="price"><span data-i18n="menu.p38">{{ $content['spotlight3']['menu.p38'] ?? '٣٨٬٥٠٠ ر.س' }}</span></div>
         </div>
         <div class="item-row">
           <div class="thumb c"></div>
-          <div><div class="n">{{ $content['spotlight3']['menu.i3n'] ?? 'Basma E‑Store' }}</div><div class="d">{{ $content['spotlight3']['menu.i3d'] ?? '1 project' }}</div></div>
-          <div class="price"><span>{{ $content['spotlight3']['menu.p28'] ?? '$7,520' }}</span></div>
+          <div><div class="n" data-i18n="menu.i3n">{{ $content['spotlight3']['menu.i3n'] ?? 'متجر بسمة الإلكتروني' }}</div><div class="d" data-i18n="menu.i3d">{{ $content['spotlight3']['menu.i3d'] ?? 'مشروع واحد · في مرحلة الاختبار' }}</div></div>
+          <div class="price"><span data-i18n="menu.p28">{{ $content['spotlight3']['menu.p28'] ?? '٢٨٬٢٠٠ ر.س' }}</span></div>
         </div>
         <div class="item-row">
           <div class="thumb d"></div>
-          <div><div class="n">{{ $content['spotlight3']['menu.i4n'] ?? 'Riyadh Destination Group' }}</div><div class="d">{{ $content['spotlight3']['menu.i4d'] ?? '4 projects · VIP client since 2023' }}</div></div>
-          <div class="price"><span>{{ $content['spotlight3']['menu.p45'] ?? '$12,240' }}</span></div>
+          <div><div class="n" data-i18n="menu.i4n">{{ $content['spotlight3']['menu.i4n'] ?? 'مجموعة وجهة الرياض' }}</div><div class="d" data-i18n="menu.i4d">{{ $content['spotlight3']['menu.i4d'] ?? '٤ مشاريع · عميل مميز منذ ٢٠٢٣' }}</div></div>
+          <div class="price"><span data-i18n="menu.p45">{{ $content['spotlight3']['menu.p45'] ?? '٤٥٬٩٠٠ ر.س' }}</span></div>
         </div>
       </div>
       <div class="sp-text">
-        <h3>{{ $content['spotlight3']['sp.menu.h'] ?? 'A built‑in CRM for client relationships' }}</h3>
-        <p>{{ $content['spotlight3']['sp.menu.p'] ?? 'Store contacts, track sales opportunities from quote to close.' }}</p>
+        <h3 data-i18n="sp.menu.h">{{ $content['spotlight3']['sp.menu.h'] ?? 'نظام متكامل لإدارة علاقات العملاء' }}</h3>
+        <p data-i18n="sp.menu.p">{{ $content['spotlight3']['sp.menu.p'] ?? 'احفظ جهات الاتصال، تتبّع الفرص البيعية من العرض حتى الإغلاق.' }}</p>
         <ul>
-          <li>{{ $content['spotlight3']['sp.menu.l1'] ?? 'Customizable sales pipeline' }}</li>
-          <li>{{ $content['spotlight3']['sp.menu.l2'] ?? 'Full quote and contract history per client' }}</li>
-          <li>{{ $content['spotlight3']['sp.menu.l3'] ?? 'Secure client portal for projects and invoices' }}</li>
+          <li data-i18n="sp.menu.l1">{{ $content['spotlight3']['sp.menu.l1'] ?? 'مسار مبيعات قابل للتخصيص' }}</li>
+          <li data-i18n="sp.menu.l2">{{ $content['spotlight3']['sp.menu.l2'] ?? 'سجل كامل للعروض والعقود لكل عميل' }}</li>
+          <li data-i18n="sp.menu.l3">{{ $content['spotlight3']['sp.menu.l3'] ?? 'بوابة عملاء آمنة لمشاركة المشاريع والفواتير' }}</li>
         </ul>
       </div>
     </div>
@@ -309,48 +309,48 @@
 <!-- FEATURES GRID -->
 <section class="section" style="padding-top:0">
   <div class="wrap">
-    <h2>{!! $content['features']['sec.allInOneTitle'] ?? 'Everything you need <span class="accent">in one place</span>' !!}</h2>
-    <p class="lead">{{ $content['features']['sec.allInOneLead'] ?? 'A complete platform for every side of your business.' }}</p>
+    <h2 data-i18n-html="sec.allInOneTitle">{!! $content['features']['sec.allInOneTitle'] ?? 'كل ما تحتاجه <span class="accent">في مكان واحد</span>' !!}</h2>
+    <p class="lead" data-i18n="sec.allInOneLead">{{ $content['features']['sec.allInOneLead'] ?? 'منظومة متكاملة لإدارة كل جوانب عملك — من المشاريع إلى الموظفين إلى تقارير الأداء.' }}</p>
     <div class="features">
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></div>
-        <h4>{{ $content['features']['ft.pos.h'] ?? 'Project management' }}</h4>
-        <p>{{ $content['features']['ft.pos.p'] ?? 'Plan, execute and monitor projects.' }}</p>
+        <h4 data-i18n="ft.pos.h">{{ $content['features']['ft.pos.h'] ?? 'إدارة المشاريع' }}</h4>
+        <p data-i18n="ft.pos.p">{{ $content['features']['ft.pos.p'] ?? 'خطّط ونفّذ وراقب مشاريعك بعروض البطاقات والمخطط الزمني والقائمة.' }}</p>
       </div>
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7h18M3 12h18M3 17h12"/></svg></div>
-        <h4>{{ $content['features']['ft.rep.h'] ?? 'Smart reports' }}</h4>
-        <p>{{ $content['features']['ft.rep.p'] ?? 'Live reports on revenue, productivity and profitability.' }}</p>
+        <h4 data-i18n="ft.rep.h">{{ $content['features']['ft.rep.h'] ?? 'تقارير ذكية' }}</h4>
+        <p data-i18n="ft.rep.p">{{ $content['features']['ft.rep.p'] ?? 'تقارير حيّة وفورية عن الإيرادات والإنتاجية والربحية لكل مشروع.' }}</p>
       </div>
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M8 3v6"/></svg></div>
-        <h4>{{ $content['features']['ft.inv.h'] ?? 'Invoices & estimates' }}</h4>
-        <p>{{ $content['features']['ft.inv.p'] ?? 'E‑quotes, e‑invoices and contracts with full tax compliance.' }}</p>
+        <h4 data-i18n="ft.inv.h">{{ $content['features']['ft.inv.h'] ?? 'الفواتير والعروض' }}</h4>
+        <p data-i18n="ft.inv.p">{{ $content['features']['ft.inv.p'] ?? 'عروض أسعار وفواتير وعقود إلكترونية بتوافق ضريبي كامل.' }}</p>
       </div>
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
-        <h4>{{ $content['features']['ft.stock.h'] ?? 'Time tracking' }}</h4>
-        <p>{{ $content['features']['ft.stock.p'] ?? 'Log team hours per task; cost and profitability calculated automatically.' }}</p>
+        <h4 data-i18n="ft.stock.h">{{ $content['features']['ft.stock.h'] ?? 'تتبّع ساعات العمل' }}</h4>
+        <p data-i18n="ft.stock.p">{{ $content['features']['ft.stock.p'] ?? 'سجّل ساعات الفريق على كل مهمة، واحسب التكلفة والربحية تلقائيًا.' }}</p>
       </div>
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
-        <h4>{{ $content['features']['ft.staff.h'] ?? 'Team & permissions' }}</h4>
-        <p>{{ $content['features']['ft.staff.p'] ?? 'Manage team, leaves, attendance, and role‑based access.' }}</p>
+        <h4 data-i18n="ft.staff.h">{{ $content['features']['ft.staff.h'] ?? 'الموارد البشرية والصلاحيات' }}</h4>
+        <p data-i18n="ft.staff.p">{{ $content['features']['ft.staff.p'] ?? 'إدارة الفريق والإجازات والحضور والانصراف وصلاحيات كل دور وظيفي.' }}</p>
       </div>
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 0 1-9.5 8.5L3 21l1-7A8 8 0 1 1 21 11.5z"/></svg></div>
-        <h4>{{ $content['features']['ft.comm.h'] ?? 'Team chat' }}</h4>
-        <p>{{ $content['features']['ft.comm.p'] ?? 'Project channels, instant notifications, and comments on tasks.' }}</p>
+        <h4 data-i18n="ft.comm.h">{{ $content['features']['ft.comm.h'] ?? 'دردشة الفريق' }}</h4>
+        <p data-i18n="ft.comm.p">{{ $content['features']['ft.comm.p'] ?? 'قنوات نقاش لكل مشروع وإشعارات فورية وتعليقات على المهام.' }}</p>
       </div>
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M2 10h20"/></svg></div>
-        <h4>{{ $content['features']['ft.pay.h'] ?? 'Online payments' }}</h4>
-        <p>{{ $content['features']['ft.pay.p'] ?? 'Accept cards, Apple Pay, STC Pay, Stripe, PayPal and bank transfers.' }}</p>
+        <h4 data-i18n="ft.pay.h">{{ $content['features']['ft.pay.h'] ?? 'المدفوعات الإلكترونية' }}</h4>
+        <p data-i18n="ft.pay.p">{{ $content['features']['ft.pay.p'] ?? 'قبول البطاقات الائتمانية ومدى والتحويلات البنكية وعدد من بوابات الدفع الرائدة.' }}</p>
       </div>
       <div class="feat">
         <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h10"/><circle cx="18" cy="17" r="2"/></svg></div>
-        <h4>{{ $content['features']['ft.sup.h'] ?? 'Support tickets' }}</h4>
-        <p>{{ $content['features']['ft.sup.p'] ?? 'Built‑in helpdesk to receive client requests and respond fast.' }}</p>
+        <h4 data-i18n="ft.sup.h">{{ $content['features']['ft.sup.h'] ?? 'تذاكر الدعم الفني' }}</h4>
+        <p data-i18n="ft.sup.p">{{ $content['features']['ft.sup.p'] ?? 'نظام دعم فني مدمج لاستقبال طلبات العملاء والردّ عليها بسرعة.' }}</p>
       </div>
     </div>
   </div>
@@ -359,31 +359,31 @@
 <!-- TESTIMONIALS -->
 <section class="section testimonials">
   <div class="wrap">
-    <h2>{!! $content['testimonials']['sec.testTitle'] ?? 'What our <span class="accent">customers say</span>' !!}</h2>
-    <p class="lead">{{ $content['testimonials']['sec.testLead'] ?? 'Thousands of teams and businesses trust Retont Business.' }}</p>
+    <h2 data-i18n-html="sec.testTitle">{!! $content['testimonials']['sec.testTitle'] ?? 'ماذا يقول <span class="accent">عملاؤنا</span>' !!}</h2>
+    <p class="lead" data-i18n="sec.testLead">{{ $content['testimonials']['sec.testLead'] ?? 'آلاف الفرق والشركات تعتمد على Retont Business لتشغيل أعمالها اليومية.' }}</p>
     <div class="quotes">
       <div class="q">
         <div class="stars">★★★★★</div>
-        <div class="body">{{ $content['testimonials']['q1.body'] ?? '"We used to run five different tools. Today it all lives inside Retont Business."' }}</div>
+        <div class="body" data-i18n="q1.body">{{ $content['testimonials']['q1.body'] ?? '"كنّا نستخدم خمسة أدوات مختلفة لإدارة المشاريع والفواتير. اليوم كل شيء داخل Retont Business."' }}</div>
         <div class="who">
           <div class="av"></div>
-          <div><div class="name">{{ $content['testimonials']['q1.name'] ?? 'Khaled Al‑Omari' }}</div><div class="role">{{ $content['testimonials']['q1.role'] ?? 'CEO · Ithraa Digital Agency' }}</div></div>
+          <div><div class="name" data-i18n="q1.name">{{ $content['testimonials']['q1.name'] ?? 'خالد العمري' }}</div><div class="role" data-i18n="q1.role">{{ $content['testimonials']['q1.role'] ?? 'المدير التنفيذي · وكالة إثراء الرقمية' }}</div></div>
         </div>
       </div>
       <div class="q">
         <div class="stars">★★★★★</div>
-        <div class="body">{{ $content['testimonials']['q2.body'] ?? '"Linking time logs to tasks and invoices changed how we work."' }}</div>
+        <div class="body" data-i18n="q2.body">{{ $content['testimonials']['q2.body'] ?? '"تتبّع ساعات العمل والربط بين المهام والفواتير غيّر طريقة عملنا."' }}</div>
         <div class="who">
           <div class="av"></div>
-          <div><div class="name">{{ $content['testimonials']['q2.name'] ?? 'Reem Al‑Dosari' }}</div><div class="role">{{ $content['testimonials']['q2.role'] ?? 'Operations Manager · Namat Studio' }}</div></div>
+          <div><div class="name" data-i18n="q2.name">{{ $content['testimonials']['q2.name'] ?? 'ريم الدوسري' }}</div><div class="role" data-i18n="q2.role">{{ $content['testimonials']['q2.role'] ?? 'مديرة العمليات · استوديو نَمَط' }}</div></div>
         </div>
       </div>
       <div class="q">
         <div class="stars">★★★★★</div>
-        <div class="body">{{ $content['testimonials']['q3.body'] ?? '"The client portal made our company look genuinely professional."' }}</div>
+        <div class="body" data-i18n="q3.body">{{ $content['testimonials']['q3.body'] ?? '"بوابة العملاء أعطت شركتنا مظهرًا احترافيًا حقيقيًا."' }}</div>
         <div class="who">
           <div class="av"></div>
-          <div><div class="name">{{ $content['testimonials']['q3.name'] ?? 'Majed Al‑Shehri' }}</div><div class="role">{{ $content['testimonials']['q3.role'] ?? 'Co‑Founder · Software Development Co.' }}</div></div>
+          <div><div class="name" data-i18n="q3.name">{{ $content['testimonials']['q3.name'] ?? 'ماجد الشهري' }}</div><div class="role" data-i18n="q3.role">{{ $content['testimonials']['q3.role'] ?? 'شريك مؤسس · شركة تطوير برمجيات' }}</div></div>
         </div>
       </div>
     </div>
@@ -393,60 +393,60 @@
 <!-- PRICING -->
 <section class="section" id="pricing">
   <div class="wrap">
-    <h2>{!! $content['pricing']['sec.pricingTitle'] ?? 'Simple, <span class="accent">transparent pricing</span>' !!}</h2>
-    <p class="lead">{{ $content['pricing']['sec.pricingLead'] ?? 'Pick the plan that fits your team. No hidden fees — cancel anytime.' }}</p>
+    <h2 data-i18n-html="sec.pricingTitle">{!! $content['pricing']['sec.pricingTitle'] ?? 'خطط واضحة <span class="accent">ومرنة</span>' !!}</h2>
+    <p class="lead" data-i18n="sec.pricingLead">{{ $content['pricing']['sec.pricingLead'] ?? 'اختر الخطة المناسبة لحجم فريقك. بدون رسوم مخفية، يمكنك إلغاء الاشتراك في أي وقت.' }}</p>
     <div class="pricing-toggle">
       <div class="pt">
-        <button class="on">{{ $content['pricing']['pr.monthly'] ?? 'Monthly' }}</button>
-        <button>{{ $content['pricing']['pr.yearly'] ?? 'Yearly · save 20%' }}</button>
+        <button class="on" data-i18n="pr.monthly">{{ $content['pricing']['pr.monthly'] ?? 'شهري' }}</button>
+        <button data-i18n="pr.yearly">{{ $content['pricing']['pr.yearly'] ?? 'سنوي · وفّر ٢٠٪' }}</button>
       </div>
     </div>
     <div class="price-cards">
       <div class="pc">
-        <div class="label">{{ $content['pricing']['pr.basic'] ?? 'Basic' }}</div>
+        <div class="label" data-i18n="pr.basic">{{ $content['pricing']['pr.basic'] ?? 'الباقة الأساسية' }}</div>
         <div class="price">
-          <span class="per">{{ $content['pricing']['pr.per'] ?? 'USD/month' }}</span>
-          <span id="price-basic">{{ $content['pricing']['pr.price.basic.monthly'] ?? '49' }}</span>
+          <span class="per" data-i18n="pr.per">{{ $content['pricing']['pr.per'] ?? 'ر.س/شهر' }}</span>
+          <span id="price-basic">{{ $content['pricing']['pr.price.basic.monthly'] ?? '199' }}</span>
         </div>
-        <div class="note">{{ $content['pricing']['pr.basicNote'] ?? 'For small teams of up to 5 users' }}</div>
-        <a class="btn btn-outline" href="#">{{ $content['pricing']['pr.start'] ?? 'Start your trial' }}</a>
+        <div class="note" data-i18n="pr.basicNote">{{ $content['pricing']['pr.basicNote'] ?? 'للفرق الصغيرة حتى ٥ مستخدمين' }}</div>
+        <a class="btn btn-outline" href="#" data-i18n="pr.start">{{ $content['pricing']['pr.start'] ?? 'ابدأ تجربتك' }}</a>
       </div>
-      <div class="pc pop" data-popular="{{ $content['pricing']['pr.popular'] ?? 'Most popular' }}">
-        <div class="label">{{ $content['pricing']['pr.pro'] ?? 'Professional' }}</div>
+      <div class="pc pop" data-popular="{{ $content['pricing']['pr.popular'] ?? 'الأكثر شعبية' }}">
+        <div class="label" data-i18n="pr.pro">{{ $content['pricing']['pr.pro'] ?? 'الباقة الاحترافية' }}</div>
         <div class="price">
-          <span class="per">{{ $content['pricing']['pr.per'] ?? 'USD/month' }}</span>
-          <span id="price-pro">{{ $content['pricing']['pr.price.pro.monthly'] ?? '129' }}</span>
+          <span class="per" data-i18n="pr.per">{{ $content['pricing']['pr.per'] ?? 'ر.س/شهر' }}</span>
+          <span id="price-pro">{{ $content['pricing']['pr.price.pro.monthly'] ?? '499' }}</span>
         </div>
-        <div class="note">{{ $content['pricing']['pr.proNote'] ?? 'For growing companies with unlimited users' }}</div>
-        <a class="btn btn-primary" href="#">{{ $content['pricing']['pr.start'] ?? 'Start your trial' }}</a>
+        <div class="note" data-i18n="pr.proNote">{{ $content['pricing']['pr.proNote'] ?? 'للشركات المتنامية بمستخدمين غير محدودين' }}</div>
+        <a class="btn btn-primary" href="#" data-i18n="pr.start">{{ $content['pricing']['pr.start'] ?? 'ابدأ تجربتك' }}</a>
       </div>
     </div>
 
     <table class="price-table">
       <thead>
         <tr>
-          <th style="text-align:start">{{ $content['pricing']['pt.features'] ?? 'Features' }}</th>
-          <th>{{ $content['pricing']['pr.basic'] ?? 'Basic' }}</th>
-          <th>{{ $content['pricing']['pr.pro'] ?? 'Professional' }}</th>
+          <th style="text-align:start" data-i18n="pt.features">{{ $content['pricing']['pt.features'] ?? 'المميزات' }}</th>
+          <th data-i18n="pr.basic">{{ $content['pricing']['pr.basic'] ?? 'الباقة الأساسية' }}</th>
+          <th data-i18n="pr.pro">{{ $content['pricing']['pr.pro'] ?? 'الباقة الاحترافية' }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>{{ $content['pricing']['pt.branches'] ?? 'Projects' }}</td><td>{{ $content['pricing']['pt.one'] ?? 'Up to 10' }}</td><td>{{ $content['pricing']['pt.unlim'] ?? 'Unlimited' }}</td></tr>
-        <tr><td>{{ $content['pricing']['pt.staffN'] ?? 'Users' }}</td><td>{{ $content['pricing']['pt.upto5'] ?? 'Up to 5' }}</td><td>{{ $content['pricing']['pt.unlim'] ?? 'Unlimited' }}</td></tr>
-        <tr><td>{{ $content['pricing']['pt.posR'] ?? 'Projects & tasks' }}</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>{{ $content['pricing']['pt.ordRes'] ?? 'Invoices & estimates' }}</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>{{ $content['pricing']['pt.invR'] ?? 'CRM & client portal' }}</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>{{ $content['pricing']['pt.advRep'] ?? 'Advanced reports' }}</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>{{ $content['pricing']['pt.deliv'] ?? 'Online payment integrations' }}</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
-        <tr><td>{{ $content['pricing']['pt.supp'] ?? 'Support' }}</td><td>{{ $content['pricing']['pt.email'] ?? 'Email' }}</td><td>{{ $content['pricing']['pt.support247'] ?? 'Dedicated 24/7' }}</td></tr>
+        <tr><td data-i18n="pt.branches">{{ $content['pricing']['pt.branches'] ?? 'عدد المشاريع' }}</td><td data-i18n="pt.one">{{ $content['pricing']['pt.one'] ?? 'حتى ١٠ مشاريع' }}</td><td data-i18n="pt.unlim">{{ $content['pricing']['pt.unlim'] ?? 'غير محدود' }}</td></tr>
+        <tr><td data-i18n="pt.staffN">{{ $content['pricing']['pt.staffN'] ?? 'عدد المستخدمين' }}</td><td data-i18n="pt.upto5">{{ $content['pricing']['pt.upto5'] ?? 'حتى ٥' }}</td><td data-i18n="pt.unlim">{{ $content['pricing']['pt.unlim'] ?? 'غير محدود' }}</td></tr>
+        <tr><td data-i18n="pt.posR">{{ $content['pricing']['pt.posR'] ?? 'إدارة المشاريع والمهام' }}</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td data-i18n="pt.ordRes">{{ $content['pricing']['pt.ordRes'] ?? 'الفواتير والعروض' }}</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td data-i18n="pt.invR">{{ $content['pricing']['pt.invR'] ?? 'إدارة العملاء وبوابتهم' }}</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td data-i18n="pt.advRep">{{ $content['pricing']['pt.advRep'] ?? 'تقارير وتحليلات متقدمة' }}</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td data-i18n="pt.deliv">{{ $content['pricing']['pt.deliv'] ?? 'تكامل مع المدفوعات الإلكترونية' }}</td><td><span class="dash">—</span></td><td><span class="check">✓</span></td></tr>
+        <tr><td data-i18n="pt.supp">{{ $content['pricing']['pt.supp'] ?? 'الدعم الفني' }}</td><td data-i18n="pt.email">{{ $content['pricing']['pt.email'] ?? 'بريد إلكتروني' }}</td><td data-i18n="pt.support247">{{ $content['pricing']['pt.support247'] ?? 'دعم مخصص ٢٤/٧' }}</td></tr>
       </tbody>
     </table>
 
     {{-- Store pricing data for JS toggle --}}
     <script>
       window.PRICING = {
-        basic:  { monthly: {{ json_encode($content['pricing']['pr.price.basic.monthly'] ?? '49') }},  yearly: {{ json_encode($content['pricing']['pr.price.basic.yearly'] ?? '39') }} },
-        pro:    { monthly: {{ json_encode($content['pricing']['pr.price.pro.monthly'] ?? '129') }},  yearly: {{ json_encode($content['pricing']['pr.price.pro.yearly'] ?? '103') }} }
+        basic:  { monthly: {{ json_encode($content['pricing']['pr.price.basic.monthly'] ?? '199') }},  yearly: {{ json_encode($content['pricing']['pr.price.basic.yearly'] ?? '159') }} },
+        pro:    { monthly: {{ json_encode($content['pricing']['pr.price.pro.monthly'] ?? '499') }},  yearly: {{ json_encode($content['pricing']['pr.price.pro.yearly'] ?? '399') }} }
       };
     </script>
   </div>
@@ -455,15 +455,15 @@
 <!-- FAQ -->
 <section class="section testimonials" id="faq" style="background:var(--bg);border-top:1px solid var(--line)">
   <div class="wrap">
-    <h2>{!! $content['faq']['sec.faqTitle'] ?? 'Frequently asked <span class="accent">questions</span>' !!}</h2>
-    <p class="lead">{{ $content['faq']['sec.faqLead'] ?? 'Answers to the most common questions about the Retont Business platform.' }}</p>
+    <h2 data-i18n-html="sec.faqTitle">{!! $content['faq']['sec.faqTitle'] ?? 'الأسئلة <span class="accent">الشائعة</span>' !!}</h2>
+    <p class="lead" data-i18n="sec.faqLead">{{ $content['faq']['sec.faqLead'] ?? 'إجابات على أكثر الأسئلة شيوعًا حول منصة Retont Business.' }}</p>
     <div class="faq-grid">
-      <div class="faq"><h5>{{ $content['faq']['faq.q1'] ?? 'Can I try the platform before subscribing?' }}</h5><p>{{ $content['faq']['faq.a1'] ?? 'Yes — a 30‑day free trial with all features, no credit card required.' }}</p></div>
-      <div class="faq"><h5>{{ $content['faq']['faq.q2'] ?? 'Is the platform cloud‑based or self‑hosted?' }}</h5><p>{{ $content['faq']['faq.a2'] ?? 'Fully cloud‑based (SaaS) — no installation, no maintenance.' }}</p></div>
-      <div class="faq"><h5>{{ $content['faq']['faq.q3'] ?? 'Do you support e‑invoicing?' }}</h5><p>{{ $content['faq']['faq.a3'] ?? 'Yes, we\'re fully compliant with Saudi ZATCA e‑invoicing (Fatoora) requirements.' }}</p></div>
-      <div class="faq"><h5>{{ $content['faq']['faq.q4'] ?? 'Can I migrate my data from another system?' }}</h5><p>{{ $content['faq']['faq.a4'] ?? 'Absolutely. Our team migrates your clients, projects and invoices for free.' }}</p></div>
-      <div class="faq"><h5>{{ $content['faq']['faq.q5'] ?? 'Which payment methods can my clients use?' }}</h5><p>{{ $content['faq']['faq.a5'] ?? 'Credit cards, mada, STC Pay, Apple Pay, Stripe, PayPal, and direct bank transfer.' }}</p></div>
-      <div class="faq"><h5>{{ $content['faq']['faq.q6'] ?? 'Can I cancel anytime?' }}</h5><p>{{ $content['faq']['faq.a6'] ?? 'Yes — the subscription is monthly and can be cancelled anytime, no extra fees.' }}</p></div>
+      <div class="faq"><h5 data-i18n="faq.q1">{{ $content['faq']['faq.q1'] ?? 'هل أستطيع تجربة المنصة قبل الاشتراك؟' }}</h5><p data-i18n="faq.a1">{{ $content['faq']['faq.a1'] ?? 'نعم، نقدّم تجربة مجانية لمدة ٣٠ يومًا بكل المميزات دون الحاجة لبطاقة ائتمانية.' }}</p></div>
+      <div class="faq"><h5 data-i18n="faq.q2">{{ $content['faq']['faq.q2'] ?? 'هل المنصة سحابية أم تعمل على خوادمي؟' }}</h5><p data-i18n="faq.a2">{{ $content['faq']['faq.a2'] ?? 'المنصة سحابية بالكامل — لا حاجة لتثبيت أو صيانة. تعمل من أي متصفّح أو جهاز.' }}</p></div>
+      <div class="faq"><h5 data-i18n="faq.q3">{{ $content['faq']['faq.q3'] ?? 'هل تدعم المنصة الفوترة الإلكترونية؟' }}</h5><p data-i18n="faq.a3">{{ $content['faq']['faq.a3'] ?? 'نعم، نحن متوافقون بالكامل مع متطلبات هيئة الزكاة والضريبة والجمارك للفوترة الإلكترونية.' }}</p></div>
+      <div class="faq"><h5 data-i18n="faq.q4">{{ $content['faq']['faq.q4'] ?? 'هل يمكنني نقل بياناتي من نظام آخر؟' }}</h5><p data-i18n="faq.a4">{{ $content['faq']['faq.a4'] ?? 'بالتأكيد، فريقنا التقني يساعدك في نقل بيانات العملاء والمشاريع والفواتير مجانًا.' }}</p></div>
+      <div class="faq"><h5 data-i18n="faq.q5">{{ $content['faq']['faq.q5'] ?? 'ما طرق الدفع المقبولة من عملائي؟' }}</h5><p data-i18n="faq.a5">{{ $content['faq']['faq.a5'] ?? 'يمكن لعملائك الدفع عبر البطاقات الائتمانية ومدى وعدد من بوابات الدفع الإلكترونية والتحويل البنكي.' }}</p></div>
+      <div class="faq"><h5 data-i18n="faq.q6">{{ $content['faq']['faq.q6'] ?? 'هل أستطيع إلغاء الاشتراك في أي وقت؟' }}</h5><p data-i18n="faq.a6">{{ $content['faq']['faq.a6'] ?? 'نعم، الاشتراك شهري ويمكنك إلغاؤه في أي وقت دون رسوم إضافية.' }}</p></div>
     </div>
   </div>
 </section>
@@ -471,26 +471,26 @@
 <!-- CONTACT -->
 <section class="section" id="contact" style="padding-top:40px">
   <div class="wrap">
-    <h2>{!! $content['contact']['sec.contactTitle'] ?? 'Get in <span class="accent">touch</span>' !!}</h2>
-    <p class="lead">{{ $content['contact']['sec.contactLead'] ?? 'Our team is ready to answer your questions and prepare a custom demo for your business.' }}</p>
+    <h2 data-i18n-html="sec.contactTitle">{!! $content['contact']['sec.contactTitle'] ?? 'تواصل <span class="accent">معنا</span>' !!}</h2>
+    <p class="lead" data-i18n="sec.contactLead">{{ $content['contact']['sec.contactLead'] ?? 'فريقنا جاهز للإجابة على استفساراتك وتقديم عرض توضيحي مخصص لعملك.' }}</p>
     <div class="contact-row">
 
       {{-- Left: Contact info --}}
       <div class="contact-info">
         <div class="field">
-          <h4>{{ $content['contact']['ct.loc'] ?? 'Location' }}</h4>
-          <div class="v">{{ $content['contact']['ct.locV'] ?? 'Riyadh, Kingdom of Saudi Arabia' }}</div>
-          <div class="l">{{ $content['contact']['ct.locL'] ?? 'King Fahd Road, Al‑Olaya' }}</div>
+          <h4 data-i18n="ct.loc">{{ $content['contact']['ct.loc'] ?? 'الموقع' }}</h4>
+          <div class="v" data-i18n="ct.locV">{{ $content['contact']['ct.locV'] ?? 'الرياض، المملكة العربية السعودية' }}</div>
+          <div class="l" data-i18n="ct.locL">{{ $content['contact']['ct.locL'] ?? 'طريق الملك فهد، حي العليا' }}</div>
         </div>
         <div class="field">
-          <h4>{{ $content['contact']['ct.email'] ?? 'Email' }}</h4>
+          <h4 data-i18n="ct.email">{{ $content['contact']['ct.email'] ?? 'البريد الإلكتروني' }}</h4>
           <div class="v">hello@retont.business</div>
-          <div class="l">{{ $content['contact']['ct.emailL'] ?? 'For general inquiries and sales' }}</div>
+          <div class="l" data-i18n="ct.emailL">{{ $content['contact']['ct.emailL'] ?? 'للاستفسارات العامة والمبيعات' }}</div>
         </div>
         <div class="field">
-          <h4>{{ $content['contact']['ct.phone'] ?? 'Phone' }}</h4>
+          <h4 data-i18n="ct.phone">{{ $content['contact']['ct.phone'] ?? 'الهاتف' }}</h4>
           <div class="v">+966 555 123 456</div>
-          <div class="l">{{ $content['contact']['ct.phoneL'] ?? 'Sunday – Thursday · 9 AM – 6 PM' }}</div>
+          <div class="l" data-i18n="ct.phoneL">{{ $content['contact']['ct.phoneL'] ?? 'من الأحد إلى الخميس · ٩ صباحًا – ٦ مساءً' }}</div>
         </div>
       </div>
 
@@ -565,7 +565,7 @@
       @endif
       <span style="font-size:16px">{{ $settings['site_name'] ?? 'Retont Business' }}</span>
     </div>
-    <div>{{ $content['footer']['footer.rights'] ?? '© 2026 Retont Business. All rights reserved.' }}</div>
+    <div data-i18n="footer.rights">{{ $content['footer']['footer.rights'] ?? '© ٢٠٢٦ Retont Business. جميع الحقوق محفوظة.' }}</div>
     <div class="social">
       <a href="#" aria-label="X (Twitter)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.41 8.466L23 22h-6.8l-5.32-6.95L4.8 22H1.54l7.93-9.06L1 2h6.96l4.81 6.36L18.244 2zm-1.19 18h1.88L7.05 4H5.04l12.014 16z"/></svg>
@@ -581,10 +581,10 @@
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 0 1 0 18M12 3a13.5 13.5 0 0 0 0 18"/></svg>
         </button>
         <div class="lang-menu" id="langMenu" role="menu">
-          <a href="?lang=ar" role="menuitem" class="{{ $lang === 'ar' ? 'active' : '' }}"><span class="flag">🇸🇦</span><span class="lbl">العربية</span>@if($lang === 'ar')<span class="ck">✓</span>@endif</a>
-          <a href="?lang=en" role="menuitem" class="{{ $lang === 'en' ? 'active' : '' }}"><span class="flag">🇬🇧</span><span class="lbl">English</span>@if($lang === 'en')<span class="ck">✓</span>@endif</a>
-          <a href="?lang=nl" role="menuitem" class="{{ $lang === 'nl' ? 'active' : '' }}"><span class="flag">🇳🇱</span><span class="lbl">Nederlands</span>@if($lang === 'nl')<span class="ck">✓</span>@endif</a>
-          <a href="?lang=de" role="menuitem" class="{{ $lang === 'de' ? 'active' : '' }}"><span class="flag">🇩🇪</span><span class="lbl">Deutsch</span>@if($lang === 'de')<span class="ck">✓</span>@endif</a>
+          <a href="?lang=ar" role="menuitem" class="{{ $lang === 'ar' ? 'active' : '' }}" onclick="localStorage.setItem('rt_lang','ar')"><span class="flag">🇸🇦</span><span class="lbl">العربية</span>@if($lang === 'ar')<span class="ck">✓</span>@endif</a>
+          <a href="?lang=en" role="menuitem" class="{{ $lang === 'en' ? 'active' : '' }}" onclick="localStorage.setItem('rt_lang','en')"><span class="flag">🇬🇧</span><span class="lbl">English</span>@if($lang === 'en')<span class="ck">✓</span>@endif</a>
+          <a href="?lang=nl" role="menuitem" class="{{ $lang === 'nl' ? 'active' : '' }}" onclick="localStorage.setItem('rt_lang','nl')"><span class="flag">🇳🇱</span><span class="lbl">Nederlands</span>@if($lang === 'nl')<span class="ck">✓</span>@endif</a>
+          <a href="?lang=de" role="menuitem" class="{{ $lang === 'de' ? 'active' : '' }}" onclick="localStorage.setItem('rt_lang','de')"><span class="flag">🇩🇪</span><span class="lbl">Deutsch</span>@if($lang === 'de')<span class="ck">✓</span>@endif</a>
         </div>
       </div>
     </div>
