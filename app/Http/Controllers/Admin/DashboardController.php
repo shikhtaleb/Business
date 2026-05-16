@@ -33,6 +33,8 @@ class DashboardController extends Controller
             'posts'       => ['posts',       'published_posts',  fn() => DB::table('posts')->where('status', 'published')->count()],
             'tickets'     => ['tickets',     'open_tickets',     fn() => DB::table('tickets')->whereIn('status', ['open', 'in_progress'])->count()],
             'plans'       => ['plans',       'active_plans',     fn() => DB::table('plans')->where('is_active', true)->count()],
+            'campaigns'   => ['campaigns',   'sent_campaigns',   fn() => DB::table('campaigns')->where('status', 'sent')->count()],
+            'coupons'     => ['coupons',     'active_coupons',   fn() => DB::table('coupons')->where('is_active', true)->count()],
         ];
 
         foreach ($tableMap as $key => [$table, $statKey, $counter]) {
