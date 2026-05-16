@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 class ApiKey extends Model
@@ -48,7 +49,7 @@ class ApiKey extends Model
      * Returns ['key' => $plainTextKey, 'model' => ApiKey].
      * The plain text key is shown ONCE and never stored.
      */
-    public static function generate(int $userId, string $name, array $permissions = [], ?\Carbon\Carbon $expiresAt = null): array
+    public static function generate(int $userId, string $name, array $permissions = [], ?Carbon $expiresAt = null): array
     {
         // 40-char random key with a readable prefix
         $plain  = 'rb_' . Str::random(37); // total: 40 chars

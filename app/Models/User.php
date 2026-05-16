@@ -30,10 +30,11 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at'       => 'datetime',
-            'password'                => 'hashed',
-            'force_password_reset'    => 'boolean',
-            'two_factor_enabled'      => 'boolean',
+            'email_verified_at'         => 'datetime',
+            'password'                  => 'hashed',
+            'force_password_reset'      => 'boolean',
+            'two_factor_enabled'        => 'boolean',
+            'two_factor_recovery_codes' => 'array',
         ];
     }
 }

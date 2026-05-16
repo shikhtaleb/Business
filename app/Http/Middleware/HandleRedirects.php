@@ -19,6 +19,12 @@ class HandleRedirects
 
         $path = '/' . ltrim($request->path(), '/');
 
+        // Never redirect admin or install routes — protects user from accidental lockout
+        if (str_starts_with($path, '/admin') || str_starts_with($path, '/install') ||
+            in_array($path, ['/sitemap.xml', '/robots.txt'], true)) {
+            return $next($request);
+        }
+
         // Load all active redirects from cache (10-minute TTL)
         $redirects = Cache::remember('redirects_all', 600, function () {
             return Redirect::active()

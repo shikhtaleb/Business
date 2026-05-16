@@ -19,7 +19,7 @@
             </p>
         </div>
         @if($unreadCount > 0)
-        <form method="POST" action="{{ route('admin.notifications.mark-all-read') }}">
+        <form method="POST" action="{{ route('admin.notifications.read-all') }}">
             @csrf
             <button type="submit"
                     class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 transition-colors shadow-sm">
@@ -90,7 +90,7 @@
                         @if(isset($data['url']))
                         <a href="{{ $data['url'] }}"
                            @if(! $isRead)
-                           @click="fetch('{{ route('admin.notifications.mark-read', $notification->id) }}', {method:'POST', headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}','Content-Type':'application/json'}})"
+                           @click="fetch('{{ route('admin.notifications.read', $notification->id) }}', {method:'POST', headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}','Content-Type':'application/json'}})"
                            @endif
                            class="text-xs font-medium hover:underline"
                            style="color:#FF8528;">
@@ -98,7 +98,7 @@
                         </a>
                         @endif
                         @if(! $isRead)
-                        <button @click="fetch('{{ route('admin.notifications.mark-read', $notification->id) }}', {method:'POST', headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}','Content-Type':'application/json'}}).then(()=>document.getElementById('notif-{{ $notification->id }}').classList.add('opacity-70'))"
+                        <button @click="fetch('{{ route('admin.notifications.read', $notification->id) }}', {method:'POST', headers:{'X-CSRF-TOKEN':'{{ csrf_token() }}','Content-Type':'application/json'}}).then(()=>document.getElementById('notif-{{ $notification->id }}').classList.add('opacity-70'))"
                                 class="text-xs text-gray-400 hover:text-gray-600 transition-colors">
                             Mark read
                         </button>
