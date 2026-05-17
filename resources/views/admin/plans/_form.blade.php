@@ -25,17 +25,17 @@
                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2">
     </div>
     <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1.5">Name in English <span class="text-red-500">*</span></label>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">الاسم بالإنجليزية <span class="text-red-500">*</span></label>
         <input type="text" name="name_en" value="{{ old('name_en', $plan->name_en ?? '') }}" required
                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2">
     </div>
     <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1.5">Nederlands</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">الاسم بالهولندية</label>
         <input type="text" name="name_nl" value="{{ old('name_nl', $plan->name_nl ?? '') }}"
                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2">
     </div>
     <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1.5">Deutsch</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">الاسم بالألمانية</label>
         <input type="text" name="name_de" value="{{ old('name_de', $plan->name_de ?? '') }}"
                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2">
     </div>
@@ -49,7 +49,7 @@
                   class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 resize-none">{{ old('description_ar', $plan->description_ar ?? '') }}</textarea>
     </div>
     <div>
-        <label class="block text-sm font-medium text-gray-700 mb-1.5">Description in English</label>
+        <label class="block text-sm font-medium text-gray-700 mb-1.5">الوصف بالإنجليزية</label>
         <textarea name="description_en" rows="2"
                   class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 resize-none">{{ old('description_en', $plan->description_en ?? '') }}</textarea>
     </div>
@@ -81,12 +81,12 @@
 
 {{-- Features --}}
 <div class="grid grid-cols-2 gap-4">
-    @foreach(['ar' => 'مزايا الخطة (عربي)', 'en' => 'Features (English)'] as $lang => $label)
+    @foreach(['ar' => 'مزايا الخطة (عربي)', 'en' => 'مزايا الخطة (إنجليزي)'] as $lang => $label)
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1.5">{{ $label }}</label>
             <textarea name="features_{{ $lang }}" rows="5" dir="{{ $lang === 'ar' ? 'rtl' : 'ltr' }}"
                       class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 resize-none font-mono"
-                      placeholder="{{ $lang === 'ar' ? 'ميزة واحدة في كل سطر' : 'One feature per line' }}">{{ old("features_{$lang}", isset($plan) ? implode("\n", $plan->getFeatures($lang)) : '') }}</textarea>
+                      placeholder="ميزة واحدة في كل سطر">{{ old("features_{$lang}", isset($plan) ? implode("\n", $plan->getFeatures($lang)) : '') }}</textarea>
         </div>
     @endforeach
 </div>

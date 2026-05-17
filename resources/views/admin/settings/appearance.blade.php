@@ -162,7 +162,7 @@ $settingsTabs = [
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">
                         {{ __('admin.upload_logo') }}
-                        <span class="text-gray-400 font-normal ml-1">(PNG, SVG, WebP)</span>
+                        <span class="text-gray-400 font-normal ms-1">(PNG, SVG, WebP)</span>
                     </label>
                     <input
                         type="file"
@@ -217,7 +217,7 @@ $settingsTabs = [
                                focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
                         placeholder="https://example.com/storage/logo-dark.png"
                     >
-                    <p class="mt-1 text-xs text-gray-400">Displayed when visitors activate dark mode on the frontend.</p>
+                    <p class="mt-1 text-xs text-gray-400">يُعرض عند تفعيل الزوار الوضع الداكن في الواجهة الأمامية.</p>
                 </div>
 
                 {{-- Save Button --}}

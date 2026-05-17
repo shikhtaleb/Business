@@ -18,8 +18,8 @@
             <div>
                 <label class="block text-xs font-medium text-gray-600 mb-1">الموقع</label>
                 <select name="location" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
-                    <option value="header">الترويسة (Header)</option>
-                    <option value="footer">التذييل (Footer)</option>
+                    <option value="header">الترويسة</option>
+                    <option value="footer">التذييل</option>
                     <option value="custom">مخصص</option>
                 </select>
             </div>
