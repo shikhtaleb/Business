@@ -28,6 +28,7 @@
         }
     </script>
 
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @php $isRtl = app()->getLocale() === 'ar'; @endphp
@@ -70,14 +71,22 @@
             background-color: #FF8528;
         }
         .sidebar-group-label {
-            display: block;
-            padding: 0.5rem 0.75rem 0.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0.75rem 0.3rem;
             font-size: 0.65rem;
             font-weight: 700;
-            color: #475569;
+            color: #64748b;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-top: 0.5rem;
+            letter-spacing: 0.08em;
+            margin-top: 0.75rem;
+            cursor: pointer;
+            border-radius: 0.375rem;
+            transition: color 0.15s;
+        }
+        .sidebar-group-label:hover {
+            color: #94a3b8;
         }
 
         /* ── Dark mode overrides ── */
@@ -129,6 +138,7 @@
         [data-admin-theme="dark"] .font-mono      { color: #94a3b8 !important; }
         [data-admin-theme="dark"] .adm-topbar-text { color: #94a3b8 !important; }
     </style>
+    @stack('styles')
 </head>
 <body class="h-full adm-bg" :class="darkMode ? '' : 'bg-gray-100'">
 
@@ -140,6 +150,21 @@ function adminApp() {
         darkMode: localStorage.getItem('adminTheme') === 'dark',
         userMenuOpen: false,
         langMenuOpen: false,
+        // Collapsible sidebar groups - default all open
+        groups: {
+            content:  localStorage.getItem('grp_content')  !== 'false',
+            blog:     localStorage.getItem('grp_blog')     !== 'false',
+            pages:    localStorage.getItem('grp_pages')    !== 'false',
+            crm:      localStorage.getItem('grp_crm')      !== 'false',
+            support:  localStorage.getItem('grp_support')  !== 'false',
+            settings: localStorage.getItem('grp_settings') !== 'false',
+            users:    localStorage.getItem('grp_users')    !== 'false',
+            reports:  localStorage.getItem('grp_reports')  !== 'false',
+        },
+        toggleGroup(name) {
+            this.groups[name] = !this.groups[name];
+            localStorage.setItem('grp_' + name, this.groups[name]);
+        },
         get isExpanded() { return !this.sidebarCollapsed || this.sidebarOpen; },
         toggleDark() {
             this.darkMode = !this.darkMode;
@@ -229,333 +254,405 @@ function adminApp() {
         </a>
 
         {{-- Content group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">{{ __('admin.content_label') }}</div>
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('content')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>{{ __('admin.content_label') }}</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.content ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
         <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
 
-        <a href="{{ route('admin.content.index') }}" title="{{ __('admin.content') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.content.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.content') }}</span>
-        </a>
+        <div x-show="!isExpanded || groups.content" x-collapse>
+            <a href="{{ route('admin.content.index') }}" title="{{ __('admin.content') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.content.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.content') }}</span>
+            </a>
 
-        <a href="{{ route('admin.media.index') }}" title="{{ __('admin.media') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.media') }}</span>
-        </a>
+            <a href="{{ route('admin.media.index') }}" title="{{ __('admin.media') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.media.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.media') }}</span>
+            </a>
 
-        {{-- Inbox --}}
-        <a href="{{ route('admin.messages.index') }}" title="{{ __('admin.messages') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">
-            <div class="relative flex-shrink-0">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            {{-- Inbox --}}
+            <a href="{{ route('admin.messages.index') }}" title="{{ __('admin.messages') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.messages.*') ? 'active' : '' }}">
+                <div class="relative flex-shrink-0">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                              d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                    </svg>
+                    @php
+                        try { $unread = \App\Models\Message::unreadCount(); } catch (\Throwable) { $unread = 0; }
+                    @endphp
+                    @if($unread > 0)
+                        <span class="absolute -top-1 -end-1 w-4 h-4 rounded-full text-white text-[9px] font-bold flex items-center justify-center" style="background:#FF8528;">{{ $unread > 9 ? '9+' : $unread }}</span>
+                    @endif
+                </div>
+                <span x-show="isExpanded" x-cloak class="truncate flex items-center gap-2">
+                    {{ __('admin.messages') }}
+                    @if($unread > 0)
+                        <span class="ms-auto text-xs font-bold px-1.5 py-0.5 rounded-full text-white" style="background:#FF8528;">{{ $unread }}</span>
+                    @endif
+                </span>
+            </a>
+
+            {{-- Plans --}}
+            <a href="{{ route('admin.plans.index') }}" title="{{ __('admin.plans') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.plans') }}</span>
+            </a>
+
+            {{-- Coupons --}}
+            <a href="{{ route('admin.coupons.index') }}" title="الكوبونات"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.coupons.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">الكوبونات</span>
+            </a>
+        </div>
+
+        {{-- Blog group --}}
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('blog')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>المدونة</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.blog ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+
+        <div x-show="!isExpanded || groups.blog" x-collapse>
+            <a href="{{ route('admin.posts.index') }}" title="المقالات"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">المقالات</span>
+            </a>
+
+            <a href="{{ route('admin.categories.index') }}" title="التصنيفات"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">التصنيفات</span>
+            </a>
+
+            <a href="{{ url('/blog') }}" target="_blank" title="عرض المدونة"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">عرض المدونة</span>
+            </a>
+        </div>
+
+        {{-- Pages & Navigation group --}}
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('pages')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>الصفحات والتنقل</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.pages ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+
+        <div x-show="!isExpanded || groups.pages" x-collapse>
+            <a href="{{ route('admin.pages.index') }}" title="الصفحات"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">الصفحات</span>
+            </a>
+
+            <a href="{{ route('admin.menus.index') }}" title="القوائم"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M4 6h16M4 12h16M4 18h7"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">القوائم</span>
+            </a>
+
+            <a href="{{ route('admin.redirects.index') }}" title="إعادة التوجيه"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.redirects.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">إعادة التوجيه</span>
+            </a>
+        </div>
+
+        {{-- CRM group --}}
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('crm')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>العملاء والتسويق</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.crm ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+
+        <div x-show="!isExpanded || groups.crm" x-collapse>
+            <a href="{{ route('admin.leads.index') }}" title="العملاء المحتملون"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">العملاء المحتملون</span>
+            </a>
+
+            <a href="{{ route('admin.subscribers.index') }}" title="المشتركون"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">المشتركون</span>
+            </a>
+
+            <a href="{{ route('admin.campaigns.index') }}" title="الحملات البريدية"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.campaigns.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">الحملات البريدية</span>
+            </a>
+        </div>
+
+        {{-- Support group --}}
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('support')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>الدعم الفني</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.support ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+
+        <div x-show="!isExpanded || groups.support" x-collapse>
+            <a href="{{ route('admin.tickets.index') }}" title="تذاكر الدعم"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.tickets.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">تذاكر الدعم</span>
+            </a>
+        </div>
+
+        {{-- Settings group --}}
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('settings')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>{{ __('admin.settings_label') }}</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.settings ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
+        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+
+        <div x-show="!isExpanded || groups.settings" x-collapse>
+            <a href="{{ route('admin.settings.general') }}" title="{{ __('admin.general') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.settings.general*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.general') }}</span>
+            </a>
+
+            <a href="{{ route('admin.settings.appearance') }}" title="{{ __('admin.appearance') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.settings.appearance*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.appearance') }}</span>
+            </a>
+
+            <a href="{{ route('admin.settings.seo') }}" title="{{ __('admin.seo') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.settings.seo*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.seo') }}</span>
+            </a>
+
+            <a href="{{ route('admin.settings.smtp') }}" title="{{ __('admin.smtp') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.settings.smtp*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
                           d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
-                @php
-                    try { $unread = \App\Models\Message::unreadCount(); } catch (\Throwable) { $unread = 0; }
-                @endphp
-                @if($unread > 0)
-                    <span class="absolute -top-1 -end-1 w-4 h-4 rounded-full text-white text-[9px] font-bold flex items-center justify-center" style="background:#FF8528;">{{ $unread > 9 ? '9+' : $unread }}</span>
-                @endif
-            </div>
-            <span x-show="isExpanded" x-cloak class="truncate flex items-center gap-2">
-                {{ __('admin.messages') }}
-                @if($unread > 0)
-                    <span class="ms-auto text-xs font-bold px-1.5 py-0.5 rounded-full text-white" style="background:#FF8528;">{{ $unread }}</span>
-                @endif
-            </span>
-        </a>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.smtp') }}</span>
+            </a>
 
-        {{-- Plans --}}
-        <a href="{{ route('admin.plans.index') }}" title="{{ __('admin.plans') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.plans.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.plans') }}</span>
-        </a>
-
-        {{-- Coupons --}}
-        <a href="{{ route('admin.coupons.index') }}" title="الكوبونات"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.coupons.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">الكوبونات</span>
-        </a>
-
-        {{-- Blog group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">المدونة</div>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
-
-        <a href="{{ route('admin.posts.index') }}" title="المقالات"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.posts.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9.5a2.5 2.5 0 00-2.5-2.5H15"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">المقالات</span>
-        </a>
-
-        <a href="{{ route('admin.categories.index') }}" title="التصنيفات"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">التصنيفات</span>
-        </a>
-
-        <a href="{{ url('/blog') }}" target="_blank" title="عرض المدونة"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">عرض المدونة</span>
-        </a>
-
-        {{-- Pages & Navigation group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">الصفحات والتنقل</div>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
-
-        <a href="{{ route('admin.pages.index') }}" title="الصفحات"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.pages.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">الصفحات</span>
-        </a>
-
-        <a href="{{ route('admin.menus.index') }}" title="القوائم"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.menus.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M4 6h16M4 12h16M4 18h7"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">القوائم</span>
-        </a>
-
-        <a href="{{ route('admin.redirects.index') }}" title="إعادة التوجيه"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.redirects.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">إعادة التوجيه</span>
-        </a>
-
-        {{-- CRM group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">العملاء والتسويق</div>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
-
-        <a href="{{ route('admin.leads.index') }}" title="العملاء المحتملون"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.leads.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">العملاء المحتملون</span>
-        </a>
-
-        <a href="{{ route('admin.subscribers.index') }}" title="المشتركون"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">المشتركون</span>
-        </a>
-
-        <a href="{{ route('admin.campaigns.index') }}" title="الحملات البريدية"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.campaigns.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">الحملات البريدية</span>
-        </a>
-
-        {{-- Support group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">الدعم الفني</div>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
-
-        <a href="{{ route('admin.tickets.index') }}" title="تذاكر الدعم"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.tickets.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">تذاكر الدعم</span>
-        </a>
-
-        {{-- Settings group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">{{ __('admin.settings_label') }}</div>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
-
-        <a href="{{ route('admin.settings.general') }}" title="{{ __('admin.general') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.settings.general*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.general') }}</span>
-        </a>
-
-        <a href="{{ route('admin.settings.appearance') }}" title="{{ __('admin.appearance') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.settings.appearance*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.appearance') }}</span>
-        </a>
-
-        <a href="{{ route('admin.settings.seo') }}" title="{{ __('admin.seo') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.settings.seo*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.seo') }}</span>
-        </a>
-
-        <a href="{{ route('admin.settings.smtp') }}" title="{{ __('admin.smtp') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.settings.smtp*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.smtp') }}</span>
-        </a>
-
-        <a href="{{ route('admin.languages.index') }}" title="{{ __('admin.languages') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.languages.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.languages') }}</span>
-        </a>
+            <a href="{{ route('admin.languages.index') }}" title="{{ __('admin.languages') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.languages.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.languages') }}</span>
+            </a>
+        </div>
 
         {{-- Users & Access group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">{{ __('admin.users_access_label') }}</div>
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('users')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>{{ __('admin.users_access_label') }}</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.users ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
         <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
 
-        <a href="{{ route('admin.users.index') }}" title="{{ __('admin.users') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.users') }}</span>
-        </a>
+        <div x-show="!isExpanded || groups.users" x-collapse>
+            <a href="{{ route('admin.users.index') }}" title="{{ __('admin.users') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.users') }}</span>
+            </a>
 
-        <a href="{{ route('admin.roles.index') }}" title="{{ __('admin.roles') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.roles') }}</span>
-        </a>
+            <a href="{{ route('admin.roles.index') }}" title="{{ __('admin.roles') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.roles.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.roles') }}</span>
+            </a>
 
-        <a href="{{ route('admin.api-keys.index') }}" title="مفاتيح API"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.api-keys.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">مفاتيح API</span>
-        </a>
+            <a href="{{ route('admin.api-keys.index') }}" title="مفاتيح API"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.api-keys.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">مفاتيح API</span>
+            </a>
 
-        <a href="{{ route('admin.two-factor.index') }}" title="المصادقة الثنائية"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.two-factor.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">المصادقة الثنائية</span>
-        </a>
+            <a href="{{ route('admin.two-factor.index') }}" title="المصادقة الثنائية"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.two-factor.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">المصادقة الثنائية</span>
+            </a>
+        </div>
 
         {{-- Reporting group --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">{{ __('admin.reporting_label') }}</div>
+        <button x-show="isExpanded" x-cloak type="button" @click="toggleGroup('reports')"
+                class="sidebar-group-label w-full flex items-center justify-between hover:text-gray-300 transition-colors">
+            <span>{{ __('admin.reporting_label') }}</span>
+            <svg class="w-3 h-3 transition-transform duration-200" :class="groups.reports ? '' : '-rotate-90'"
+                 fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+            </svg>
+        </button>
         <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
 
-        <a href="{{ route('admin.analytics.index') }}" title="{{ __('admin.analytics') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.analytics') }}</span>
-        </a>
+        <div x-show="!isExpanded || groups.reports" x-collapse>
+            <a href="{{ route('admin.analytics.index') }}" title="{{ __('admin.analytics') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.analytics.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.analytics') }}</span>
+            </a>
 
-        <a href="{{ route('admin.activity.index') }}" title="{{ __('admin.activity') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.activity.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.activity') }}</span>
-        </a>
+            <a href="{{ route('admin.activity.index') }}" title="{{ __('admin.activity') }}"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.activity.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.activity') }}</span>
+            </a>
 
-        <a href="{{ route('admin.system.health') }}" title="صحة النظام"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.system.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">صحة النظام</span>
-        </a>
+            <a href="{{ route('admin.system.health') }}" title="صحة النظام"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.system.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">صحة النظام</span>
+            </a>
 
-        <a href="{{ route('admin.backups.index') }}" title="النسخ الاحتياطية"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link {{ request()->routeIs('admin.backups.*') ? 'active' : '' }}">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8 1.79 8-4M4 7c0-2.21 3.582 4 8 4s8-1.79 8-4"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">النسخ الاحتياطية</span>
-        </a>
+            <a href="{{ route('admin.backups.index') }}" title="النسخ الاحتياطية"
+               :class="!isExpanded && 'justify-center !px-2'"
+               class="sidebar-link {{ request()->routeIs('admin.backups.*') ? 'active' : '' }}">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                          d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8 1.79 8-4M4 7c0-2.21 3.582 4 8 4s8-1.79 8-4"/>
+                </svg>
+                <span x-show="isExpanded" x-cloak class="truncate">النسخ الاحتياطية</span>
+            </a>
+        </div>
 
         {{-- Site --}}
         <div x-show="isExpanded" x-cloak class="sidebar-group-label">{{ __('admin.site_label') }}</div>

@@ -1,5 +1,18 @@
 @extends('layouts.admin')
 
+@push('styles')
+<link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+<style>
+.ql-container { border-bottom-left-radius: 0.75rem; border-bottom-right-radius: 0.75rem; font-size: 0.9rem; min-height: 280px; }
+.ql-toolbar { border-top-left-radius: 0.75rem; border-top-right-radius: 0.75rem; background: #f8fafc; border-color: #e5e7eb !important; }
+.ql-container { border-color: #e5e7eb !important; }
+.ql-toolbar button:hover .ql-stroke, .ql-toolbar button.ql-active .ql-stroke { stroke: #FF8528 !important; }
+.ql-toolbar button:hover .ql-fill, .ql-toolbar button.ql-active .ql-fill { fill: #FF8528 !important; }
+.ql-editor { min-height: 280px; line-height: 1.8; }
+.ql-editor.ql-blank::before { color: #9ca3af; font-style: normal; }
+</style>
+@endpush
+
 @section('title', 'مقال جديد — Retont Business')
 @section('page-title', 'إنشاء مقال جديد')
 
@@ -107,19 +120,17 @@
                                     <div>
                                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">
                                             محتوى المقال ({{ $label }})
+                                            @if($code === 'ar') <span class="text-red-500">*</span> @endif
                                         </label>
+                                        {{-- Hidden textarea that holds the actual HTML value for form submission --}}
                                         <textarea name="body_{{ $code }}"
-                                                  rows="10"
-                                                  dir="{{ $code === 'ar' ? 'rtl' : 'ltr' }}"
-                                                  placeholder="{{ $code === 'ar' ? 'اكتب محتوى المقال هنا… (يدعم Markdown)' : 'Write post content here… (Markdown supported)' }}"
-                                                  class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent font-mono resize-y">{{ old('body_' . $code) }}</textarea>
-                                        <p class="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                      d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                                            </svg>
-                                            يدعم تنسيق Markdown
-                                        </p>
+                                                  id="body_{{ $code }}_input"
+                                                  class="hidden">{{ old('body_' . $code, '') }}</textarea>
+                                        {{-- Quill editor container --}}
+                                        <div id="quill_{{ $code }}"
+                                             dir="{{ $code === 'ar' ? 'rtl' : 'ltr' }}"
+                                             class="rounded-xl border border-gray-200 overflow-hidden quill-editor"
+                                             style="min-height:280px;"></div>
                                         @error('body_' . $code)
                                             <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
                                         @enderror
@@ -313,6 +324,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
 <script>
 function postForm() {
     return {
@@ -320,5 +332,54 @@ function postForm() {
         status: '{{ old('status', 'draft') }}',
     }
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    const editors = {};
+
+    ['ar', 'en'].forEach(function(lang) {
+        const container = document.getElementById('quill_' + lang);
+        const textarea = document.getElementById('body_' + lang + '_input');
+        if (!container || !textarea) return;
+
+        const toolbarOptions = [
+            [{ 'header': [2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike'],
+            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+            ['blockquote', 'code-block'],
+            ['link', 'image'],
+            [{ 'align': [] }],
+            ['clean']
+        ];
+
+        const quill = new Quill(container, {
+            theme: 'snow',
+            modules: { toolbar: toolbarOptions },
+            placeholder: lang === 'ar' ? 'اكتب محتوى المقال هنا…' : 'Write post content here…',
+            direction: lang === 'ar' ? 'rtl' : 'ltr',
+        });
+
+        // Set initial content
+        const initialContent = textarea.value;
+        if (initialContent) {
+            quill.root.innerHTML = initialContent;
+        }
+
+        editors[lang] = quill;
+    });
+
+    // Sync Quill content to hidden textarea before form submit
+    const form = document.querySelector('form[action*="posts"]');
+    if (form) {
+        form.addEventListener('submit', function() {
+            ['ar', 'en'].forEach(function(lang) {
+                const textarea = document.getElementById('body_' + lang + '_input');
+                const quill = editors[lang];
+                if (textarea && quill) {
+                    textarea.value = quill.root.innerHTML === '<p><br></p>' ? '' : quill.root.innerHTML;
+                }
+            });
+        });
+    }
+});
 </script>
 @endpush
