@@ -109,7 +109,7 @@
                     <label class="block text-xs font-semibold text-gray-700 mb-1.5">ملاحظات</label>
                     <textarea name="notes" rows="4"
                               class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
-                              style="--tw-ring-color:#FF8528;">{{ old('notes', $lead->notes) }}</textarea>
+                              style="--tw-ring-color:#FF8528;">{{ old('notes', $lead->getRawOriginal('notes')) }}</textarea>
                 </div>
             </div>
 

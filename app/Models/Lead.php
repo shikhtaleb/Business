@@ -28,7 +28,7 @@ class Lead extends Model
         return $this->belongsTo(Message::class);
     }
 
-    public function notes(): HasMany
+    public function leadNotes(): HasMany
     {
         return $this->hasMany(LeadNote::class);
     }

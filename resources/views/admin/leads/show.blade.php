@@ -109,10 +109,10 @@
                         </dd>
                     </div>
                     @endif
-                    @if($lead->notes)
+                    @if($lead->getRawOriginal('notes'))
                     <div class="col-span-2">
                         <dt class="text-gray-500 font-medium">ملاحظات</dt>
-                        <dd class="text-gray-900 mt-0.5 whitespace-pre-line">{{ $lead->notes }}</dd>
+                        <dd class="text-gray-900 mt-0.5 whitespace-pre-line">{{ $lead->getRawOriginal('notes') }}</dd>
                     </div>
                     @endif
                 </dl>
@@ -122,11 +122,11 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
                 <h4 class="text-sm font-bold text-gray-900 mb-4">سجل الأنشطة</h4>
 
-                @if($lead->notes->isEmpty())
+                @if($lead->leadNotes->isEmpty())
                     <p class="text-sm text-gray-400 text-center py-6">لا توجد ملاحظات بعد. أضف أول ملاحظة أدناه.</p>
                 @else
                     <div class="space-y-4 mb-6">
-                        @foreach($lead->notes->sortByDesc('created_at') as $note)
+                        @foreach($lead->leadNotes->sortByDesc('created_at') as $note)
                         <div class="flex gap-3">
                             <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0"
                                  style="background:linear-gradient(135deg,#FF8528,#c45e00);">
@@ -192,7 +192,7 @@
                     <input type="hidden" name="phone" value="{{ $lead->phone }}">
                     <input type="hidden" name="source" value="{{ $lead->source }}">
                     <input type="hidden" name="status" value="{{ $lead->status }}">
-                    <input type="hidden" name="notes" value="{{ $lead->notes }}">
+                    <input type="hidden" name="notes" value="{{ $lead->getRawOriginal('notes') }}">
                     <input type="hidden" name="lang" value="{{ $lead->lang }}">
 
                     <div>
@@ -236,7 +236,7 @@
                 </div>
                 <div class="flex justify-between">
                     <span>عدد الملاحظات</span>
-                    <span class="text-gray-700">{{ $lead->notes->count() }}</span>
+                    <span class="text-gray-700">{{ $lead->leadNotes->count() }}</span>
                 </div>
             </div>
         </div>

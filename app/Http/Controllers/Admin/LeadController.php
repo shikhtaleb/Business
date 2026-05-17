@@ -80,7 +80,7 @@ class LeadController extends Controller
 
     public function show(Lead $lead): View
     {
-        $lead->load(['assignedTo', 'message', 'notes.user']);
+        $lead->load(['assignedTo', 'message', 'leadNotes.user']);
         $users      = User::orderBy('name')->get();
         $statuses   = ['new', 'contacted', 'qualified', 'lost', 'converted'];
         $priorities = ['low', 'normal', 'high', 'urgent'];

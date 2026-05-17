@@ -22,9 +22,11 @@ class Ticket extends Model
     {
         parent::boot();
 
-        static::created(function (self $ticket) {
-            $ticket->ticket_number = 'TKT-' . str_pad($ticket->id, 5, '0', STR_PAD_LEFT);
-            $ticket->saveQuietly();
+        static::creating(function (self $ticket) {
+            if (empty($ticket->ticket_number)) {
+                $next = (static::max('id') ?? 0) + 1;
+                $ticket->ticket_number = 'TKT-' . str_pad($next, 5, '0', STR_PAD_LEFT);
+            }
         });
     }
 
