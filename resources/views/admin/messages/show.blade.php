@@ -34,7 +34,7 @@
                         <a href="mailto:{{ $message->email }}" class="text-sm text-gray-500 hover:underline">{{ $message->email }}</a>
                     </div>
                 </div>
-                <div class="text-right text-xs text-gray-400">
+                <div class="text-end text-xs text-gray-400">
                     <p>{{ $message->created_at->format('Y-m-d H:i') }}</p>
                     <p class="mt-0.5">{{ $message->created_at->diffForHumans() }}</p>
                 </div>

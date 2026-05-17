@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{{ $seo['title'] ?? ($post->{"title_{$lang}"} ?? $post->title_ar ?? ($settings['site_name'] ?? 'Retont Business')) }}</title>
+<title>{{ $seo['title'] ?? ($post->{"title_{$lang}"} ?? $post->title_ar ?? ($settings['site_name'] ?? config('app.name'))) }}</title>
 <meta name="description" content="{{ $seo['description'] ?? ($post->{"excerpt_{$lang}"} ?? $post->excerpt_ar ?? '') }}" />
 @if(!empty($seo['keywords']))
 <meta name="keywords" content="{{ $seo['keywords'] }}" />
@@ -409,15 +409,15 @@
     <div class="brand">
       @if(!empty($settings['logo_url']))
         @if(!empty($settings['dark_logo_url']))
-          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" />
-          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-dark" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-light" />
+          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-dark" />
         @else
-          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" />
         @endif
       @else
-      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
+      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" />
       @endif
-      <span>{{ $settings['site_name'] ?? 'Retont Business' }}</span>
+      <span>{{ $settings['site_name'] ?? config('app.name') }}</span>
     </div>
     <nav class="nav-links">
       <a href="{{ url('/') }}">{{ $lang === 'ar' ? 'الرئيسية' : 'Home' }}</a>
@@ -600,17 +600,17 @@
     <div class="brand">
       @if(!empty($settings['logo_url']))
         @if(!empty($settings['dark_logo_url']))
-          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" style="width:28px;height:28px;object-fit:contain" />
-          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-dark" style="width:28px;height:28px;object-fit:contain" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-light" style="width:28px;height:28px;object-fit:contain" />
+          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-dark" style="width:28px;height:28px;object-fit:contain" />
         @else
-          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" style="width:28px;height:28px;object-fit:contain" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" style="width:28px;height:28px;object-fit:contain" />
         @endif
       @else
-      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" style="width:28px;height:28px;object-fit:contain" />
+      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" style="width:28px;height:28px;object-fit:contain" />
       @endif
-      <span style="font-size:16px">{{ $settings['site_name'] ?? 'Retont Business' }}</span>
+      <span style="font-size:16px">{{ $settings['site_name'] ?? config('app.name') }}</span>
     </div>
-    <div>&copy; {{ date('Y') }} {{ $settings['site_name'] ?? 'Retont Business' }}. {{ $lang === 'ar' ? 'جميع الحقوق محفوظة.' : 'All rights reserved.' }}</div>
+    <div>&copy; {{ date('Y') }} {{ $settings['site_name'] ?? config('app.name') }}. {{ $lang === 'ar' ? 'جميع الحقوق محفوظة.' : 'All rights reserved.' }}</div>
     <div class="social">
       <div class="lang-wrap">
         <button id="langBtn" aria-label="Language" aria-haspopup="true" aria-expanded="false">

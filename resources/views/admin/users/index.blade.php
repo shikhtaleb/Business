@@ -50,11 +50,11 @@
                 <table class="w-full">
                     <thead>
                         <tr class="border-b border-gray-100 bg-gray-50">
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.name') }}</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.email') }}</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.role') }}</th>
-                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.created') }}</th>
-                            <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.actions') }}</th>
+                            <th class="px-6 py-3 text-start text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.name') }}</th>
+                            <th class="px-6 py-3 text-start text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.email') }}</th>
+                            <th class="px-6 py-3 text-start text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.role') }}</th>
+                            <th class="px-6 py-3 text-start text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.created') }}</th>
+                            <th class="px-6 py-3 text-end text-xs font-semibold text-gray-500 uppercase tracking-wider">{{ __('admin.actions') }}</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
@@ -100,11 +100,11 @@
 
                                 {{-- Created --}}
                                 <td class="px-6 py-4 text-sm text-gray-500">
-                                    {{ $user->created_at->format('M d, Y') }}
+                                    {{ $user->created_at->translatedFormat('d M Y') }}
                                 </td>
 
                                 {{-- Actions --}}
-                                <td class="px-6 py-4 text-right">
+                                <td class="px-6 py-4 text-end">
                                     <div class="flex items-center justify-end gap-2">
                                         {{-- Edit (modal) --}}
                                         <button

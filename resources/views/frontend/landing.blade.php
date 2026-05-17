@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{{ $seo['title'] ?? ($settings['site_name'] ?? 'Retont Business') }}</title>
+<title>{{ $seo['title'] ?? ($settings['site_name'] ?? config('app.name')) }}</title>
 <meta name="description" content="{{ $seo['description'] ?? '' }}" />
 @if(!empty($seo['keywords']))
 <meta name="keywords" content="{{ $seo['keywords'] }}" />
@@ -68,15 +68,15 @@
     <div class="brand">
       @if(!empty($settings['logo_url']))
         @if(!empty($settings['dark_logo_url']))
-          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" />
-          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-dark" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-light" />
+          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-dark" />
         @else
-          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
+          <img src="{{ $settings['logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" />
         @endif
       @else
-      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" />
+      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" />
       @endif
-      <span>{{ $settings['site_name'] ?? 'Retont Business' }}</span>
+      <span>{{ $settings['site_name'] ?? config('app.name') }}</span>
     </div>
     <nav class="nav-links">
       <a href="#home" data-i18n="nav.home">{{ $content['nav']['nav.home'] ?? 'الرئيسية' }}</a>
@@ -106,7 +106,7 @@
   <span class="dot d1"></span>
   <span class="dot d2"></span>
   <div class="wrap">
-    <h1 data-i18n-html="hero.title">{!! $content['hero']['hero.title'] ?? 'منصة <span class="accent">Retont Business</span><br/>لإدارة مشاريعك وفريقك بسلاسة' !!}</h1>
+    <h1 data-i18n-html="hero.title">{!! $content['hero']['hero.title'] ?? ('منصة <span class="accent">'.config('app.name').'</span><br/>لإدارة مشاريعك وفريقك بسلاسة') !!}</h1>
     <p class="sub" data-i18n="hero.sub">{{ $content['hero']['hero.sub'] ?? 'أدر المشاريع والمهام والعملاء والفواتير من لوحة واحدة.' }}</p>
     <div class="cta-row">
       <a href="#" class="btn btn-primary" data-i18n="hero.cta1">{{ $content['hero']['hero.cta1'] ?? 'ابدأ تجربة ٣٠ يومًا مجانًا' }}</a>
@@ -374,11 +374,11 @@
 <section class="section testimonials">
   <div class="wrap">
     <h2 data-i18n-html="sec.testTitle">{!! $content['testimonials']['sec.testTitle'] ?? 'ماذا يقول <span class="accent">عملاؤنا</span>' !!}</h2>
-    <p class="lead" data-i18n="sec.testLead">{{ $content['testimonials']['sec.testLead'] ?? 'آلاف الفرق والشركات تعتمد على Retont Business لتشغيل أعمالها اليومية.' }}</p>
+    <p class="lead" data-i18n="sec.testLead">{{ $content['testimonials']['sec.testLead'] ?? ('آلاف الفرق والشركات تعتمد على '.config('app.name').' لتشغيل أعمالها اليومية.') }}</p>
     <div class="quotes">
       <div class="q">
         <div class="stars">★★★★★</div>
-        <div class="body" data-i18n="q1.body">{{ $content['testimonials']['q1.body'] ?? '"كنّا نستخدم خمسة أدوات مختلفة لإدارة المشاريع والفواتير. اليوم كل شيء داخل Retont Business."' }}</div>
+        <div class="body" data-i18n="q1.body">{{ $content['testimonials']['q1.body'] ?? ('"كنّا نستخدم خمسة أدوات مختلفة لإدارة المشاريع والفواتير. اليوم كل شيء داخل '.config('app.name').'."') }}</div>
         <div class="who">
           <div class="av"></div>
           <div><div class="name" data-i18n="q1.name">{{ $content['testimonials']['q1.name'] ?? 'خالد العمري' }}</div><div class="role" data-i18n="q1.role">{{ $content['testimonials']['q1.role'] ?? 'المدير التنفيذي · وكالة إثراء الرقمية' }}</div></div>
@@ -470,7 +470,7 @@
 <section class="section testimonials" id="faq" style="background:var(--bg);border-top:1px solid var(--line)">
   <div class="wrap">
     <h2 data-i18n-html="sec.faqTitle">{!! $content['faq']['sec.faqTitle'] ?? 'الأسئلة <span class="accent">الشائعة</span>' !!}</h2>
-    <p class="lead" data-i18n="sec.faqLead">{{ $content['faq']['sec.faqLead'] ?? 'إجابات على أكثر الأسئلة شيوعًا حول منصة Retont Business.' }}</p>
+    <p class="lead" data-i18n="sec.faqLead">{{ $content['faq']['sec.faqLead'] ?? ('إجابات على أكثر الأسئلة شيوعًا حول منصة '.config('app.name').'.') }}</p>
     <div class="faq-grid">
       <div class="faq"><h5 data-i18n="faq.q1">{{ $content['faq']['faq.q1'] ?? 'هل أستطيع تجربة المنصة قبل الاشتراك؟' }}</h5><p data-i18n="faq.a1">{{ $content['faq']['faq.a1'] ?? 'نعم، نقدّم تجربة مجانية لمدة ٣٠ يومًا بكل المميزات دون الحاجة لبطاقة ائتمانية.' }}</p></div>
       <div class="faq"><h5 data-i18n="faq.q2">{{ $content['faq']['faq.q2'] ?? 'هل المنصة سحابية أم تعمل على خوادمي؟' }}</h5><p data-i18n="faq.a2">{{ $content['faq']['faq.a2'] ?? 'المنصة سحابية بالكامل — لا حاجة لتثبيت أو صيانة. تعمل من أي متصفّح أو جهاز.' }}</p></div>
@@ -619,17 +619,17 @@
       @if(!empty($settings['logo_url']) || !empty($settings['logo_path']))
         @php $footerLogoUrl = $settings['logo_url'] ?? asset($settings['logo_path']); @endphp
         @if(!empty($settings['dark_logo_url']))
-          <img src="{{ $footerLogoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-light" style="width:28px;height:28px;object-fit:contain" />
-          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" class="logo-dark" style="width:28px;height:28px;object-fit:contain" />
+          <img src="{{ $footerLogoUrl }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-light" style="width:28px;height:28px;object-fit:contain" />
+          <img src="{{ $settings['dark_logo_url'] }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" class="logo-dark" style="width:28px;height:28px;object-fit:contain" />
         @else
-          <img src="{{ $footerLogoUrl }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" style="width:28px;height:28px;object-fit:contain" />
+          <img src="{{ $footerLogoUrl }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" style="width:28px;height:28px;object-fit:contain" />
         @endif
       @else
-      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? 'Retont Business' }}" style="width:28px;height:28px;object-fit:contain" />
+      <img src="{{ asset('assets/logo.png') }}" alt="{{ $settings['site_name'] ?? config('app.name') }}" style="width:28px;height:28px;object-fit:contain" />
       @endif
-      <span style="font-size:16px">{{ $settings['site_name'] ?? 'Retont Business' }}</span>
+      <span style="font-size:16px">{{ $settings['site_name'] ?? config('app.name') }}</span>
     </div>
-    <div data-i18n="footer.rights">{{ $content['footer']['footer.rights'] ?? '© ٢٠٢٦ Retont Business. جميع الحقوق محفوظة.' }}</div>
+    <div data-i18n="footer.rights">{{ $content['footer']['footer.rights'] ?? ('© '.date('Y').' '.config('app.name').'. جميع الحقوق محفوظة.') }}</div>
     <div class="social">
       <a href="#" aria-label="X (Twitter)">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.41 8.466L23 22h-6.8l-5.32-6.95L4.8 22H1.54l7.93-9.06L1 2h6.96l4.81 6.36L18.244 2zm-1.19 18h1.88L7.05 4H5.04l12.014 16z"/></svg>

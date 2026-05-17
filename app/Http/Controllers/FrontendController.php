@@ -47,8 +47,8 @@ class FrontendController extends Controller
 
         // SEO settings per language
         $seo = [
-            'title'       => Setting::get("seo_title_{$lang}", 'Retont Business — أدر مشاريعك وفريقك من مكان واحد'),
-            'description' => Setting::get("seo_desc_{$lang}", 'منصة Retont Business لإدارة المشاريع والمهام والعملاء والفواتير من لوحة واحدة.'),
+            'title'       => Setting::get("seo_title_{$lang}", config('app.name') . ' — أدر مشاريعك وفريقك من مكان واحد'),
+            'description' => Setting::get("seo_desc_{$lang}", 'منصة ' . config('app.name') . ' لإدارة المشاريع والمهام والعملاء والفواتير من لوحة واحدة.'),
             'keywords'    => Setting::get("seo_keywords_{$lang}", ''),
             'og_title'    => Setting::get("seo_og_title_{$lang}", ''),
             'og_desc'     => Setting::get("seo_og_desc_{$lang}", ''),
