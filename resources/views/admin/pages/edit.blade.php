@@ -88,21 +88,39 @@
                         </div>
 
                         {{-- NL --}}
-                        <div x-show="activeTab === 'nl'" x-cloak>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5">العنوان (هولندي)</label>
-                            <input type="text" name="title_nl" value="{{ old('title_nl', $page->title_nl) }}"
-                                   class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
-                                   style="--tw-ring-color:#FF8528"
-                                   placeholder="عنوان الصفحة">
+                        <div x-show="activeTab === 'nl'" x-cloak class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1.5">العنوان (هولندي)</label>
+                                <input type="text" name="title_nl" value="{{ old('title_nl', $page->title_nl) }}"
+                                       class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
+                                       style="--tw-ring-color:#FF8528; direction:ltr"
+                                       placeholder="عنوان الصفحة">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1.5">المحتوى (هولندي)</label>
+                                <textarea name="body_nl" rows="14"
+                                          class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent font-mono"
+                                          style="--tw-ring-color:#FF8528; direction:ltr"
+                                          placeholder="محتوى الصفحة...">{{ old('body_nl', $page->body_nl) }}</textarea>
+                            </div>
                         </div>
 
                         {{-- DE --}}
-                        <div x-show="activeTab === 'de'" x-cloak>
-                            <label class="block text-xs font-semibold text-gray-600 mb-1.5">العنوان (ألماني)</label>
-                            <input type="text" name="title_de" value="{{ old('title_de', $page->title_de) }}"
-                                   class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
-                                   style="--tw-ring-color:#FF8528"
-                                   placeholder="عنوان الصفحة">
+                        <div x-show="activeTab === 'de'" x-cloak class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1.5">العنوان (ألماني)</label>
+                                <input type="text" name="title_de" value="{{ old('title_de', $page->title_de) }}"
+                                       class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
+                                       style="--tw-ring-color:#FF8528; direction:ltr"
+                                       placeholder="عنوان الصفحة">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-600 mb-1.5">المحتوى (ألماني)</label>
+                                <textarea name="body_de" rows="14"
+                                          class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent font-mono"
+                                          style="--tw-ring-color:#FF8528; direction:ltr"
+                                          placeholder="محتوى الصفحة...">{{ old('body_de', $page->body_de) }}</textarea>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -60,7 +60,7 @@
                     {{-- Tab nav --}}
                     <div class="border-b border-gray-100 px-5 pt-5">
                         <div class="flex gap-1">
-                            @foreach(['ar' => 'العربية', 'en' => 'English', 'nl' => 'Nederlands', 'de' => 'Deutsch'] as $code => $label)
+                            @foreach(['ar' => 'العربية', 'en' => 'الإنجليزية', 'nl' => 'الهولندية', 'de' => 'الألمانية'] as $code => $label)
                                 <button type="button"
                                         @click="tab = '{{ $code }}'"
                                         :class="tab === '{{ $code }}'
@@ -80,7 +80,7 @@
                     {{-- Tab panels --}}
                     <div class="p-5 space-y-4">
 
-                        @foreach(['ar' => 'العربية', 'en' => 'English', 'nl' => 'Nederlands', 'de' => 'Deutsch'] as $code => $label)
+                        @foreach(['ar' => 'العربية', 'en' => 'الإنجليزية', 'nl' => 'الهولندية', 'de' => 'الألمانية'] as $code => $label)
                             <div x-show="tab === '{{ $code }}'" x-cloak>
                                 {{-- Title --}}
                                 <div class="mb-4">
@@ -116,26 +116,32 @@
                                 </div>
 
                                 {{-- Body --}}
-                                @if(in_array($code, ['ar', 'en']))
-                                    <div>
-                                        <label class="block text-sm font-semibold text-gray-700 mb-1.5">
-                                            محتوى المقال ({{ $label }})
-                                            @if($code === 'ar') <span class="text-red-500">*</span> @endif
-                                        </label>
-                                        {{-- Hidden textarea that holds the actual HTML value for form submission --}}
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1.5">
+                                        محتوى المقال ({{ $label }})
+                                        @if($code === 'ar') <span class="text-red-500">*</span> @endif
+                                    </label>
+                                    @if(in_array($code, ['ar', 'en']))
+                                        {{-- Quill rich-text editor for AR and EN --}}
                                         <textarea name="body_{{ $code }}"
                                                   id="body_{{ $code }}_input"
                                                   class="hidden">{{ old('body_' . $code, '') }}</textarea>
-                                        {{-- Quill editor container --}}
                                         <div id="quill_{{ $code }}"
                                              dir="{{ $code === 'ar' ? 'rtl' : 'ltr' }}"
                                              class="rounded-xl border border-gray-200 overflow-hidden quill-editor"
                                              style="min-height:280px;"></div>
-                                        @error('body_' . $code)
-                                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                                        @enderror
-                                    </div>
-                                @endif
+                                    @else
+                                        {{-- Plain textarea for NL and DE --}}
+                                        <textarea name="body_{{ $code }}"
+                                                  rows="12"
+                                                  dir="ltr"
+                                                  class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent font-mono resize-y"
+                                                  placeholder="محتوى المقال...">{{ old('body_' . $code, '') }}</textarea>
+                                    @endif
+                                    @error('body_' . $code)
+                                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
+                                    @enderror
+                                </div>
                             </div>
                         @endforeach
                     </div>

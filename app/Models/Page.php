@@ -16,6 +16,8 @@ class Page extends Model
         'title_de',
         'body_ar',
         'body_en',
+        'body_nl',
+        'body_de',
         'status',
         'template',
         'show_in_nav',
