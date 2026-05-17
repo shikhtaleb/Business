@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Backup;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -70,51 +71,58 @@ class BackupController extends Controller
     private function backupDatabase(Backup $backup): void
     {
         $config   = config('database.connections.' . config('database.default'));
-        $host     = $config['host'];
-        $port     = $config['port'] ?? 3306;
-        $db       = $config['database'];
-        $user     = $config['username'];
-        $pass     = $config['password'];
+        $driver   = $config['driver'] ?? 'sqlite';
         $date     = now()->format('Y-m-d_H-i-s');
-        $filename = "backup_db_{$db}_{$date}.sql";
         $dir      = storage_path('app/backups');
 
         if (!is_dir($dir)) mkdir($dir, 0755, true);
 
-        $filepath = "{$dir}/{$filename}";
+        if ($driver === 'sqlite') {
+            // SQLite: copy the DB file directly
+            $dbPath   = $config['database'];
+            $filename = "backup_db_{$date}.sqlite";
+            $filepath = "{$dir}/{$filename}";
 
-        // Use PHP's PDO to dump database structure and data
-        $pdo    = DB::connection()->getPdo();
-        $tables = $pdo->query("SHOW TABLES")->fetchAll(\PDO::FETCH_COLUMN);
-        $sql    = "-- Retont Business DB Backup\n-- Generated: " . now() . "\n-- Database: {$db}\n\nSET FOREIGN_KEY_CHECKS=0;\n\n";
-
-        foreach ($tables as $table) {
-            // Structure
-            $create = $pdo->query("SHOW CREATE TABLE `{$table}`")->fetch(\PDO::FETCH_ASSOC);
-            $sql   .= "DROP TABLE IF EXISTS `{$table}`;\n";
-            $sql   .= array_values($create)[1] . ";\n\n";
-
-            // Data
-            $rows = $pdo->query("SELECT * FROM `{$table}`")->fetchAll(\PDO::FETCH_ASSOC);
-            if (!empty($rows)) {
-                $cols  = implode('`, `', array_keys($rows[0]));
-                $sql  .= "INSERT INTO `{$table}` (`{$cols}`) VALUES\n";
-                $chunks = array_chunk($rows, 100);
-                foreach ($chunks as $ci => $chunk) {
-                    foreach ($chunk as $ri => $row) {
-                        $vals = implode(', ', array_map(fn($v) => $v === null ? 'NULL' : $pdo->quote((string) $v), $row));
-                        $sql .= "  ({$vals})";
-                        $isLast = ($ci === count($chunks) - 1) && ($ri === count($chunk) - 1);
-                        $sql .= $isLast ? ";\n" : ",\n";
-                    }
-                }
-                $sql .= "\n";
+            if (!file_exists($dbPath)) {
+                throw new \RuntimeException("SQLite database file not found: {$dbPath}");
             }
+
+            copy($dbPath, $filepath);
+        } else {
+            // MySQL/MariaDB: dump via PDO
+            $db       = $config['database'];
+            $filename = "backup_db_{$db}_{$date}.sql";
+            $filepath = "{$dir}/{$filename}";
+            $pdo      = DB::connection()->getPdo();
+            $tables   = $pdo->query("SHOW TABLES")->fetchAll(\PDO::FETCH_COLUMN);
+            $siteName = Setting::get('site_name', config('app.name'));
+            $sql      = "-- {$siteName} DB Backup\n-- Generated: " . now() . "\n-- Database: {$db}\n\nSET FOREIGN_KEY_CHECKS=0;\n\n";
+
+            foreach ($tables as $table) {
+                $create = $pdo->query("SHOW CREATE TABLE `{$table}`")->fetch(\PDO::FETCH_ASSOC);
+                $sql   .= "DROP TABLE IF EXISTS `{$table}`;\n";
+                $sql   .= array_values($create)[1] . ";\n\n";
+
+                $rows = $pdo->query("SELECT * FROM `{$table}`")->fetchAll(\PDO::FETCH_ASSOC);
+                if (!empty($rows)) {
+                    $cols   = implode('`, `', array_keys($rows[0]));
+                    $sql   .= "INSERT INTO `{$table}` (`{$cols}`) VALUES\n";
+                    $chunks = array_chunk($rows, 100);
+                    foreach ($chunks as $ci => $chunk) {
+                        foreach ($chunk as $ri => $row) {
+                            $vals = implode(', ', array_map(fn($v) => $v === null ? 'NULL' : $pdo->quote((string) $v), $row));
+                            $sql .= "  ({$vals})";
+                            $isLast = ($ci === count($chunks) - 1) && ($ri === count($chunk) - 1);
+                            $sql .= $isLast ? ";\n" : ",\n";
+                        }
+                    }
+                    $sql .= "\n";
+                }
+            }
+
+            $sql .= "SET FOREIGN_KEY_CHECKS=1;\n";
+            file_put_contents($filepath, $sql);
         }
-
-        $sql .= "SET FOREIGN_KEY_CHECKS=1;\n";
-
-        file_put_contents($filepath, $sql);
 
         $size = filesize($filepath);
         $backup->update([
