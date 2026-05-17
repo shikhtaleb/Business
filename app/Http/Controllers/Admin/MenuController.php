@@ -38,7 +38,7 @@ class MenuController extends Controller
         $menu = Menu::create($validated);
 
         return redirect()->route('admin.menus.show', $menu)
-            ->with('success', 'Menu created successfully.');
+            ->with('success', 'تم إنشاء القائمة بنجاح.');
     }
 
     public function update(Request $request, Menu $menu): RedirectResponse
@@ -51,7 +51,7 @@ class MenuController extends Controller
         $menu->update($validated);
 
         return redirect()->route('admin.menus.show', $menu)
-            ->with('success', 'Menu updated successfully.');
+            ->with('success', 'تم تحديث القائمة بنجاح.');
     }
 
     public function destroy(Menu $menu): RedirectResponse
@@ -59,7 +59,7 @@ class MenuController extends Controller
         $menu->delete();
 
         return redirect()->route('admin.menus.index')
-            ->with('success', 'Menu deleted successfully.');
+            ->with('success', 'تم حذف القائمة بنجاح.');
     }
 
     // ── Menu Items ─────────────────────────────────────────────────────────────
@@ -83,7 +83,7 @@ class MenuController extends Controller
         ]);
 
         return redirect()->route('admin.menus.show', $menu)
-            ->with('success', 'Item added successfully.');
+            ->with('success', 'تم إضافة العنصر بنجاح.');
     }
 
     public function updateItem(Request $request, Menu $menu, MenuItem $item): RedirectResponse
@@ -107,7 +107,7 @@ class MenuController extends Controller
         ]);
 
         return redirect()->route('admin.menus.show', $menu)
-            ->with('success', 'Item updated successfully.');
+            ->with('success', 'تم تحديث العنصر بنجاح.');
     }
 
     public function destroyItem(Menu $menu, MenuItem $item): RedirectResponse
@@ -117,7 +117,7 @@ class MenuController extends Controller
         $item->delete();
 
         return redirect()->route('admin.menus.show', $menu)
-            ->with('success', 'Item deleted successfully.');
+            ->with('success', 'تم حذف العنصر بنجاح.');
     }
 
     public function reorderItems(Request $request, Menu $menu): JsonResponse

@@ -50,7 +50,7 @@ class ApiKeyController extends Controller
         session()->flash('api_plain_key', $plainKey);
 
         return redirect()->route('admin.api-keys.index')
-            ->with('success', 'API key created successfully. Copy it now — it will not be shown again.');
+            ->with('success', 'تم إنشاء مفتاح API. انسخه الآن — لن يُعرض مجدداً.');
     }
 
     public function destroy(ApiKey $apiKey)
@@ -64,7 +64,7 @@ class ApiKeyController extends Controller
         $apiKey->delete();
 
         return redirect()->route('admin.api-keys.index')
-            ->with('success', 'API key deleted.');
+            ->with('success', 'تم حذف مفتاح API.');
     }
 
     public function toggle(ApiKey $apiKey)
@@ -78,6 +78,6 @@ class ApiKeyController extends Controller
         $apiKey->update(['is_active' => ! $apiKey->is_active]);
 
         return redirect()->route('admin.api-keys.index')
-            ->with('success', 'API key ' . ($apiKey->is_active ? 'activated' : 'deactivated') . '.');
+            ->with('success', $apiKey->is_active ? 'تم تفعيل مفتاح API.' : 'تم تعطيل مفتاح API.');
     }
 }

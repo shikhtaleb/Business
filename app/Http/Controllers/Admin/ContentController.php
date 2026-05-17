@@ -97,7 +97,7 @@ class ContentController extends Controller
         $data = json_decode($raw, true);
 
         if (!is_array($data)) {
-            return back()->with('error', 'Invalid JSON file format. Expected an object with section keys.');
+            return back()->with('error', 'صيغة ملف JSON غير صالحة. المتوقع كائن بمفاتيح أقسام.');
         }
 
         $count = 0;
@@ -117,7 +117,7 @@ class ContentController extends Controller
             ['lang' => $lang]
         );
 
-        return back()->with('success', "Imported {$count} translation keys for language: {$lang}.");
+        return back()->with('success', "تم استيراد {$count} مفتاح ترجمة للغة: {$lang}.");
     }
 
     public function save(Request $request)
@@ -142,6 +142,6 @@ class ContentController extends Controller
             ['section' => $section, 'lang' => $lang]
         );
 
-        return back()->with('success', 'Content saved successfully.');
+        return back()->with('success', 'تم حفظ المحتوى بنجاح.');
     }
 }

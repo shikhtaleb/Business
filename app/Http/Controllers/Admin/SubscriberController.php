@@ -50,7 +50,7 @@ class SubscriberController extends Controller
     {
         $subscriber->delete();
 
-        return back()->with('success', 'Subscriber deleted.');
+        return back()->with('success', 'تم حذف المشترك.');
     }
 
     public function bulkAction(Request $request): RedirectResponse
@@ -66,13 +66,13 @@ class SubscriberController extends Controller
 
         if ($action === 'delete') {
             Subscriber::whereIn('id', $ids)->delete();
-            $message = count($ids) . ' subscriber(s) deleted.';
+            $message = 'تم حذف ' . count($ids) . ' مشترك.';
         } else {
             Subscriber::whereIn('id', $ids)->update([
                 'status'           => 'unsubscribed',
                 'unsubscribed_at'  => now(),
             ]);
-            $message = count($ids) . ' subscriber(s) unsubscribed.';
+            $message = 'تم إلغاء اشتراك ' . count($ids) . ' مشترك.';
         }
 
         return back()->with('success', $message);
@@ -137,7 +137,7 @@ class SubscriberController extends Controller
 
         fclose($handle);
 
-        return back()->with('success', "Import complete: {$inserted} imported, {$skipped} skipped.");
+        return back()->with('success', "اكتمل الاستيراد: تم استيراد {$inserted}، تخطي {$skipped}.");
     }
 
     public function export(): StreamedResponse

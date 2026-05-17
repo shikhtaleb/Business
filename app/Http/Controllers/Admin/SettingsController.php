@@ -41,7 +41,7 @@ class SettingsController extends Controller
 
         ActivityLog::record('General settings updated', 'settings');
 
-        return back()->with('success', 'General settings saved successfully.');
+        return back()->with('success', 'تم حفظ الإعدادات العامة بنجاح.');
     }
 
     // -------------------------------------------------------------------------
@@ -88,7 +88,7 @@ class SettingsController extends Controller
 
         ActivityLog::record('Appearance settings updated', 'settings');
 
-        return back()->with('success', 'Appearance settings saved successfully.');
+        return back()->with('success', 'تم حفظ إعدادات المظهر بنجاح.');
     }
 
     // -------------------------------------------------------------------------
@@ -141,7 +141,7 @@ class SettingsController extends Controller
 
         ActivityLog::record("SEO settings updated for lang={$lang}", 'settings');
 
-        return back()->with('success', 'SEO settings saved and sitemap regenerated.');
+        return back()->with('success', 'تم حفظ إعدادات SEO وتحديث خريطة الموقع.');
     }
 
     // -------------------------------------------------------------------------
@@ -279,7 +279,7 @@ class SettingsController extends Controller
 
         ActivityLog::record('Cache cleared', 'settings');
 
-        return back()->with('success', 'Cache cleared successfully.');
+        return back()->with('success', 'تم مسح الذاكرة المؤقتة بنجاح.');
     }
 
     // -------------------------------------------------------------------------

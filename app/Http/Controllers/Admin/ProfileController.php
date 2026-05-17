@@ -37,7 +37,7 @@ class ProfileController extends Controller
             ['id' => $user->id]
         );
 
-        return back()->with('success', 'Profile updated successfully.');
+        return back()->with('success', 'تم تحديث الملف الشخصي بنجاح.');
     }
 
     public function updatePassword(Request $request)
@@ -50,7 +50,7 @@ class ProfileController extends Controller
         ]);
 
         if (!Hash::check($request->input('current_password'), $user->password)) {
-            return back()->with('error', 'The current password is incorrect.');
+            return back()->with('error', 'كلمة المرور الحالية غير صحيحة.');
         }
 
         $user->update([
@@ -63,6 +63,6 @@ class ProfileController extends Controller
             ['id' => $user->id]
         );
 
-        return back()->with('success', 'Password updated successfully.');
+        return back()->with('success', 'تم تحديث كلمة المرور بنجاح.');
     }
 }

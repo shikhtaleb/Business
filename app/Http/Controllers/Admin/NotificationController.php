@@ -37,7 +37,7 @@ class NotificationController extends Controller
         }
 
         return redirect()->route('admin.notifications.index')
-            ->with('success', 'All notifications marked as read.');
+            ->with('success', 'تم تعليم جميع الإشعارات كمقروءة.');
     }
 
     public function destroy(string $id)
@@ -53,6 +53,6 @@ class NotificationController extends Controller
         }
 
         return redirect()->route('admin.notifications.index')
-            ->with('success', 'Notification deleted.');
+            ->with('success', 'تم حذف الإشعار.');
     }
 }

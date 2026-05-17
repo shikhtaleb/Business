@@ -36,11 +36,11 @@ class AuthController extends Controller
 
             ActivityLog::record('User logged in: ' . Auth::user()->email, 'auth');
 
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'Welcome back, ' . Auth::user()->name . '!');
+            return redirect()->intended(route('admin.dashboard'))->with('success', 'أهلاً بعودتك، ' . Auth::user()->name . '!');
         }
 
         return back()->withErrors([
-            'email' => 'These credentials do not match our records.',
+            'email' => 'بيانات الدخول غير صحيحة.',
         ])->withInput($request->only('email'));
     }
 
@@ -51,7 +51,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login')->with('success', 'You have been logged out.');
+        return redirect()->route('admin.login')->with('success', 'تم تسجيل الخروج بنجاح.');
     }
 
     public function showForgotPassword()
@@ -100,7 +100,7 @@ class AuthController extends Controller
         );
 
         if ($status === Password::PASSWORD_RESET) {
-            return redirect()->route('admin.login')->with('success', 'Password has been reset!');
+            return redirect()->route('admin.login')->with('success', 'تم إعادة تعيين كلمة المرور بنجاح.');
         }
 
         return back()->withErrors(['email' => __($status)]);

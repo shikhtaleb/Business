@@ -42,7 +42,7 @@ class RedirectController extends Controller
         $this->clearRedirectCache();
 
         return redirect()->route('admin.redirects.index')
-            ->with('success', 'Redirect created successfully.');
+            ->with('success', 'تم إنشاء إعادة التوجيه بنجاح.');
     }
 
     public function edit(Redirect $redirect): View
@@ -68,7 +68,7 @@ class RedirectController extends Controller
         $this->clearRedirectCache();
 
         return redirect()->route('admin.redirects.index')
-            ->with('success', 'Redirect updated successfully.');
+            ->with('success', 'تم تحديث إعادة التوجيه بنجاح.');
     }
 
     public function destroy(Redirect $redirect): RedirectResponse
@@ -77,7 +77,7 @@ class RedirectController extends Controller
         $this->clearRedirectCache();
 
         return redirect()->route('admin.redirects.index')
-            ->with('success', 'Redirect deleted successfully.');
+            ->with('success', 'تم حذف إعادة التوجيه بنجاح.');
     }
 
     public function toggle(Redirect $redirect): RedirectResponse
@@ -86,7 +86,7 @@ class RedirectController extends Controller
         $this->clearRedirectCache();
 
         return redirect()->route('admin.redirects.index')
-            ->with('success', 'Redirect status updated.');
+            ->with('success', 'تم تحديث حالة إعادة التوجيه.');
     }
 
     public function import(Request $request): RedirectResponse
@@ -146,6 +146,6 @@ class RedirectController extends Controller
         $this->clearRedirectCache();
 
         return redirect()->route('admin.redirects.index')
-            ->with('success', "Import complete: {$created} imported, {$skipped} skipped.");
+            ->with('success', "اكتمل الاستيراد: تم استيراد {$created}، تخطي {$skipped}.");
     }
 }
