@@ -43,7 +43,7 @@
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
                     {{-- Tab bar --}}
                     <div class="flex border-b border-gray-100 px-5 pt-4 gap-1">
-                        @foreach(['ar' => 'AR — العربية', 'en' => 'EN — English', 'nl' => 'NL — Nederlands', 'de' => 'DE — Deutsch'] as $lang => $label)
+                        @foreach(['ar' => 'AR — العربية', 'en' => 'EN — الإنجليزية', 'nl' => 'NL — الهولندية', 'de' => 'DE — الألمانية'] as $lang => $label)
                             <button type="button"
                                     @click="activeTab = '{{ $lang }}'"
                                     :class="activeTab === '{{ $lang }}'
@@ -79,12 +79,12 @@
                             <input type="text" name="title_en" value="{{ old('title_en', $page->title_en) }}"
                                    class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
                                    style="--tw-ring-color:#FF8528"
-                                   placeholder="Page title">
+                                   placeholder="عنوان الصفحة">
                             <label class="block text-xs font-semibold text-gray-600 mb-1.5 mt-4">المحتوى (إنجليزي)</label>
                             <textarea name="body_en" rows="14"
                                       class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent font-mono"
                                       style="--tw-ring-color:#FF8528"
-                                      placeholder="Page content...">{{ old('body_en', $page->body_en) }}</textarea>
+                                      placeholder="محتوى الصفحة...">{{ old('body_en', $page->body_en) }}</textarea>
                         </div>
 
                         {{-- NL --}}
@@ -93,7 +93,7 @@
                             <input type="text" name="title_nl" value="{{ old('title_nl', $page->title_nl) }}"
                                    class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
                                    style="--tw-ring-color:#FF8528"
-                                   placeholder="Paginatitel">
+                                   placeholder="عنوان الصفحة">
                         </div>
 
                         {{-- DE --}}
@@ -102,7 +102,7 @@
                             <input type="text" name="title_de" value="{{ old('title_de', $page->title_de) }}"
                                    class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent"
                                    style="--tw-ring-color:#FF8528"
-                                   placeholder="Seitentitel">
+                                   placeholder="عنوان الصفحة">
                         </div>
                     </div>
                 </div>

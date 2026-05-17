@@ -168,7 +168,7 @@ $settingsTabs = [
                         type="file"
                         name="logo"
                         accept="image/png,image/svg+xml,image/webp"
-                        class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:text-white file:cursor-pointer"
+                        class="w-full text-sm text-gray-500 file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:text-white file:cursor-pointer"
                     >
                     <style>
                         input[type=file]::file-selector-button { background-color:#FF8528; color:white; border:none; padding:0.5rem 1rem; border-radius:0.5rem; font-size:0.875rem; font-weight:600; cursor:pointer; }

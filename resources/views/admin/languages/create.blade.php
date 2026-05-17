@@ -70,7 +70,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1.5">ملف الترجمة (JSON) — اختياري</label>
                 <input type="file" name="translations" accept=".json"
-                       class="w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:text-white file:cursor-pointer"
+                       class="w-full text-sm text-gray-500 file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:text-white file:cursor-pointer"
                        style="--file-bg:#FF8528;">
                 <p class="mt-1 text-xs text-gray-400">يمكنك رفع ملف JSON يحتوي مفاتيح الترجمة. يمكن تعديله لاحقاً.</p>
             </div>

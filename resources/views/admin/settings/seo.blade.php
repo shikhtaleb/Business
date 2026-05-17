@@ -38,7 +38,7 @@ $settingsTabs = [
 
         {{-- Language Tabs --}}
         <div class="flex gap-2 flex-wrap">
-            @foreach (['ar' => 'AR — Arabic', 'en' => 'EN — English', 'nl' => 'NL — Nederlands', 'de' => 'DE — Deutsch'] as $code => $label)
+            @foreach (['ar' => 'AR — العربية', 'en' => 'EN — الإنجليزية', 'nl' => 'NL — الهولندية', 'de' => 'DE — الألمانية'] as $code => $label)
                 <a href="{{ request()->fullUrlWithQuery(['lang' => $code]) }}"
                    class="px-4 py-2 rounded-full text-xs font-semibold transition-all duration-150
                           {{ ($currentLang ?? 'en') === $code ? 'text-white shadow-sm' : 'bg-white border border-gray-200 text-gray-600 hover:border-gray-300' }}"
