@@ -214,7 +214,7 @@ $settingsTabs = [
                     <button type="button"
                             @click="maintenance = !maintenance; toggle()"
                             :disabled="saving"
-                            class="relative inline-flex items-center flex-shrink-0 ml-4 cursor-pointer focus:outline-none disabled:opacity-60">
+                            class="relative inline-flex items-center flex-shrink-0 ms-4 cursor-pointer focus:outline-none disabled:opacity-60">
                         <div class="w-11 h-6 rounded-full transition-colors duration-200"
                              :style="maintenance ? 'background-color:#FF8528;' : 'background-color:#d1d5db;'">
                             <div class="absolute top-[2px] left-[2px] w-5 h-5 bg-white rounded-full shadow transition-transform duration-200"

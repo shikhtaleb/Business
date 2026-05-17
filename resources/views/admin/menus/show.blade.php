@@ -59,7 +59,7 @@
                         <div class="flex items-center justify-between px-5 py-3 hover:bg-gray-50">
                             <div>
                                 <span class="text-sm font-medium text-gray-800">{{ $item->label_ar }}</span>
-                                <span class="text-xs text-gray-400 ml-2">{{ $item->url }}</span>
+                                <span class="text-xs text-gray-400 ms-2">{{ $item->url }}</span>
                             </div>
                             <div class="flex items-center gap-1.5">
                                 <form method="POST" action="{{ route('admin.menus.items.move-up', [$menu, $item]) }}">
@@ -80,10 +80,10 @@
                         </div>
                         @foreach($item->children as $child)
                             <div class="flex items-center justify-between px-5 py-3 hover:bg-gray-50 bg-gray-50/50">
-                                <div class="pl-4">
-                                    <span class="text-gray-400 mr-1">↳</span>
+                                <div class="ps-4">
+                                    <span class="text-gray-400 me-1">↳</span>
                                     <span class="text-sm text-gray-700">{{ $child->label_ar }}</span>
-                                    <span class="text-xs text-gray-400 ml-2">{{ $child->url }}</span>
+                                    <span class="text-xs text-gray-400 ms-2">{{ $child->url }}</span>
                                 </div>
                                 <form method="POST" action="{{ route('admin.menus.items.destroy', [$menu, $child]) }}" onsubmit="return confirm('حذف؟')">
                                     @csrf @method('DELETE')

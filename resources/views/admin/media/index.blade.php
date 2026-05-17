@@ -77,11 +77,11 @@
                         name="file"
                         required
                         class="w-full text-sm text-gray-500
-                               file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0
+                               file:me-3 file:py-2 file:px-4 file:rounded-lg file:border-0
                                file:text-sm file:font-semibold file:text-white file:cursor-pointer
                                hover:file:opacity-90 transition-all"
                         style="--file-bg:#FF8528;"
-                        accept="image/*,.svg,.ico,.pdf,.zip,.doc,.docx"
+                        accept="image/*,.svg,.ico"
                         onchange="this.style.cssText = ''"
                     >
                     <style>

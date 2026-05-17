@@ -180,7 +180,7 @@ $settingsTabs = [
                 <div>
                     <label for="logo_url" class="block text-sm font-medium text-gray-700 mb-1.5">
                         {{ __('admin.logo_url') }}
-                        <span class="text-gray-400 font-normal ml-1">({{ __('admin.or_paste_media') }})</span>
+                        <span class="text-gray-400 font-normal ms-1">({{ __('admin.or_paste_media') }})</span>
                     </label>
                     <input
                         id="logo_url"
@@ -201,7 +201,7 @@ $settingsTabs = [
                 <div>
                     <label for="dark_logo_url" class="block text-sm font-medium text-gray-700 mb-1.5">
                         {{ __('admin.dark_logo_url') }}
-                        <span class="text-gray-400 font-normal ml-1 text-xs">({{ __('admin.or_paste_media') }})</span>
+                        <span class="text-gray-400 font-normal ms-1 text-xs">({{ __('admin.or_paste_media') }})</span>
                     </label>
                     @if (!empty($settings['dark_logo_url']))
                         <div class="mb-2 w-40 h-20 rounded-xl border border-gray-200 bg-gray-800 flex items-center justify-center p-3">

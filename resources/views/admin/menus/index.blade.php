@@ -45,8 +45,8 @@
                     <div class="flex items-center justify-between px-5 py-3.5 hover:bg-gray-50">
                         <div>
                             <span class="text-sm font-medium text-gray-800">{{ $menu->name }}</span>
-                            <span class="text-xs text-gray-400 ml-2">{{ $menu->items_count }} عنصر</span>
-                            <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 ml-1">{{ $menu->location }}</span>
+                            <span class="text-xs text-gray-400 ms-2">{{ $menu->items_count }} عنصر</span>
+                            <span class="text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 ms-1">{{ $menu->location }}</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <a href="{{ route('admin.menus.show', $menu) }}"

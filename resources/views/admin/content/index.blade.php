@@ -77,7 +77,7 @@ $activeMeta = $sectionMeta[$currentSection] ?? ['icon' => 'M4 6h16M4 12h16M4 18h
     {{-- ── Top bar: Language selector + View site ──────────────────────────── --}}
     <div class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-3 flex items-center justify-between gap-4 flex-wrap">
         <div class="flex items-center gap-2 flex-wrap">
-            <span class="text-sm font-semibold text-gray-500 ml-1">اللغة:</span>
+            <span class="text-sm font-semibold text-gray-500 ms-1">اللغة:</span>
             @foreach(['ar' => ['🇸🇦', 'العربية'], 'en' => ['🇬🇧', 'English'], 'nl' => ['🇳🇱', 'Nederlands'], 'de' => ['🇩🇪', 'Deutsch']] as $code => [$flag, $langLabel])
             <a href="{{ request()->fullUrlWithQuery(['lang' => $code, 'section' => $currentSection]) }}"
                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all
@@ -135,7 +135,7 @@ $activeMeta = $sectionMeta[$currentSection] ?? ['icon' => 'M4 6h16M4 12h16M4 18h
             <div>
                 <label class="block text-xs font-medium text-amber-700 mb-1">اختر ملف JSON</label>
                 <input type="file" name="file" accept=".json,application/json" required
-                       class="text-sm text-gray-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:text-white file:cursor-pointer file:transition-colors">
+                       class="text-sm text-gray-600 file:me-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:text-white file:cursor-pointer file:transition-colors">
                 <style>input[type=file]::file-selector-button{background:#FF8528;color:#fff;border:none;padding:.375rem .75rem;border-radius:.5rem;font-size:.75rem;font-weight:600;cursor:pointer;}input[type=file]::file-selector-button:hover{background:#E06800;}</style>
             </div>
             <button type="submit"

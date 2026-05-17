@@ -70,8 +70,8 @@ class SettingsController extends Controller
         Setting::set('dark_mode_default', $request->input('dark_mode_default'), 'appearance');
         Setting::set('font_family',       $request->input('font_family'),       'appearance');
 
-        if ($request->filled('logo_url')) {
-            Setting::set('logo_url', $request->input('logo_url'), 'appearance');
+        if ($request->has('logo_url')) {
+            Setting::set('logo_url', $request->input('logo_url', ''), 'appearance');
         }
 
         if ($request->has('dark_logo_url')) {

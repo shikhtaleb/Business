@@ -58,7 +58,7 @@
                 <option value="delete">حذف المحدد</option>
                 <option value="unsubscribe">إلغاء اشتراك</option>
             </select>
-            <button type="submit" class="ml-2 px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600">تنفيذ</button>
+            <button type="submit" class="ms-2 px-4 py-2 rounded-lg text-sm font-medium bg-red-500 text-white hover:bg-red-600">تنفيذ</button>
         </form>
     </div>
 
@@ -107,7 +107,7 @@
                             <td class="px-5 py-3.5 text-end">
                                 <form method="POST" action="{{ route('admin.subscribers.destroy', $sub) }}" onsubmit="return confirm('حذف هذا المشترك؟')">
                                     @csrf @method('DELETE')
-                                    <button class="w-7 h-7 flex items-center justify-center rounded-lg border border-red-200 hover:bg-red-50 text-red-400 hover:text-red-600 ml-auto">
+                                    <button class="w-7 h-7 flex items-center justify-center rounded-lg border border-red-200 hover:bg-red-50 text-red-400 hover:text-red-600 ms-auto">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                                     </button>
                                 </form>

@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 @forelse($topPages as $page)
                     <div class="px-5 py-3 flex items-center justify-between">
                         <span class="text-sm text-gray-700 font-mono truncate max-w-xs" title="{{ $page->page }}">{{ $page->page }}</span>
-                        <span class="text-sm font-semibold text-gray-900 ml-4 flex-shrink-0">{{ number_format($page->total) }}</span>
+                        <span class="text-sm font-semibold text-gray-900 ms-4 flex-shrink-0">{{ number_format($page->total) }}</span>
                     </div>
                 @empty
                     <div class="px-5 py-6 text-center text-sm text-gray-400">لا توجد بيانات</div>

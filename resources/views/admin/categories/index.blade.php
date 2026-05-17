@@ -72,9 +72,9 @@
                                 {{ $cat->parent ? '&nbsp;&nbsp;↳&nbsp;' : '' }}{{ $cat->name_ar }}
                             </span>
                             @if($cat->name_en)
-                                <span class="text-xs text-gray-400 ml-2">/ {{ $cat->name_en }}</span>
+                                <span class="text-xs text-gray-400 ms-2">/ {{ $cat->name_en }}</span>
                             @endif
-                            <span class="text-xs text-gray-400 ml-2">{{ $cat->posts_count ?? 0 }} مقال</span>
+                            <span class="text-xs text-gray-400 ms-2">{{ $cat->posts_count ?? 0 }} مقال</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <a href="{{ route('admin.categories.edit', $cat) }}"
