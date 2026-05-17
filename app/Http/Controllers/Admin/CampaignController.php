@@ -73,6 +73,10 @@ class CampaignController extends Controller
             return back()->with('error', 'هذه الحملة أُرسلت بالفعل.');
         }
 
+        if ($campaign->status === 'sending') {
+            return back()->with('error', 'الحملة جارٍ إرسالها الآن، يرجى الانتظار.');
+        }
+
         $campaign->update(['status' => 'sending']);
 
         SendCampaignJob::dispatch($campaign);
