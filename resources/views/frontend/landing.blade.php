@@ -33,6 +33,21 @@
   --brand-soft:    color-mix(in srgb, {{ $settings['brand_color'] ?? '#FF8528' }} 8%, transparent);
   --brand-hover:   color-mix(in srgb, {{ $settings['brand_color'] ?? '#FF8528' }} 85%, #000);
 }
+
+/* Blog section */
+.blog-section { padding: 5rem 0; background: var(--surface); }
+.blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2.5rem; }
+.blog-card { background: var(--card-bg, #fff); border: 1px solid var(--border); border-radius: 1rem; overflow: hidden; transition: transform .2s, box-shadow .2s; }
+.blog-card:hover { transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,.08); }
+.blog-card-img { height: 180px; background-size: cover; background-position: center; }
+.blog-card-img-placeholder { background: linear-gradient(135deg, var(--brand-light, #FFF4EA), var(--brand-soft, #FFE8D0)); }
+.blog-card-body { padding: 1.25rem; }
+.blog-card-cat { display: inline-block; font-size: .7rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: var(--brand); background: var(--brand-light, #FFF4EA); padding: .2rem .6rem; border-radius: 999px; margin-bottom: .6rem; }
+.blog-card-title { font-size: 1rem; font-weight: 700; color: var(--ink); line-height: 1.4; margin-bottom: .5rem; }
+.blog-card-excerpt { font-size: .875rem; color: var(--ink-2); line-height: 1.6; margin-bottom: 1rem; }
+.blog-card-meta { display: flex; align-items: center; justify-content: space-between; font-size: .8rem; color: var(--ink-3, #94a3b8); }
+.blog-card-link { color: var(--brand); font-weight: 600; text-decoration: none; }
+.blog-card-link:hover { text-decoration: underline; }
 </style>
 @if(!empty($settings['ga_id']))
 <!-- Google Analytics -->
@@ -546,6 +561,56 @@
     </div>
   </div>
 </section>
+
+{{-- ── Blog Section ─────────────────────────────────────────────── --}}
+@php
+    try {
+        $latestPosts = \App\Models\Post::with(['category', 'author'])
+            ->where('status', 'published')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderByDesc('published_at')
+            ->limit(3)
+            ->get();
+    } catch (\Throwable) {
+        $latestPosts = collect();
+    }
+@endphp
+@if($latestPosts->isNotEmpty())
+<section class="blog-section" id="blog">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 class="section-title" data-i18n="blog.title">{{ $lang === 'ar' ? 'أحدث المقالات' : 'Latest Articles' }}</h2>
+      <p class="section-sub" data-i18n="blog.sub">{{ $lang === 'ar' ? 'نشارك معك أحدث الأفكار والخبرات' : 'We share insights and expertise' }}</p>
+    </div>
+    <div class="blog-grid">
+      @foreach($latestPosts as $blogPost)
+      <article class="blog-card">
+        @if($blogPost->featured_image)
+          <div class="blog-card-img" style="background-image:url('{{ $blogPost->featured_image }}')"></div>
+        @else
+          <div class="blog-card-img blog-card-img-placeholder"></div>
+        @endif
+        <div class="blog-card-body">
+          @if($blogPost->category)
+          <span class="blog-card-cat">{{ $blogPost->category->{"name_{$lang}"} ?? $blogPost->category->name_ar }}</span>
+          @endif
+          <h3 class="blog-card-title">{{ $blogPost->{"title_{$lang}"} ?? $blogPost->title_ar }}</h3>
+          <p class="blog-card-excerpt">{{ Str::limit($blogPost->{"excerpt_{$lang}"} ?? $blogPost->excerpt_ar ?? '', 100) }}</p>
+          <div class="blog-card-meta">
+            <span>{{ $blogPost->published_at?->diffForHumans() }}</span>
+            <a href="{{ url('/blog/' . $blogPost->slug) }}" class="blog-card-link">{{ $lang === 'ar' ? 'اقرأ المزيد' : 'Read more' }} &rarr;</a>
+          </div>
+        </div>
+      </article>
+      @endforeach
+    </div>
+    <div style="text-align:center;margin-top:2rem;">
+      <a href="{{ url('/blog') }}" class="btn btn-outline">{{ $lang === 'ar' ? 'عرض كل المقالات' : 'View all articles' }}</a>
+    </div>
+  </div>
+</section>
+@endif
 
 <!-- FOOTER -->
 <footer>
