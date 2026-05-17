@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Activity Log')
-@section('page-title', 'Activity Log')
+@section('title', 'سجل النشاط')
+@section('page-title', 'سجل النشاط')
 
 @section('content')
 <div class="space-y-5">
@@ -10,31 +10,31 @@
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4">
         <form method="GET" action="{{ route('admin.activity.index') }}" class="flex flex-wrap gap-3 items-end">
             <div class="flex-1 min-w-[180px]">
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Category</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">التصنيف</label>
                 <select name="log" class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm text-gray-800 focus:outline-none focus:ring-2 transition-shadow">
-                    <option value="all" {{ $logName === 'all' || !$logName ? 'selected' : '' }}>All categories</option>
+                    <option value="all" {{ $logName === 'all' || !$logName ? 'selected' : '' }}>جميع التصنيفات</option>
                     @foreach($logNames as $name)
                         <option value="{{ $name }}" {{ $logName === $name ? 'selected' : '' }}>{{ $name }}</option>
                     @endforeach
                 </select>
             </div>
             <div class="flex-1 min-w-[220px]">
-                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">Search</label>
+                <label class="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5">البحث</label>
                 <input type="text" name="search" value="{{ $search }}"
                     class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 transition-shadow"
-                    placeholder="Search descriptions…">
+                    placeholder="ابحث في الأوصاف...">
             </div>
             <button type="submit"
                 class="px-5 py-2 rounded-xl text-white text-sm font-semibold shadow-sm hover:shadow-md transition-all"
                 style="background-color:#FF8528;"
                 onmouseover="this.style.backgroundColor='#E06800'"
                 onmouseout="this.style.backgroundColor='#FF8528'">
-                Filter
+                تصفية
             </button>
             @if($logName && $logName !== 'all' || $search)
                 <a href="{{ route('admin.activity.index') }}"
                    class="px-4 py-2 rounded-xl text-sm text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
-                    Clear
+                    مسح
                 </a>
             @endif
         </form>
@@ -43,8 +43,8 @@
     {{-- Log Table --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         <div class="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-            <h2 class="text-base font-semibold text-gray-800">Events</h2>
-            <span class="text-xs text-gray-400">{{ $logs->total() }} total</span>
+            <h2 class="text-base font-semibold text-gray-800">الأحداث</h2>
+            <span class="text-xs text-gray-400">{{ $logs->total() }} إجمالي</span>
         </div>
 
         @if($logs->count())
@@ -91,7 +91,7 @@
                             {{ $log->log_name ?? 'general' }}
                         </span>
                         @if($log->causer_id)
-                            <span class="text-xs text-gray-400">by User #{{ $log->causer_id }}</span>
+                            <span class="text-xs text-gray-400">بواسطة المستخدم #{{ $log->causer_id }}</span>
                         @endif
                     </div>
                 </div>
@@ -117,7 +117,7 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                       d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
             </svg>
-            <p class="text-sm text-gray-400">No activity found.</p>
+            <p class="text-sm text-gray-400">لا يوجد نشاط.</p>
         </div>
         @endif
     </div>

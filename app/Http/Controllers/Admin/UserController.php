@@ -51,7 +51,7 @@ class UserController extends Controller
         );
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User created successfully.');
+            ->with('success', 'تم إنشاء المستخدم بنجاح.');
     }
 
     public function edit(User $user)
@@ -90,13 +90,13 @@ class UserController extends Controller
         );
 
         return redirect()->route('admin.users.index')
-            ->with('success', 'User updated successfully.');
+            ->with('success', 'تم تحديث بيانات المستخدم بنجاح.');
     }
 
     public function destroy(User $user)
     {
         if (Auth::id() === $user->id) {
-            return back()->with('error', 'You cannot delete your own account.');
+            return back()->with('error', 'لا يمكنك حذف حسابك الخاص.');
         }
 
         ActivityLog::record(
@@ -107,6 +107,6 @@ class UserController extends Controller
 
         $user->delete();
 
-        return back()->with('success', 'User deleted successfully.');
+        return back()->with('success', 'تم حذف المستخدم بنجاح.');
     }
 }

@@ -77,7 +77,7 @@ class TicketController extends Controller
 
         $ticket->touch();
 
-        return back()->with('success', 'Reply added successfully.');
+        return back()->with('success', 'تمت إضافة الرد بنجاح.');
     }
 
     public function updateStatus(Request $request, Ticket $ticket): RedirectResponse
@@ -95,10 +95,10 @@ class TicketController extends Controller
         $ticket->update($data);
 
         if ($request->wantsJson()) {
-            return back()->with('success', 'Status updated.');
+            return back()->with('success', 'تم تحديث الحالة.');
         }
 
-        return back()->with('success', 'Ticket status updated.');
+        return back()->with('success', 'تم تحديث حالة التذكرة.');
     }
 
     public function updatePriority(Request $request, Ticket $ticket): RedirectResponse
@@ -110,10 +110,10 @@ class TicketController extends Controller
         $ticket->update(['priority' => $request->input('priority')]);
 
         if ($request->wantsJson()) {
-            return back()->with('success', 'Priority updated.');
+            return back()->with('success', 'تمت تحديث الأولوية.');
         }
 
-        return back()->with('success', 'Ticket priority updated.');
+        return back()->with('success', 'تم تحديث أولوية التذكرة.');
     }
 
     public function assign(Request $request, Ticket $ticket): RedirectResponse
@@ -125,16 +125,16 @@ class TicketController extends Controller
         $ticket->update(['assigned_to' => $request->input('assigned_to')]);
 
         if ($request->wantsJson()) {
-            return back()->with('success', 'Ticket assigned.');
+            return back()->with('success', 'تمت إسناد التذكرة.');
         }
 
-        return back()->with('success', 'Ticket assigned successfully.');
+        return back()->with('success', 'تمت إسناد التذكرة بنجاح.');
     }
 
     public function destroy(Ticket $ticket): RedirectResponse
     {
         $ticket->delete();
 
-        return redirect()->route('admin.tickets.index')->with('success', 'Ticket deleted.');
+        return redirect()->route('admin.tickets.index')->with('success', 'تم حذف التذكرة.');
     }
 }

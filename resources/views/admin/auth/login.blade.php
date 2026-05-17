@@ -1,11 +1,11 @@
 @extends('layouts.guest')
 
-@section('title', 'Admin Login')
+@section('title', 'تسجيل الدخول')
 
 @section('content')
     <div class="mb-6 text-center">
-        <h2 class="text-xl font-bold text-gray-900">Sign in to your account</h2>
-        <p class="mt-1 text-sm text-gray-500">Enter your credentials to access the admin panel</p>
+        <h2 class="text-xl font-bold text-gray-900">تسجيل الدخول إلى حسابك</h2>
+        <p class="mt-1 text-sm text-gray-500">أدخل بيانات اعتمادك للوصول إلى لوحة التحكم</p>
     </div>
 
     <!-- Validation Errors -->
@@ -32,7 +32,7 @@
         <!-- Email -->
         <div>
             <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">
-                Email address
+                البريد الإلكتروني
             </label>
             <input
                 id="email"
@@ -56,7 +56,7 @@
         <!-- Password -->
         <div>
             <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">
-                Password
+                كلمة المرور
             </label>
             <div class="relative" x-data="{ showPwd: false }">
                 <input
@@ -100,12 +100,12 @@
                     class="w-4 h-4 rounded border-gray-300 text-brand focus:ring-brand"
                     style="accent-color: #FF8528;"
                 >
-                <span class="text-sm text-gray-600">Remember me</span>
+                <span class="text-sm text-gray-600">تذكرني</span>
             </label>
             <a href="{{ route('admin.forgot-password') }}"
                class="text-sm font-medium hover:underline"
                style="color:#FF8528;">
-                Forgot password?
+                نسيت كلمة المرور؟
             </a>
         </div>
 
@@ -119,7 +119,7 @@
             onmouseover="this.style.backgroundColor='#E06800'"
             onmouseout="this.style.backgroundColor='#FF8528'"
         >
-            Sign In
+            تسجيل الدخول
         </button>
     </form>
 @endsection

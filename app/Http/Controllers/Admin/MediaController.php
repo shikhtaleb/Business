@@ -83,6 +83,6 @@ class MediaController extends Controller
 
         $media->delete();
 
-        return back()->with('success', 'File deleted successfully.');
+        return back()->with('success', 'تم حذف الملف بنجاح.');
     }
 }

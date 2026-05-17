@@ -75,7 +75,7 @@ class LeadController extends Controller
 
         Lead::create($data);
 
-        return redirect()->route('admin.leads.index')->with('success', 'Lead created successfully.');
+        return redirect()->route('admin.leads.index')->with('success', 'تم إنشاء العميل المحتمل بنجاح.');
     }
 
     public function show(Lead $lead): View
@@ -114,14 +114,14 @@ class LeadController extends Controller
 
         $lead->update($data);
 
-        return redirect()->route('admin.leads.show', $lead)->with('success', 'Lead updated successfully.');
+        return redirect()->route('admin.leads.show', $lead)->with('success', 'تم تحديث بيانات العميل بنجاح.');
     }
 
     public function destroy(Lead $lead): RedirectResponse
     {
         $lead->delete();
 
-        return redirect()->route('admin.leads.index')->with('success', 'Lead deleted.');
+        return redirect()->route('admin.leads.index')->with('success', 'تم حذف العميل المحتمل.');
     }
 
     public function addNote(Request $request, Lead $lead): RedirectResponse
@@ -138,7 +138,7 @@ class LeadController extends Controller
 
         $lead->touch();
 
-        return back()->with('success', 'Note added.');
+        return back()->with('success', 'تمت إضافة الملاحظة.');
     }
 
     public function updateStatus(Request $request, Lead $lead): RedirectResponse
@@ -155,10 +155,10 @@ class LeadController extends Controller
         ]);
 
         if ($request->wantsJson()) {
-            return back()->with('success', 'Status updated.');
+            return back()->with('success', 'تم تحديث الحالة.');
         }
 
-        return back()->with('success', 'Status updated.');
+        return back()->with('success', 'تم تحديث الحالة.');
     }
 
     public function export(): StreamedResponse

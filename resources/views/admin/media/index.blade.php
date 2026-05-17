@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Media Library')
-@section('page-title', 'Media Library')
+@section('title', 'مكتبة الوسائط')
+@section('page-title', 'مكتبة الوسائط')
 
 @section('content')
 
@@ -31,21 +31,21 @@
                      const data = await response.json();
                      if (response.ok && data.url) {
                          this.previewUrl = data.url;
-                         this.previewName = data.filename ?? 'Uploaded';
+                         this.previewName = data.filename ?? 'تم الرفع';
                          form.reset();
                          setTimeout(() => window.location.reload(), 1500);
                      } else {
-                         this.uploadError = data.message ?? 'Upload failed. Please try again.';
+                         this.uploadError = data.message ?? 'فشل الرفع. حاول مرة أخرى.';
                      }
                  } catch (e) {
-                     this.uploadError = 'Network error. Please try again.';
+                     this.uploadError = 'خطأ في الشبكة. حاول مرة أخرى.';
                  } finally {
                      this.uploading = false;
                  }
              }
          }"
     >
-        <h2 class="text-base font-semibold text-gray-800 mb-4">Upload New File</h2>
+        <h2 class="text-base font-semibold text-gray-800 mb-4">رفع ملف جديد</h2>
 
         <!-- Upload Error -->
         <div x-show="uploadError" x-cloak
@@ -62,7 +62,7 @@
             <img :src="previewUrl" class="w-12 h-12 object-cover rounded-lg border border-green-200" alt="Preview">
             <div>
                 <p class="text-sm font-medium text-green-800" x-text="previewName"></p>
-                <p class="text-xs text-green-600">Uploaded successfully! Refreshing...</p>
+                <p class="text-xs text-green-600">تم الرفع بنجاح! جارٍ التحديث...</p>
             </div>
         </div>
 
@@ -71,7 +71,7 @@
             <div class="flex flex-wrap items-end gap-4">
                 <!-- File Input -->
                 <div class="flex-1 min-w-[200px]">
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">File</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">الملف</label>
                     <input
                         type="file"
                         name="file"
@@ -104,13 +104,13 @@
 
                 <!-- Type Selector -->
                 <div class="w-40">
-                    <label class="block text-sm font-medium text-gray-700 mb-1.5">Type</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1.5">النوع</label>
                     <select name="type"
                         class="w-full px-3 py-2 rounded-xl border border-gray-300 text-sm text-gray-700
                                focus:outline-none focus:ring-2 focus:border-transparent transition-shadow">
-                        <option value="general">General</option>
-                        <option value="logo">Logo</option>
-                        <option value="favicon">Favicon</option>
+                        <option value="general">عام</option>
+                        <option value="logo">شعار</option>
+                        <option value="favicon">أيقونة الموقع</option>
                     </select>
                 </div>
 
@@ -132,7 +132,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                     </svg>
-                    <span x-text="uploading ? 'Uploading...' : 'Upload'"></span>
+                    <span x-text="uploading ? 'جارٍ الرفع...' : 'رفع'"></span>
                 </button>
             </div>
         </form>
@@ -142,9 +142,9 @@
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
         <div class="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
             <h2 class="text-base font-semibold text-gray-800">
-                Media Files
+                الملفات
                 @if(isset($media) && method_exists($media, 'total'))
-                    <span class="ml-2 text-sm font-normal text-gray-400">({{ $media->total() }} files)</span>
+                    <span class="ms-2 text-sm font-normal text-gray-400">({{ $media->total() }} ملف)</span>
                 @endif
             </h2>
         </div>
@@ -208,7 +208,7 @@
                             <!-- Delete Button -->
                             <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <form method="POST" action="{{ route('admin.media.destroy', $file->id) }}"
-                                      onsubmit="return confirm('Delete this file? This cannot be undone.')">
+                                      onsubmit="return confirm('حذف هذا الملف نهائياً؟')">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
@@ -224,8 +224,8 @@
                             <div class="absolute top-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button
                                     type="button"
-                                    onclick="navigator.clipboard.writeText('{{ $file->url ?? asset('storage/'.($file->path ?? '')) }}').then(() => this.title = 'Copied!')"
-                                    title="Copy URL"
+                                    onclick="navigator.clipboard.writeText('{{ $file->url ?? asset('storage/'.($file->path ?? '')) }}').then(() => this.title = 'تم النسخ!')"
+                                    title="نسخ الرابط"
                                     class="w-7 h-7 flex items-center justify-center rounded-lg bg-gray-800/70 text-white shadow-md hover:bg-gray-900 transition-colors"
                                 >
                                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,8 +250,8 @@
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    <p class="text-gray-500 font-medium">No media files yet</p>
-                    <p class="text-sm text-gray-400 mt-1">Upload your first file using the form above.</p>
+                    <p class="text-gray-500 font-medium">لا توجد ملفات بعد</p>
+                    <p class="text-sm text-gray-400 mt-1">ارفع أول ملف باستخدام النموذج أعلاه.</p>
                 </div>
             @endif
         </div>

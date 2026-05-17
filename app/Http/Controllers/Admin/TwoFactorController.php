@@ -23,7 +23,7 @@ class TwoFactorController extends Controller
         $user = Auth::user();
 
         if ($user->two_factor_enabled) {
-            return back()->with('error', 'Two-factor authentication is already enabled.');
+            return back()->with('error', 'المصادقة الثنائية مُفعّلة بالفعل.');
         }
 
         $secret = $this->generateSecret();
@@ -34,7 +34,7 @@ class TwoFactorController extends Controller
 
         session(['2fa_setup_secret' => $secret]);
 
-        return back()->with('success', '2FA setup initiated. Scan the QR code and enter your code to confirm.');
+        return back()->with('success', 'تم بدء إعداد المصادقة الثنائية. امسح رمز QR وأدخل الرمز للتأكيد.');
     }
 
     public function verify(Request $request): RedirectResponse
@@ -45,16 +45,16 @@ class TwoFactorController extends Controller
         $secret = session('2fa_setup_secret') ?? ($user->totp_secret ? decrypt($user->totp_secret) : null);
 
         if (!$secret) {
-            return back()->with('error', 'Setup session expired. Please restart 2FA setup.');
+            return back()->with('error', 'انتهت صلاحية الجلسة. يرجى إعادة إعداد المصادقة الثنائية.');
         }
 
         if ($this->verifyTotp($secret, $request->input('code'))) {
             $user->update(['two_factor_enabled' => true]);
             session()->forget('2fa_setup_secret');
-            return back()->with('success', 'Two-factor authentication enabled successfully.');
+            return back()->with('success', 'تم تفعيل المصادقة الثنائية بنجاح.');
         }
 
-        return back()->with('error', 'Invalid code. Please try again.');
+        return back()->with('error', 'الرمز غير صحيح. حاول مجدداً.');
     }
 
     public function disable(Request $request): RedirectResponse
@@ -62,7 +62,7 @@ class TwoFactorController extends Controller
         $request->validate(['password' => 'required|string']);
 
         if (!\Hash::check($request->input('password'), Auth::user()->password)) {
-            return back()->with('error', 'Incorrect password.');
+            return back()->with('error', 'كلمة المرور غير صحيحة.');
         }
 
         Auth::user()->update([
@@ -70,7 +70,7 @@ class TwoFactorController extends Controller
             'two_factor_enabled' => false,
         ]);
 
-        return back()->with('success', 'Two-factor authentication disabled.');
+        return back()->with('success', 'تم تعطيل المصادقة الثنائية.');
     }
 
     private function generateSecret(): string

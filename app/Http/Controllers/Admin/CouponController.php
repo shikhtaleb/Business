@@ -47,7 +47,7 @@ class CouponController extends Controller
             'updated_at'  => now(),
         ]);
 
-        return redirect()->route('admin.coupons.index')->with('success', 'Coupon created successfully.');
+        return redirect()->route('admin.coupons.index')->with('success', 'تم إنشاء الكوبون بنجاح.');
     }
 
     public function edit(int $coupon): View
@@ -82,13 +82,13 @@ class CouponController extends Controller
             'updated_at'  => now(),
         ]);
 
-        return redirect()->route('admin.coupons.index')->with('success', 'Coupon updated.');
+        return redirect()->route('admin.coupons.index')->with('success', 'تم تحديث الكوبون.');
     }
 
     public function destroy(int $coupon): RedirectResponse
     {
         DB::table('coupons')->where('id', $coupon)->delete();
 
-        return redirect()->route('admin.coupons.index')->with('success', 'Coupon deleted.');
+        return redirect()->route('admin.coupons.index')->with('success', 'تم حذف الكوبون.');
     }
 }

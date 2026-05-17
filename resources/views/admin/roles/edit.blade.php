@@ -1,21 +1,21 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Role')
-@section('page-title', 'Edit Role Permissions')
+@section('title', 'تعديل الدور')
+@section('page-title', 'تعديل صلاحيات الدور')
 
 @section('content')
 <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
     <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
         <div>
-            <h2 class="text-base font-semibold text-gray-800">Role: <span style="color:#FF8528;">{{ $role->name }}</span></h2>
-            <p class="text-sm text-gray-500 mt-0.5">Select which permissions this role should have.</p>
+            <h2 class="text-base font-semibold text-gray-800">الدور: <span style="color:#FF8528;">{{ $role->name }}</span></h2>
+            <p class="text-sm text-gray-500 mt-0.5">اختر الصلاحيات التي سيمتلكها هذا الدور.</p>
         </div>
         <a href="{{ route('admin.roles.index') }}"
            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors text-gray-600">
             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
-            Back to Roles
+            العودة للأدوار
         </a>
     </div>
 
@@ -24,7 +24,7 @@
         @method('PUT')
 
         @if($permissions->isEmpty())
-            <p class="text-sm text-gray-500 mb-6">No permissions have been defined yet.</p>
+            <p class="text-sm text-gray-500 mb-6">لا توجد صلاحيات محددة بعد.</p>
         @else
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
                 @foreach($permissions as $permission)
@@ -50,10 +50,10 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                 </svg>
-                Save Permissions
+                حفظ الصلاحيات
             </button>
             <a href="{{ route('admin.roles.index') }}" class="px-4 py-2.5 rounded-xl text-sm text-gray-600 border border-gray-300 hover:bg-gray-50 transition-colors">
-                Cancel
+                إلغاء
             </a>
         </div>
     </form>

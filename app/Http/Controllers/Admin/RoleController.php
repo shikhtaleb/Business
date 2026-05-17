@@ -49,7 +49,7 @@ class RoleController extends Controller
         );
 
         return redirect()->route('admin.roles.index')
-            ->with('success', "Role '{$role->name}' created successfully.");
+            ->with('success', "تم إنشاء الدور '{$role->name}' بنجاح.");
     }
 
     public function edit($id)
@@ -84,7 +84,7 @@ class RoleController extends Controller
             ['id' => $role->id, 'permissions' => $request->input('permissions', [])]
         );
 
-        return back()->with('success', "Role '{$role->name}' updated successfully.");
+        return back()->with('success', "تم تحديث الدور '{$role->name}' بنجاح.");
     }
 
     public function destroy($id)
@@ -92,7 +92,7 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
 
         if (in_array($role->name, $this->systemRoles)) {
-            return back()->with('error', "Cannot delete system role '{$role->name}'.");
+            return back()->with('error', "لا يمكن حذف الدور الأساسي '{$role->name}'.");
         }
 
         ActivityLog::record(
@@ -104,6 +104,6 @@ class RoleController extends Controller
         $role->delete();
 
         return redirect()->route('admin.roles.index')
-            ->with('success', 'Role deleted successfully.');
+            ->with('success', 'تم حذف الدور بنجاح.');
     }
 }

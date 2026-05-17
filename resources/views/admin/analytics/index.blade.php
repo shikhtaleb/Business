@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Analytics')
-@section('page-title', 'Analytics')
+@section('title', 'الإحصائيات')
+@section('page-title', 'الإحصائيات')
 
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
             labels: labels,
             datasets: [
                 {
-                    label: 'Total Views',
+                    label: 'إجمالي المشاهدات',
                     data: totals,
                     borderColor: '#FF8528',
                     backgroundColor: 'rgba(255,133,40,0.08)',
@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     tension: 0.4,
                 },
                 {
-                    label: 'Unique Visitors',
+                    label: 'زوار فريدون',
                     data: uniques,
                     borderColor: '#3B82F6',
                     backgroundColor: 'rgba(59,130,246,0.06)',
@@ -65,8 +65,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     {{-- Filter --}}
     <div class="flex items-center gap-3">
-        <span class="text-sm text-gray-600">Period:</span>
-        @foreach(['7' => '7 Days', '30' => '30 Days', '90' => '90 Days'] as $d => $label)
+        <span class="text-sm text-gray-600">الفترة:</span>
+        @foreach(['7' => '٧ أيام', '30' => '٣٠ يوماً', '90' => '٩٠ يوماً'] as $d => $label)
             <a href="{{ route('admin.analytics.index', ['filter' => $d]) }}"
                class="px-3 py-1.5 text-xs font-semibold rounded-lg border transition-colors
                       {{ ($filter ?? '30') === $d ? 'text-white border-orange-500' : 'border-gray-200 text-gray-600 hover:bg-gray-50' }}"
@@ -80,11 +80,11 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="grid grid-cols-2 lg:grid-cols-5 gap-4">
         @php
             $statCards = [
-                ['label' => 'Views Today',   'value' => $stats['views_today'],  'color' => '#FF8528', 'bg' => '#FFF4EA'],
-                ['label' => 'Views Week',    'value' => $stats['views_week'],   'color' => '#3B82F6', 'bg' => '#EFF6FF'],
-                ['label' => 'Views Month',   'value' => $stats['views_month'],  'color' => '#10B981', 'bg' => '#ECFDF5'],
-                ['label' => 'Unique Today',  'value' => $stats['unique_today'], 'color' => '#8B5CF6', 'bg' => '#F5F3FF'],
-                ['label' => 'Unique Month',  'value' => $stats['unique_month'], 'color' => '#F59E0B', 'bg' => '#FFFBEB'],
+                ['label' => 'مشاهدات اليوم',   'value' => $stats['views_today'],  'color' => '#FF8528', 'bg' => '#FFF4EA'],
+                ['label' => 'مشاهدات الأسبوع', 'value' => $stats['views_week'],   'color' => '#3B82F6', 'bg' => '#EFF6FF'],
+                ['label' => 'مشاهدات الشهر',   'value' => $stats['views_month'],  'color' => '#10B981', 'bg' => '#ECFDF5'],
+                ['label' => 'زوار فريدون اليوم', 'value' => $stats['unique_today'], 'color' => '#8B5CF6', 'bg' => '#F5F3FF'],
+                ['label' => 'زوار فريدون الشهر', 'value' => $stats['unique_month'], 'color' => '#F59E0B', 'bg' => '#FFFBEB'],
             ];
         @endphp
         @foreach($statCards as $card)
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     {{-- Chart --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-        <h2 class="text-base font-semibold text-gray-800 mb-4">Daily Visits — Last {{ $filter ?? 30 }} Days</h2>
+        <h2 class="text-base font-semibold text-gray-800 mb-4">الزيارات اليومية — آخر {{ $filter ?? 30 }} يوماً</h2>
         <div class="relative" style="height: 280px;">
             <canvas id="visitsChart"></canvas>
         </div>
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {{-- Top Pages --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-5 py-4 border-b border-gray-100">
-                <h2 class="text-sm font-semibold text-gray-800">Top Pages</h2>
+                <h2 class="text-sm font-semibold text-gray-800">أكثر الصفحات زيارة</h2>
             </div>
             <div class="divide-y divide-gray-50">
                 @forelse($topPages as $page)
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="text-sm font-semibold text-gray-900 ml-4 flex-shrink-0">{{ number_format($page->total) }}</span>
                     </div>
                 @empty
-                    <div class="px-5 py-6 text-center text-sm text-gray-400">No data</div>
+                    <div class="px-5 py-6 text-center text-sm text-gray-400">لا توجد بيانات</div>
                 @endforelse
             </div>
         </div>
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {{-- Top Referrers --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-5 py-4 border-b border-gray-100">
-                <h2 class="text-sm font-semibold text-gray-800">Top Referrers</h2>
+                <h2 class="text-sm font-semibold text-gray-800">أكثر المصادر إحالة</h2>
             </div>
             <div class="divide-y divide-gray-50">
                 @forelse($topReferrers as $referrer)
@@ -137,7 +137,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <span class="text-sm font-semibold text-gray-900 flex-shrink-0">{{ number_format($referrer->total) }}</span>
                     </div>
                 @empty
-                    <div class="px-5 py-6 text-center text-sm text-gray-400">No referrer data</div>
+                    <div class="px-5 py-6 text-center text-sm text-gray-400">لا توجد بيانات إحالة</div>
                 @endforelse
             </div>
         </div>

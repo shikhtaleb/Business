@@ -36,7 +36,7 @@ class CampaignController extends Controller
 
         Campaign::create($data);
 
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign created successfully.');
+        return redirect()->route('admin.campaigns.index')->with('success', 'تم إنشاء الحملة البريدية بنجاح.');
     }
 
     public function edit(Campaign $campaign): View
@@ -57,26 +57,26 @@ class CampaignController extends Controller
 
         $campaign->update($data);
 
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign updated successfully.');
+        return redirect()->route('admin.campaigns.index')->with('success', 'تم تحديث الحملة بنجاح.');
     }
 
     public function destroy(Campaign $campaign): RedirectResponse
     {
         $campaign->delete();
 
-        return redirect()->route('admin.campaigns.index')->with('success', 'Campaign deleted.');
+        return redirect()->route('admin.campaigns.index')->with('success', 'تم حذف الحملة.');
     }
 
     public function send(Campaign $campaign): RedirectResponse
     {
         if ($campaign->status === 'sent') {
-            return back()->with('error', 'This campaign has already been sent.');
+            return back()->with('error', 'هذه الحملة أُرسلت بالفعل.');
         }
 
         $campaign->update(['status' => 'sending']);
 
         SendCampaignJob::dispatch($campaign);
 
-        return back()->with('success', 'Campaign queued for sending.');
+        return back()->with('success', 'جاري إرسال الحملة...');
     }
 }

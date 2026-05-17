@@ -41,17 +41,17 @@ class BackupController extends Controller
 
             ActivityLog::record("Backup created: {$backup->filename} ({$backup->formattedSize()})", 'system');
 
-            return back()->with('success', "Backup created: {$backup->filename} ({$backup->formattedSize()})");
+            return back()->with('success', "تم إنشاء النسخة الاحتياطية: {$backup->filename} ({$backup->formattedSize()})");
         } catch (\Throwable $e) {
             $backup->update(['status' => 'failed', 'notes' => $e->getMessage()]);
-            return back()->with('error', 'Backup failed: ' . $e->getMessage());
+            return back()->with('error', 'فشل إنشاء النسخة الاحتياطية: ' . $e->getMessage());
         }
     }
 
     public function download(Backup $backup)
     {
         if (!Storage::disk('local')->exists($backup->path)) {
-            return back()->with('error', 'Backup file not found.');
+            return back()->with('error', 'ملف النسخة الاحتياطية غير موجود.');
         }
 
         return Storage::disk('local')->download($backup->path, $backup->filename);
@@ -64,7 +64,7 @@ class BackupController extends Controller
         }
         $backup->delete();
         ActivityLog::record("Backup deleted: {$backup->filename}", 'system');
-        return back()->with('success', 'Backup deleted.');
+        return back()->with('success', 'تم حذف النسخة الاحتياطية.');
     }
 
     private function backupDatabase(Backup $backup): void

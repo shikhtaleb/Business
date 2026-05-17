@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Pages')
-@section('page-title', 'Pages')
+@section('title', 'الصفحات')
+@section('page-title', 'الصفحات')
 
 @section('content')
 <div class="space-y-5">
@@ -9,8 +9,8 @@
     {{-- Header --}}
     <div class="flex items-center justify-between">
         <div>
-            <h2 class="text-lg font-semibold text-gray-900">All Pages</h2>
-            <p class="text-sm text-gray-500 mt-0.5">{{ $pages->total() }} {{ Str::plural('page', $pages->total()) }}</p>
+            <h2 class="text-lg font-semibold text-gray-900">جميع الصفحات</h2>
+            <p class="text-sm text-gray-500 mt-0.5">{{ $pages->total() }} صفحة</p>
         </div>
         <a href="{{ route('admin.pages.create') }}"
            class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-sm font-medium transition-colors"
@@ -18,7 +18,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
-            New Page
+            صفحة جديدة
         </a>
     </div>
 
@@ -30,18 +30,18 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <p class="text-sm">No pages yet. <a href="{{ route('admin.pages.create') }}" class="font-medium" style="color:#FF8528;">Create your first page</a></p>
+                <p class="text-sm">لا توجد صفحات بعد. <a href="{{ route('admin.pages.create') }}" class="font-medium" style="color:#FF8528;">أنشئ صفحتك الأولى</a></p>
             </div>
         @else
             <div class="overflow-x-auto">
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="bg-gray-50 border-b border-gray-100">
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">Title</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">Slug</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">Status</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">Author</th>
-                            <th class="text-left px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">Updated</th>
+                            <th class="text-start px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">العنوان</th>
+                            <th class="text-start px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">الرابط المختصر</th>
+                            <th class="text-start px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">الحالة</th>
+                            <th class="text-start px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">الكاتب</th>
+                            <th class="text-start px-5 py-3.5 font-semibold text-gray-600 text-xs uppercase tracking-wide">آخر تحديث</th>
                             <th class="px-5 py-3.5"></th>
                         </tr>
                     </thead>
@@ -61,12 +61,12 @@
                                     @if($page->status === 'published')
                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700">
                                             <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
-                                            Published
+                                            منشور
                                         </span>
                                     @else
                                         <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-gray-500">
                                             <span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>
-                                            Draft
+                                            مسودة
                                         </span>
                                     @endif
                                 </td>
@@ -80,19 +80,18 @@
                                     <div class="flex items-center justify-end gap-2">
                                         <a href="{{ route('admin.pages.edit', $page) }}"
                                            class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
-                                           title="Edit">
+                                           title="تعديل">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                       d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                                             </svg>
                                         </a>
                                         <form method="POST" action="{{ route('admin.pages.destroy', $page) }}"
-                                              x-data
-                                              @submit.prevent="if(confirm('Delete this page?')) $el.submit()">
+                                              onsubmit="return confirm('حذف هذه الصفحة نهائياً؟')">
                                             @csrf @method('DELETE')
                                             <button type="submit"
                                                     class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 transition-colors"
-                                                    title="Delete">
+                                                    title="حذف">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                           d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>

@@ -1,27 +1,26 @@
 @extends('layouts.admin')
 
-@section('title', 'Create User')
-@section('page-title', 'Create User')
+@section('title', 'إنشاء مستخدم')
+@section('page-title', 'إنشاء مستخدم جديد')
 
 @section('content')
 
     <div class="max-w-lg">
 
-        {{-- Back link --}}
         <div class="mb-4">
             <a href="{{ route('admin.users.index') }}"
                class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-gray-700 transition-colors">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
                 </svg>
-                Back to Users
+                العودة للمستخدمين
             </a>
         </div>
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-6 py-5 border-b border-gray-100">
-                <h2 class="text-base font-semibold text-gray-800">Create New User</h2>
-                <p class="text-sm text-gray-500 mt-0.5">Fill in the details to create a new admin panel user.</p>
+                <h2 class="text-base font-semibold text-gray-800">إنشاء مستخدم جديد</h2>
+                <p class="text-sm text-gray-500 mt-0.5">أدخل بيانات المستخدم الجديد للوحة التحكم.</p>
             </div>
 
             <form method="POST" action="{{ route('admin.users.store') }}" class="px-6 py-6 space-y-5">
@@ -37,123 +36,66 @@
                     </div>
                 @endif
 
-                {{-- Name --}}
                 <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
-                    <input
-                        id="name"
-                        type="text"
-                        name="name"
-                        value="{{ old('name') }}"
-                        required
-                        autofocus
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
-                               focus:outline-none focus:ring-2 focus:border-transparent transition-shadow
-                               @error('name') border-red-400 bg-red-50 @enderror"
-                        placeholder="Jane Doe"
-                    >
-                    @error('name')
-                        <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">الاسم الكامل</label>
+                    <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-shadow @error('name') border-red-400 bg-red-50 @enderror"
+                        style="--tw-ring-color:#FF8528;" placeholder="محمد أحمد">
+                    @error('name')<p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>@enderror
                 </div>
 
-                {{-- Email --}}
                 <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">Email Address</label>
-                    <input
-                        id="email"
-                        type="email"
-                        name="email"
-                        value="{{ old('email') }}"
-                        required
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
-                               focus:outline-none focus:ring-2 focus:border-transparent transition-shadow
-                               @error('email') border-red-400 bg-red-50 @enderror"
-                        placeholder="user@example.com"
-                    >
-                    @error('email')
-                        <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">البريد الإلكتروني</label>
+                    <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-shadow @error('email') border-red-400 bg-red-50 @enderror"
+                        style="--tw-ring-color:#FF8528;" placeholder="user@example.com">
+                    @error('email')<p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>@enderror
                 </div>
 
-                {{-- Password --}}
                 <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">Password</label>
-                    <input
-                        id="password"
-                        type="password"
-                        name="password"
-                        required
-                        autocomplete="new-password"
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
-                               focus:outline-none focus:ring-2 focus:border-transparent transition-shadow
-                               @error('password') border-red-400 bg-red-50 @enderror"
-                        placeholder="Min. 8 characters"
-                    >
-                    @error('password')
-                        <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
+                    <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">كلمة المرور</label>
+                    <input id="password" type="password" name="password" required autocomplete="new-password"
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-shadow @error('password') border-red-400 bg-red-50 @enderror"
+                        style="--tw-ring-color:#FF8528;" placeholder="٨ أحرف على الأقل">
+                    @error('password')<p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>@enderror
                 </div>
 
-                {{-- Password Confirmation --}}
                 <div>
-                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Confirm Password
-                    </label>
-                    <input
-                        id="password_confirmation"
-                        type="password"
-                        name="password_confirmation"
-                        required
-                        autocomplete="new-password"
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
-                               focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
-                        placeholder="Repeat password"
-                    >
+                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700 mb-1.5">تأكيد كلمة المرور</label>
+                    <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password"
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
+                        style="--tw-ring-color:#FF8528;" placeholder="أعد إدخال كلمة المرور">
                 </div>
 
-                {{-- Role --}}
                 <div>
-                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1.5">Role</label>
-                    <select
-                        id="role"
-                        name="role"
-                        required
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-700 text-sm
-                               focus:outline-none focus:ring-2 focus:border-transparent transition-shadow
-                               @error('role') border-red-400 @enderror"
-                    >
-                        <option value="">Select a role...</option>
+                    <label for="role" class="block text-sm font-medium text-gray-700 mb-1.5">الدور</label>
+                    <select id="role" name="role" required
+                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-700 text-sm focus:outline-none focus:ring-2 focus:border-transparent transition-shadow @error('role') border-red-400 @enderror"
+                        style="--tw-ring-color:#FF8528;">
+                        <option value="">اختر دوراً...</option>
                         @foreach($roles as $role)
-                            <option value="{{ $role->name }}"
-                                {{ old('role') === $role->name ? 'selected' : '' }}>
+                            <option value="{{ $role->name }}" {{ old('role') === $role->name ? 'selected' : '' }}>
                                 {{ $role->name }}
                             </option>
                         @endforeach
                     </select>
-                    @error('role')
-                        <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>
-                    @enderror
+                    @error('role')<p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>@enderror
                 </div>
 
-                {{-- Actions --}}
                 <div class="flex items-center gap-3 pt-2 border-t border-gray-100">
-                    <button
-                        type="submit"
-                        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-sm font-semibold
-                               shadow-md hover:shadow-lg transition-all duration-150 active:scale-[0.98]"
+                    <button type="submit"
+                        class="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl text-white text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-150 active:scale-[0.98]"
                         style="background-color:#FF8528;"
                         onmouseover="this.style.backgroundColor='#E06800'"
-                        onmouseout="this.style.backgroundColor='#FF8528'"
-                    >
+                        onmouseout="this.style.backgroundColor='#FF8528'">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                         </svg>
-                        Create User
+                        إنشاء المستخدم
                     </button>
                     <a href="{{ route('admin.users.index') }}"
                        class="px-4 py-2.5 rounded-xl text-sm text-gray-600 border border-gray-200 hover:bg-gray-50 transition-colors">
-                        Cancel
+                        إلغاء
                     </a>
                 </div>
             </form>

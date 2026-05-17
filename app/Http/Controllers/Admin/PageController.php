@@ -65,7 +65,7 @@ class PageController extends Controller
         ]);
 
         return redirect()->route('admin.pages.index')
-            ->with('success', 'Page created successfully.');
+            ->with('success', 'تم إنشاء الصفحة بنجاح.');
     }
 
     public function edit(Page $page): View
@@ -111,7 +111,7 @@ class PageController extends Controller
         ]);
 
         return redirect()->route('admin.pages.index')
-            ->with('success', 'Page updated successfully.');
+            ->with('success', 'تم تحديث الصفحة بنجاح.');
     }
 
     public function destroy(Page $page): RedirectResponse
@@ -119,6 +119,6 @@ class PageController extends Controller
         $page->delete();
 
         return redirect()->route('admin.pages.index')
-            ->with('success', 'Page deleted successfully.');
+            ->with('success', 'تم حذف الصفحة بنجاح.');
     }
 }
