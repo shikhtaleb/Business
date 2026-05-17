@@ -238,7 +238,7 @@ class SettingsController extends Controller
             $smtpPass    = Setting::get('smtp_password', '');
             $smtpEncrypt = Setting::get('smtp_encryption', 'tls');
             $fromEmail   = Setting::get('smtp_from_email', $smtpUser);
-            $fromName    = Setting::get('smtp_from_name', Setting::get('site_name', 'Retont Business'));
+            $fromName    = Setting::get('smtp_from_name', Setting::get('site_name', config('app.name')));
 
             if (!$smtpHost || !$smtpUser) {
                 return back()->with('error', __('admin.smtp_not_configured'));
@@ -255,8 +255,8 @@ class SettingsController extends Controller
             ]);
 
             \Illuminate\Support\Facades\Mail::raw(
-                'Test email from ' . Setting::get('site_name', 'Retont Business') . ' — SMTP is working!',
-                fn($m) => $m->to($request->input('test_email'))->subject('SMTP Test')
+                'بريد اختبار من ' . Setting::get('site_name', config('app.name')) . ' — SMTP يعمل بشكل صحيح!',
+                fn($m) => $m->to($request->input('test_email'))->subject('اختبار SMTP')
             );
 
             ActivityLog::record('SMTP test email sent to ' . $request->input('test_email'), 'settings');

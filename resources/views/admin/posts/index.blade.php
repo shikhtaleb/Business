@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'المقالات — Retont Business')
+@section('title', 'المقالات')
 @section('page-title', 'إدارة المقالات')
 
 @section('content')

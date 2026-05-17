@@ -13,7 +13,7 @@
 </style>
 @endpush
 
-@section('title', 'تعديل المقال — Retont Business')
+@section('title', 'تعديل المقال')
 @section('page-title', 'تعديل المقال')
 
 @section('content')
