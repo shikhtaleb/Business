@@ -272,6 +272,8 @@ Route::prefix('admin')->name('admin.')->middleware('check.installed.done')->grou
 Route::middleware(['check.installed.done', 'maintenance.mode', 'track.pageview'])->group(function () {
     Route::get('/', [FrontendController::class, 'index'])->name('home');
     Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+    Route::get('/blog', [FrontendController::class, 'blog'])->name('blog.index');
+    Route::get('/blog/{slug}', [FrontendController::class, 'post'])->name('blog.show');
 });
 
 // SEO files (no maintenance mode or pageview tracking needed)

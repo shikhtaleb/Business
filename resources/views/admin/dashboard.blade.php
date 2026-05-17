@@ -5,6 +5,46 @@
 
 @section('content')
 
+    {{-- Welcome Banner --}}
+    <div class="rounded-2xl p-5 mb-5 flex items-center justify-between" style="background:linear-gradient(135deg,#FF8528,#c45e00);">
+        <div>
+            <h2 class="text-white font-bold text-lg">مرحباً، {{ auth()->user()->name ?? 'مدير النظام' }} 👋</h2>
+            <p class="text-white/80 text-sm mt-0.5">إليك ملخص نشاط موقعك اليوم</p>
+        </div>
+        <a href="{{ url('/') }}" target="_blank" class="hidden sm:flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 rounded-xl text-white text-sm font-medium transition-colors">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            عرض الموقع
+        </a>
+    </div>
+
+    {{-- Quick Actions --}}
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-5">
+        <a href="{{ route('admin.posts.create') }}" class="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-orange-200 hover:shadow-md transition-all group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform" style="background:#FFF4EA;">
+                <svg class="w-5 h-5" fill="none" stroke="#FF8528" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </div>
+            <span class="text-xs font-semibold text-gray-700">مقال جديد</span>
+        </a>
+        <a href="{{ route('admin.leads.create') }}" class="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-orange-200 hover:shadow-md transition-all group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform" style="background:#FFF4EA;">
+                <svg class="w-5 h-5" fill="none" stroke="#FF8528" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+            </div>
+            <span class="text-xs font-semibold text-gray-700">عميل جديد</span>
+        </a>
+        <a href="{{ route('admin.messages.index') }}" class="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-orange-200 hover:shadow-md transition-all group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform" style="background:#FFF4EA;">
+                <svg class="w-5 h-5" fill="none" stroke="#FF8528" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <span class="text-xs font-semibold text-gray-700">الرسائل</span>
+        </a>
+        <a href="{{ url('/') }}" target="_blank" class="flex flex-col items-center justify-center p-4 bg-white rounded-2xl border border-gray-100 shadow-sm hover:border-orange-200 hover:shadow-md transition-all group">
+            <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-2 group-hover:scale-110 transition-transform" style="background:#FFF4EA;">
+                <svg class="w-5 h-5" fill="none" stroke="#FF8528" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </div>
+            <span class="text-xs font-semibold text-gray-700">عرض الموقع</span>
+        </a>
+    </div>
+
     {{-- ── Stat Cards ─────────────────────────────────────────────────────────── --}}
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 

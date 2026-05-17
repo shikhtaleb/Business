@@ -129,11 +129,11 @@
                                         @if($user->id !== auth()->id())
                                             <form method="POST"
                                                   action="{{ route('admin.users.destroy', $user) }}"
-                                                  onsubmit="return confirm('Delete {{ addslashes($user->name) }}? This cannot be undone.')">
+                                                  onsubmit="return confirm('حذف {{ addslashes($user->name) }}؟ لا يمكن التراجع عن هذا.')">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit"
-                                                        title="Delete user"
+                                                        title="حذف المستخدم"
                                                         class="w-8 h-8 flex items-center justify-center rounded-lg border border-red-200
                                                                hover:bg-red-50 transition-colors text-red-400 hover:text-red-600">
                                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -165,7 +165,7 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
                 </svg>
-                <p class="text-gray-500 font-medium">No users found</p>
+                <p class="text-gray-500 font-medium">لا يوجد مستخدمون</p>
                 <p class="text-sm text-gray-400 mt-1">
                     <button type="button" @click="showCreate = true" class="underline" style="color:#FF8528;">{{ __('admin.create_user') }}</button>
                 </p>
@@ -203,7 +203,7 @@
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                     <div>
                         <h2 class="text-base font-semibold text-gray-800">{{ __('admin.create_user') }}</h2>
-                        <p class="text-sm text-gray-500 mt-0.5">Fill in the details to create a new admin panel user.</p>
+                        <p class="text-sm text-gray-500 mt-0.5">أدخل بيانات المستخدم الجديد في لوحة التحكم.</p>
                     </div>
                     <button @click="showCreate = false" class="text-gray-400 hover:text-gray-600 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -326,7 +326,7 @@
                 <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                     <div>
                         <h2 class="text-base font-semibold text-gray-800">{{ __('admin.edit_user') }}: <span x-text="editUser.name"></span></h2>
-                        <p class="text-sm text-gray-500 mt-0.5">Update user information and role assignment.</p>
+                        <p class="text-sm text-gray-500 mt-0.5">تحديث بيانات المستخدم وتخصيص الدور.</p>
                     </div>
                     <button @click="showEdit = false" class="text-gray-400 hover:text-gray-600 transition-colors">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

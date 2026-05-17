@@ -208,6 +208,18 @@
                                             </svg>
                                         </a>
 
+                                        {{-- View on site --}}
+                                        @if($post->status === 'published')
+                                        <a href="{{ url('/blog/' . $post->slug) }}" target="_blank"
+                                           title="عرض على الموقع"
+                                           class="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-green-600 hover:bg-green-50 transition-colors">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                                            </svg>
+                                        </a>
+                                        @endif
+
                                         {{-- Delete --}}
                                         <form method="POST" action="{{ route('admin.posts.destroy', $post) }}"
                                               x-data

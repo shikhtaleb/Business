@@ -322,6 +322,16 @@ function adminApp() {
             <span x-show="isExpanded" x-cloak class="truncate">التصنيفات</span>
         </a>
 
+        <a href="{{ url('/blog') }}" target="_blank" title="عرض المدونة"
+           :class="!isExpanded && 'justify-center !px-2'"
+           class="sidebar-link">
+            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            <span x-show="isExpanded" x-cloak class="truncate">عرض المدونة</span>
+        </a>
+
         {{-- Pages & Navigation group --}}
         <div x-show="isExpanded" x-cloak class="sidebar-group-label">الصفحات والتنقل</div>
         <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>

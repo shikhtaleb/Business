@@ -66,6 +66,93 @@ class FrontendController extends Controller
         return $response;
     }
 
+    public function blog(Request $request)
+    {
+        $lang = $this->detectLang($request);
+        $settings = $this->getSettings();
+        $seo = $this->getSeo($lang);
+
+        $posts = \App\Models\Post::with(['category', 'author'])
+            ->where('status', 'published')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
+            ->orderByDesc('published_at')
+            ->paginate(9);
+
+        return response()->view('frontend.blog', compact('posts', 'settings', 'seo', 'lang'));
+    }
+
+    public function post(Request $request, string $slug)
+    {
+        $lang = $this->detectLang($request);
+        $settings = $this->getSettings();
+
+        $post = \App\Models\Post::with(['category', 'author'])
+            ->where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
+
+        // Increment views
+        $post->increment('views_count');
+
+        $seo = [
+            'title'       => $post->seo_title ?: ($post->{"title_{$lang}"} ?? $post->title_ar),
+            'description' => $post->seo_desc ?: ($post->{"excerpt_{$lang}"} ?? $post->excerpt_ar ?? ''),
+            'og_image'    => $post->featured_image ?? '',
+            'robots'      => 'index, follow',
+        ];
+
+        // Related posts
+        $related = \App\Models\Post::with(['category'])
+            ->where('status', 'published')
+            ->where('id', '!=', $post->id)
+            ->when($post->category_id, fn($q) => $q->where('category_id', $post->category_id))
+            ->latest('published_at')
+            ->limit(3)
+            ->get();
+
+        return view('frontend.post', compact('post', 'settings', 'seo', 'lang', 'related'));
+    }
+
+    private function detectLang(Request $request): string
+    {
+        $defaultLocale = \App\Models\Setting::get('default_locale', config('app.locale', 'ar'));
+        $available = ['ar', 'en', 'nl', 'de'];
+        if ($request->has('lang') && in_array($request->get('lang'), $available)) {
+            return $request->get('lang');
+        }
+        if ($request->cookie('site_lang') && in_array($request->cookie('site_lang'), $available)) {
+            return $request->cookie('site_lang');
+        }
+        return $defaultLocale;
+    }
+
+    private function getSettings(): array
+    {
+        return [
+            'site_name'     => \App\Models\Setting::get('site_name', 'Retont Business'),
+            'brand_color'   => \App\Models\Setting::get('brand_color', '#FF8528'),
+            'dark_mode'     => \App\Models\Setting::get('dark_mode_default', 'light'),
+            'font_family'   => \App\Models\Setting::get('font_family', 'IBM Plex Sans Arabic'),
+            'ga_id'         => \App\Models\Setting::get('ga_id', ''),
+            'logo_url'      => \App\Models\Setting::get('logo_url', ''),
+            'dark_logo_url' => \App\Models\Setting::get('dark_logo_url', ''),
+        ];
+    }
+
+    private function getSeo(string $lang): array
+    {
+        return [
+            'title'       => \App\Models\Setting::get("seo_title_{$lang}", 'Retont Business'),
+            'description' => \App\Models\Setting::get("seo_desc_{$lang}", ''),
+            'keywords'    => \App\Models\Setting::get("seo_keywords_{$lang}", ''),
+            'og_title'    => \App\Models\Setting::get("seo_og_title_{$lang}", ''),
+            'og_desc'     => \App\Models\Setting::get("seo_og_desc_{$lang}", ''),
+            'og_image'    => \App\Models\Setting::get("seo_og_image_{$lang}", ''),
+            'robots'      => \App\Models\Setting::get("seo_robots_{$lang}", 'index, follow'),
+        ];
+    }
+
     public function sitemap()
     {
         $siteUrl = rtrim(Setting::get('site_url', config('app.url')), '/');

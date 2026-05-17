@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'General Settings')
-@section('page-title', 'General Settings')
+@section('title', 'الإعدادات العامة')
+@section('page-title', 'الإعدادات العامة')
 
 @section('content')
 
 @php
 $settingsTabs = [
-    'admin.settings.general'    => ['label' => 'General',    'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
-    'admin.settings.appearance' => ['label' => 'Appearance', 'icon' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'],
-    'admin.settings.seo'        => ['label' => 'SEO',        'icon' => 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'],
+    'admin.settings.general'    => ['label' => 'عام',        'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
+    'admin.settings.appearance' => ['label' => 'المظهر',    'icon' => 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01'],
+    'admin.settings.seo'        => ['label' => 'SEO',       'icon' => 'M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'],
 ];
 @endphp
 
@@ -38,8 +38,8 @@ $settingsTabs = [
 
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-6 py-5 border-b border-gray-100">
-                <h2 class="text-base font-semibold text-gray-800">Site Configuration</h2>
-                <p class="text-sm text-gray-500 mt-0.5">Basic settings for your website.</p>
+                <h2 class="text-base font-semibold text-gray-800">إعدادات الموقع</h2>
+                <p class="text-sm text-gray-500 mt-0.5">الإعدادات الأساسية لموقعك.</p>
             </div>
 
             <form method="POST" action="{{ route('admin.settings.general.save') }}" class="px-6 py-6 space-y-6">
@@ -58,7 +58,7 @@ $settingsTabs = [
                 {{-- Site Name --}}
                 <div>
                     <label for="site_name" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Site Name
+                        اسم الموقع
                     </label>
                     <input
                         id="site_name"
@@ -78,7 +78,7 @@ $settingsTabs = [
                 {{-- Site URL --}}
                 <div>
                     <label for="site_url" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Site URL
+                        رابط الموقع
                     </label>
                     <input
                         id="site_url"
@@ -98,7 +98,7 @@ $settingsTabs = [
                 {{-- Default Language --}}
                 <div>
                     <label for="default_locale" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Default Language
+                        اللغة الافتراضية
                     </label>
                     <select
                         id="default_locale"
@@ -118,7 +118,7 @@ $settingsTabs = [
                 {{-- Timezone --}}
                 <div>
                     <label for="timezone" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Timezone
+                        المنطقة الزمنية
                     </label>
                     <select
                         id="timezone"
@@ -168,8 +168,8 @@ $settingsTabs = [
                 {{-- Google Analytics ID --}}
                 <div>
                     <label for="ga_id" class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Google Analytics ID
-                        <span class="text-gray-400 font-normal ml-1">(optional)</span>
+                        معرف Google Analytics
+                        <span class="text-gray-400 font-normal ms-1">(اختياري)</span>
                     </label>
                     <input
                         id="ga_id"
@@ -180,7 +180,7 @@ $settingsTabs = [
                                focus:outline-none focus:ring-2 focus:border-transparent transition-shadow font-mono"
                         placeholder="G-XXXXXXXXXX"
                     >
-                    <p class="mt-1 text-xs text-gray-400">Enter your Google Analytics 4 Measurement ID.</p>
+                    <p class="mt-1 text-xs text-gray-400">أدخل معرف القياس الخاص بـ Google Analytics 4.</p>
                 </div>
 
                 {{-- Maintenance Mode --}}
@@ -208,8 +208,8 @@ $settingsTabs = [
                          }
                      }">
                     <div>
-                        <p class="text-sm font-medium text-gray-800">Maintenance Mode</p>
-                        <p class="text-xs text-gray-500 mt-0.5">When enabled, the frontend shows a maintenance page to visitors.</p>
+                        <p class="text-sm font-medium text-gray-800">وضع الصيانة</p>
+                        <p class="text-xs text-gray-500 mt-0.5">عند التفعيل، يرى الزوار صفحة صيانة بدلاً من الموقع.</p>
                     </div>
                     <button type="button"
                             @click="maintenance = !maintenance; toggle()"
@@ -236,7 +236,7 @@ $settingsTabs = [
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
                         </svg>
-                        Save Settings
+                        حفظ الإعدادات
                     </button>
                 </div>
             </form>
@@ -245,24 +245,24 @@ $settingsTabs = [
         {{-- Cache Management --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-6 py-5 border-b border-gray-100">
-                <h2 class="text-base font-semibold text-gray-800">Cache Management</h2>
-                <p class="text-sm text-gray-500 mt-0.5">Clear cached settings, views, and application data.</p>
+                <h2 class="text-base font-semibold text-gray-800">إدارة الذاكرة المؤقتة</h2>
+                <p class="text-sm text-gray-500 mt-0.5">مسح الإعدادات المخزنة مؤقتاً وبيانات التطبيق.</p>
             </div>
             <div class="px-6 py-5 flex items-center justify-between flex-wrap gap-4">
                 <div>
-                    <p class="text-sm text-gray-700">Application Cache</p>
-                    <p class="text-xs text-gray-400 mt-0.5">Clears settings cache, compiled views, and general application cache.</p>
+                    <p class="text-sm text-gray-700">ذاكرة التطبيق المؤقتة</p>
+                    <p class="text-xs text-gray-400 mt-0.5">يمسح ذاكرة الإعدادات والقوالب المُجمّعة وذاكرة التطبيق.</p>
                 </div>
                 <form method="POST" action="{{ route('admin.settings.cache.clear') }}">
                     @csrf
                     <button type="submit"
                         class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-                        onclick="return confirm('Clear all cache?')">
+                        onclick="return confirm('مسح كل الذاكرة المؤقتة؟')">
                         <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
                         </svg>
-                        Clear Cache
+                        مسح الذاكرة المؤقتة
                     </button>
                 </form>
             </div>
