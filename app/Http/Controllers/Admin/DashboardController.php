@@ -64,7 +64,7 @@ class DashboardController extends Controller
         $chartUnique = [];
         for ($i = 29; $i >= 0; $i--) {
             $date          = now()->subDays($i)->format('Y-m-d');
-            $chartDays[]   = now()->subDays($i)->format('M d');
+            $chartDays[]   = now()->subDays($i)->translatedFormat('d M');
             $chartTotals[] = isset($dailyVisits[$date]) ? $dailyVisits[$date]->total : 0;
             $chartUnique[] = isset($dailyVisits[$date]) ? $dailyVisits[$date]->unique_visitors : 0;
         }

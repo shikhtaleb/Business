@@ -54,7 +54,7 @@ class AnalyticsController extends Controller
         $dailyData = [];
         for ($i = $days - 1; $i >= 0; $i--) {
             $date  = $now->copy()->subDays($i)->format('Y-m-d');
-            $label = $now->copy()->subDays($i)->format('M d');
+            $label = $now->copy()->subDays($i)->translatedFormat('d M');
 
             $dailyData[] = [
                 'date'            => $date,

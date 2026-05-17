@@ -25,7 +25,7 @@ class SendCampaignJob implements ShouldQueue
         try {
             $this->configureMail();
 
-            $query = Subscriber::where('status', 'subscribed');
+            $query = Subscriber::where('status', 'active');
 
             if ($this->campaign->target_lang) {
                 $query->where('lang', $this->campaign->target_lang);
