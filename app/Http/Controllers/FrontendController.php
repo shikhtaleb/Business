@@ -36,7 +36,7 @@ class FrontendController extends Controller
 
         // Settings
         $settings = [
-            'site_name'   => Setting::get('site_name', 'Retont Business'),
+            'site_name'   => Setting::get('site_name', config('app.name')),
             'brand_color' => Setting::get('brand_color', '#FF8528'),
             'dark_mode'   => Setting::get('dark_mode_default', 'light'),
             'font_family' => Setting::get('font_family', 'IBM Plex Sans Arabic'),
@@ -132,7 +132,7 @@ class FrontendController extends Controller
     private function getSettings(): array
     {
         return [
-            'site_name'     => \App\Models\Setting::get('site_name', 'Retont Business'),
+            'site_name'     => \App\Models\Setting::get('site_name', config('app.name')),
             'brand_color'   => \App\Models\Setting::get('brand_color', '#FF8528'),
             'dark_mode'     => \App\Models\Setting::get('dark_mode_default', 'light'),
             'font_family'   => \App\Models\Setting::get('font_family', 'IBM Plex Sans Arabic'),
@@ -145,7 +145,7 @@ class FrontendController extends Controller
     private function getSeo(string $lang): array
     {
         return [
-            'title'       => \App\Models\Setting::get("seo_title_{$lang}", 'Retont Business'),
+            'title'       => \App\Models\Setting::get("seo_title_{$lang}", config('app.name')),
             'description' => \App\Models\Setting::get("seo_desc_{$lang}", ''),
             'keywords'    => \App\Models\Setting::get("seo_keywords_{$lang}", ''),
             'og_title'    => \App\Models\Setting::get("seo_og_title_{$lang}", ''),
