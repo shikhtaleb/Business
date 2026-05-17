@@ -29,8 +29,8 @@ class DatabaseSeeder extends Seeder
             ['key' => 'ga_id',              'value' => '',                'group' => 'general'],
             ['key' => 'maintenance_mode',   'value' => '0',               'group' => 'general'],
             ['key' => 'brand_color',        'value' => '#FF8528',         'group' => 'appearance'],
-            ['key' => 'dark_mode_default',  'value' => '0',               'group' => 'appearance'],
-            ['key' => 'font_family',        'value' => 'sans',            'group' => 'appearance'],
+            ['key' => 'dark_mode_default',  'value' => 'light',           'group' => 'appearance'],
+            ['key' => 'font_family',        'value' => 'IBM Plex Sans Arabic', 'group' => 'appearance'],
             ['key' => 'logo_url',           'value' => '',                'group' => 'appearance'],
         ];
 
