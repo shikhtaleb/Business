@@ -9,10 +9,6 @@
         العودة إلى القوائم
     </a>
 
-    @if(session('success'))
-        <div class="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-700">{{ session('success') }}</div>
-    @endif
-
     <div class="grid grid-cols-1 lg:grid-cols-5 gap-5">
 
         {{-- Add Item Form --}}

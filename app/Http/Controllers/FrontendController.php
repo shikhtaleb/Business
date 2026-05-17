@@ -90,6 +90,8 @@ class FrontendController extends Controller
         $post = \App\Models\Post::with(['category', 'author'])
             ->where('slug', $slug)
             ->where('status', 'published')
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
             ->firstOrFail();
 
         // Increment views

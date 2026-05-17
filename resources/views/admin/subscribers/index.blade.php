@@ -28,13 +28,6 @@
         </div>
     </div>
 
-    @if(session('success'))
-        <div class="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-700">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">{{ session('error') }}</div>
-    @endif
-
     {{-- Stats --}}
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
         @foreach(['bg-blue-50 text-blue-700' => [$totalCount, 'الكل'], 'bg-green-50 text-green-700' => [$activeCount, 'نشط'], 'bg-gray-50 text-gray-700' => [$unsubscribedCount, 'ألغى الاشتراك'], 'bg-red-50 text-red-700' => [$bouncedCount, 'مرتد']] as $cls => [$cnt, $lbl])

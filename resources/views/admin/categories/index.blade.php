@@ -9,9 +9,6 @@
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
         <h3 class="font-semibold text-gray-900 mb-4">إضافة تصنيف جديد</h3>
 
-        @if(session('success'))
-            <div class="bg-green-50 border border-green-200 rounded-xl px-4 py-3 text-sm text-green-700 mb-4">{{ session('success') }}</div>
-        @endif
         @if($errors->any())
             <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-3 mb-4">
                 <ul class="text-sm text-red-700 list-disc list-inside space-y-1">

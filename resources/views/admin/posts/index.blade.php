@@ -92,14 +92,14 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="bg-gray-50 border-b border-gray-100">
-                            <th class="text-right text-xs font-semibold text-gray-500 px-5 py-3 w-16">صورة</th>
-                            <th class="text-right text-xs font-semibold text-gray-500 px-4 py-3">العنوان</th>
-                            <th class="text-right text-xs font-semibold text-gray-500 px-4 py-3 hidden md:table-cell">التصنيف</th>
-                            <th class="text-right text-xs font-semibold text-gray-500 px-4 py-3 hidden lg:table-cell">الكاتب</th>
-                            <th class="text-right text-xs font-semibold text-gray-500 px-4 py-3">الحالة</th>
-                            <th class="text-right text-xs font-semibold text-gray-500 px-4 py-3 hidden lg:table-cell">تاريخ النشر</th>
-                            <th class="text-right text-xs font-semibold text-gray-500 px-4 py-3 hidden xl:table-cell">المشاهدات</th>
-                            <th class="text-right text-xs font-semibold text-gray-500 px-4 py-3">إجراءات</th>
+                            <th class="text-start text-xs font-semibold text-gray-500 px-5 py-3 w-16">صورة</th>
+                            <th class="text-start text-xs font-semibold text-gray-500 px-4 py-3">العنوان</th>
+                            <th class="text-start text-xs font-semibold text-gray-500 px-4 py-3 hidden md:table-cell">التصنيف</th>
+                            <th class="text-start text-xs font-semibold text-gray-500 px-4 py-3 hidden lg:table-cell">الكاتب</th>
+                            <th class="text-start text-xs font-semibold text-gray-500 px-4 py-3">الحالة</th>
+                            <th class="text-start text-xs font-semibold text-gray-500 px-4 py-3 hidden lg:table-cell">تاريخ النشر</th>
+                            <th class="text-start text-xs font-semibold text-gray-500 px-4 py-3 hidden lg:table-cell">المشاهدات</th>
+                            <th class="text-end text-xs font-semibold text-gray-500 px-4 py-3">إجراءات</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
@@ -222,8 +222,7 @@
 
                                         {{-- Delete --}}
                                         <form method="POST" action="{{ route('admin.posts.destroy', $post) }}"
-                                              x-data
-                                              @submit.prevent="if(confirm('هل أنت متأكد من حذف هذا المقال؟')) $el.submit()">
+                                              onsubmit="return confirm('هل أنت متأكد من حذف هذا المقال؟')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
