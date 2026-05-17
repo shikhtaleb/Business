@@ -233,7 +233,7 @@
                         <input type="text" name="name" value="{{ old('name') }}" required autofocus
                             class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
                                    focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
-                            placeholder="Jane Doe">
+                            placeholder="محمد أحمد">
                     </div>
 
                     <div>
@@ -249,7 +249,7 @@
                         <input type="password" name="password" required autocomplete="new-password"
                             class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
                                    focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
-                            placeholder="Min. 8 characters">
+                            placeholder="٨ أحرف على الأقل">
                     </div>
 
                     <div>
@@ -257,7 +257,7 @@
                         <input type="password" name="password_confirmation" required autocomplete="new-password"
                             class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
                                    focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
-                            placeholder="Repeat password">
+                            placeholder="أعد إدخال كلمة المرور">
                     </div>
 
                     <div>
@@ -362,7 +362,7 @@
                         <input type="password" name="password" autocomplete="new-password"
                             class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
                                    focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
-                            placeholder="Min. 8 characters">
+                            placeholder="٨ أحرف على الأقل">
                     </div>
 
                     <div>

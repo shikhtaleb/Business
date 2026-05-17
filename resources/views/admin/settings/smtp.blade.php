@@ -104,7 +104,7 @@ $settingsTabs = [
                         <label class="block text-sm font-medium text-gray-700 mb-1.5">{{ __('admin.from_name') }}</label>
                         <input type="text" name="smtp_from_name" value="{{ old('smtp_from_name', $settings['smtp_from_name'] ?? '') }}"
                                class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2"
-                               placeholder="Retont Business">
+                               placeholder="اسم المرسل">
                     </div>
                 </div>
 

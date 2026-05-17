@@ -68,7 +68,7 @@ $settingsTabs = [
                         class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
                                focus:outline-none focus:ring-2 focus:border-transparent transition-shadow
                                @error('site_name') border-red-400 bg-red-50 @enderror"
-                        placeholder="Retont Business"
+                        placeholder="اسم موقعك"
                     >
                     @error('site_name')
                         <p class="mt-1.5 text-xs text-red-600">{{ $message }}</p>

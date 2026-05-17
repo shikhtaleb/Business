@@ -200,7 +200,7 @@
                             <!-- Info -->
                             <div class="px-2.5 py-2 border-t border-gray-100">
                                 <p class="text-xs font-medium text-gray-700 truncate" title="{{ $file->filename ?? $file->path ?? '' }}">
-                                    {{ $file->filename ?? basename($file->path ?? 'Unknown') }}
+                                    {{ $file->filename ?? basename($file->path ?? 'غير معروف') }}
                                 </p>
                                 <p class="text-xs text-gray-400 mt-0.5">{{ $sizeKb }}</p>
                             </div>
