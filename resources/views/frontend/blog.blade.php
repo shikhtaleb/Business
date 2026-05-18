@@ -503,5 +503,21 @@
 </footer>
 
 <script src="{{ asset('app.js') }}"></script>
+<script>
+document.querySelectorAll('.nav-dropdown-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    e.stopPropagation();
+    const menu = this.nextElementSibling;
+    const isOpen = menu.classList.contains('open');
+    document.querySelectorAll('.nav-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+    document.querySelectorAll('.nav-dropdown-btn.open').forEach(b => b.classList.remove('open'));
+    if (!isOpen) { menu.classList.add('open'); this.classList.add('open'); }
+  });
+});
+document.addEventListener('click', () => {
+  document.querySelectorAll('.nav-dropdown-menu.open').forEach(m => m.classList.remove('open'));
+  document.querySelectorAll('.nav-dropdown-btn.open').forEach(b => b.classList.remove('open'));
+});
+</script>
 </body>
 </html>
