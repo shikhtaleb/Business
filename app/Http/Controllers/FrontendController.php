@@ -155,6 +155,18 @@ class FrontendController extends Controller
         ];
     }
 
+    public function page(Request $request, string $slug)
+    {
+        $page = \App\Models\Page::where('slug', $slug)
+            ->where('status', 'published')
+            ->firstOrFail();
+
+        $lang     = $this->detectLang($request);
+        $settings = $this->getSettings();
+
+        return view('frontend.page', compact('page', 'lang', 'settings'));
+    }
+
     public function sitemap()
     {
         $siteUrl = rtrim(Setting::get('site_url', config('app.url')), '/');

@@ -18,6 +18,7 @@ class Page extends Model
         'body_en',
         'body_nl',
         'body_de',
+        'blocks',
         'status',
         'template',
         'show_in_nav',
@@ -29,6 +30,7 @@ class Page extends Model
 
     protected $casts = [
         'show_in_nav' => 'boolean',
+        'blocks'      => 'array',
     ];
 
     // ── Relationships ──────────────────────────────────────────────────────────

@@ -274,6 +274,7 @@ Route::middleware(['check.installed.done', 'maintenance.mode', 'track.pageview']
     Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
     Route::get('/blog', [FrontendController::class, 'blog'])->name('blog.index');
     Route::get('/blog/{slug}', [FrontendController::class, 'post'])->name('blog.show');
+    Route::get('/p/{slug}',   [FrontendController::class, 'page'])->name('page.show');
 });
 
 // SEO files (no maintenance mode or pageview tracking needed)

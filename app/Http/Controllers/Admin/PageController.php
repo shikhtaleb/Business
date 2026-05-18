@@ -34,10 +34,7 @@ class PageController extends Controller
             'title_nl'    => 'nullable|string|max:255',
             'title_de'    => 'nullable|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:pages,slug',
-            'body_ar'     => 'nullable|string',
-            'body_en'     => 'nullable|string',
-            'body_nl'     => 'nullable|string',
-            'body_de'     => 'nullable|string',
+            'blocks'      => 'nullable|string',
             'status'      => 'required|in:draft,published',
             'template'    => 'nullable|string|max:100',
             'show_in_nav' => 'nullable|boolean',
@@ -57,9 +54,16 @@ class PageController extends Controller
             $slug = $baseSlug . '-' . $counter++;
         }
 
+        $blocks = null;
+        if (!empty($validated['blocks'])) {
+            $decoded = json_decode($validated['blocks'], true);
+            $blocks  = is_array($decoded) ? $decoded : null;
+        }
+
         Page::create([
             ...$validated,
             'slug'        => $slug,
+            'blocks'      => $blocks,
             'show_in_nav' => $request->boolean('show_in_nav'),
             'template'    => $validated['template'] ?? 'default',
             'sort_order'  => $validated['sort_order'] ?? 0,
@@ -83,10 +87,7 @@ class PageController extends Controller
             'title_nl'    => 'nullable|string|max:255',
             'title_de'    => 'nullable|string|max:255',
             'slug'        => 'nullable|string|max:255|unique:pages,slug,' . $page->id,
-            'body_ar'     => 'nullable|string',
-            'body_en'     => 'nullable|string',
-            'body_nl'     => 'nullable|string',
-            'body_de'     => 'nullable|string',
+            'blocks'      => 'nullable|string',
             'status'      => 'required|in:draft,published',
             'template'    => 'nullable|string|max:100',
             'show_in_nav' => 'nullable|boolean',
@@ -106,9 +107,16 @@ class PageController extends Controller
             $slug = $baseSlug . '-' . $counter++;
         }
 
+        $blocks = null;
+        if (!empty($validated['blocks'])) {
+            $decoded = json_decode($validated['blocks'], true);
+            $blocks  = is_array($decoded) ? $decoded : null;
+        }
+
         $page->update([
             ...$validated,
             'slug'        => $slug,
+            'blocks'      => $blocks,
             'show_in_nav' => $request->boolean('show_in_nav'),
             'template'    => $validated['template'] ?? 'default',
             'sort_order'  => $validated['sort_order'] ?? 0,
