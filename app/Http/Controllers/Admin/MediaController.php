@@ -11,8 +11,18 @@ use Illuminate\Support\Str;
 
 class MediaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson() || $request->boolean('json')) {
+            $media = Media::whereIn('mime_type', ['image/jpeg','image/png','image/gif','image/webp','image/svg+xml'])
+                ->orWhere('path', 'like', '%.jpg')->orWhere('path', 'like', '%.png')
+                ->orWhere('path', 'like', '%.webp')->orWhere('path', 'like', '%.gif')
+                ->orderBy('created_at', 'desc')
+                ->limit(60)
+                ->get(['id','url','original_name','filename']);
+            return response()->json($media);
+        }
+
         $media = Media::orderBy('created_at', 'desc')->paginate(24);
 
         return view('admin.media.index', compact('media'));

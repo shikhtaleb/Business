@@ -20,7 +20,7 @@
 @endphp
 
 <div x-data="pageBuilder(@json($initialBlocks), @json($cfg))"
-     @keydown.escape.window="showPicker = false"
+     @keydown.escape.window="showPicker = false; mediaPicker.open = false"
      class="-mt-6 -mx-4 sm:-mx-6">
 
     {{-- ── HIDDEN FORM ─────────────────────────────────────────────── --}}
@@ -286,9 +286,13 @@
                                         </div>
                                         <div class="mt-3">
                                             <label class="block text-xs text-gray-500 mb-1.5">صورة الخلفية (URL)</label>
-                                            <input x-model="block.settings.bg_image"
-                                                   class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-orange-300"
-                                                   placeholder="https://... (اختياري)">
+                                            <div class="flex gap-1.5">
+                                                <input x-model="block.settings.bg_image"
+                                                       class="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-orange-300"
+                                                       placeholder="https://... (اختياري)">
+                                                <button type="button" @click="openMediaPicker(url => block.settings.bg_image = url)"
+                                                        class="px-2.5 py-2 rounded-xl border border-gray-200 text-xs text-gray-500 hover:bg-gray-50 transition-colors">🖼</button>
+                                            </div>
                                         </div>
                                         <div class="mt-3 grid grid-cols-2 gap-3">
                                             <div>
@@ -396,6 +400,11 @@
                                             <input x-model="block.content.url"
                                                    class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-orange-300 font-mono transition-shadow"
                                                    placeholder="https://...">
+                                            <button type="button"
+                                                    @click="openMediaPicker(url => block.content.url = url)"
+                                                    class="flex-shrink-0 px-3 py-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors whitespace-nowrap">
+                                                🖼 استعراض
+                                            </button>
                                         </div>
                                         <div x-show="block.content.url" class="mt-2">
                                             <img :src="block.content.url" class="h-24 rounded-xl object-cover border border-gray-100" loading="lazy">
@@ -465,9 +474,13 @@
                                                           placeholder="محتوى العمود..."></textarea>
                                             </div>
                                             <div x-show="block.content.left_type === 'image'">
-                                                <input x-model="block.content.left_image"
-                                                       class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-orange-300"
-                                                       placeholder="https://...">
+                                                <div class="flex gap-1.5">
+                                                    <input x-model="block.content.left_image"
+                                                           class="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-orange-300"
+                                                           placeholder="https://...">
+                                                    <button type="button" @click="openMediaPicker(url => block.content.left_image = url)"
+                                                            class="px-2.5 py-2 rounded-xl border border-gray-200 text-xs text-gray-500 hover:bg-gray-50 transition-colors">🖼</button>
+                                                </div>
                                                 <img x-show="block.content.left_image" :src="block.content.left_image"
                                                      class="mt-2 h-20 w-full object-cover rounded-xl border border-gray-100">
                                             </div>
@@ -489,9 +502,13 @@
                                                           placeholder="محتوى العمود..."></textarea>
                                             </div>
                                             <div x-show="block.content.right_type === 'image'">
-                                                <input x-model="block.content.right_image"
-                                                       class="w-full px-3 py-2 rounded-xl border border-gray-200 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-orange-300"
-                                                       placeholder="https://...">
+                                                <div class="flex gap-1.5">
+                                                    <input x-model="block.content.right_image"
+                                                           class="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-xs font-mono focus:outline-none focus:ring-2 focus:ring-orange-300"
+                                                           placeholder="https://...">
+                                                    <button type="button" @click="openMediaPicker(url => block.content.right_image = url)"
+                                                            class="px-2.5 py-2 rounded-xl border border-gray-200 text-xs text-gray-500 hover:bg-gray-50 transition-colors">🖼</button>
+                                                </div>
                                                 <img x-show="block.content.right_image" :src="block.content.right_image"
                                                      class="mt-2 h-20 w-full object-cover rounded-xl border border-gray-100">
                                             </div>
@@ -832,6 +849,66 @@
         </div>
     </div>
 
+    {{-- ── MEDIA PICKER MODAL ──────────────────────────────────────── --}}
+    <div x-show="mediaPicker.open" x-cloak
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0"
+         class="fixed inset-0 z-50 flex items-center justify-center p-4"
+         style="background:rgba(15,23,42,0.6);"
+         @click.self="mediaPicker.open = false; mediaPicker.callback = null"
+         @keydown.escape.window="mediaPicker.open = false; mediaPicker.callback = null">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col overflow-hidden"
+             x-transition:enter="transition ease-out duration-200"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100">
+            <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                <h3 class="font-semibold text-gray-900 text-sm">مكتبة الوسائط</h3>
+                <button @click="mediaPicker.open = false" class="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            <div class="flex-1 overflow-y-auto p-4">
+                <template x-if="mediaPicker.loading">
+                    <div class="flex items-center justify-center py-16 text-gray-400 text-sm">جارٍ التحميل...</div>
+                </template>
+                <template x-if="!mediaPicker.loading && mediaPicker.images.length === 0">
+                    <div class="flex flex-col items-center justify-center py-16 text-gray-400">
+                        <p class="text-sm font-medium">لا توجد صور في المكتبة</p>
+                        <a href="{{ route('admin.media.index') }}" target="_blank" class="mt-2 text-xs underline" style="color:#FF8528;">رفع صور من هنا</a>
+                    </div>
+                </template>
+                <div x-show="!mediaPicker.loading && mediaPicker.images.length > 0"
+                     class="grid grid-cols-3 sm:grid-cols-4 gap-3">
+                    <template x-for="img in mediaPicker.images" :key="img.id">
+                        <button type="button"
+                                @click="mediaPicker.callback(img.url); mediaPicker.open = false; mediaPicker.callback = null"
+                                class="group relative aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-orange-400 transition-all focus:outline-none focus:border-orange-500">
+                            <img :src="img.url" :alt="img.original_name" class="w-full h-full object-cover" loading="lazy">
+                            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-end">
+                                <p class="w-full text-xs text-white font-medium px-2 py-1 truncate opacity-0 group-hover:opacity-100 transition-opacity"
+                                   style="background:linear-gradient(transparent,rgba(0,0,0,.6))"
+                                   x-text="img.original_name"></p>
+                            </div>
+                        </button>
+                    </template>
+                </div>
+            </div>
+            <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
+                <a href="{{ route('admin.media.index') }}" target="_blank"
+                   class="text-xs font-medium hover:underline" style="color:#FF8528;">
+                    + رفع صورة جديدة
+                </a>
+                <button @click="mediaPicker.open = false" class="px-4 py-2 rounded-xl border border-gray-200 text-xs text-gray-600 hover:bg-gray-50 transition-colors">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
     {{-- ── BLOCK PICKER MODAL ───────────────────────────────────────── --}}
     <div x-show="showPicker" x-cloak
          x-transition:enter="transition ease-out duration-200"
@@ -974,6 +1051,7 @@ function pageBuilder(initialBlocks, initialCfg) {
         titleTab: 'ar',
         showPicker: false,
         pickerInsertAfter: null,
+        mediaPicker: { open: false, loading: false, images: [], callback: null },
         cfg: initialCfg || {
             titles: {ar:'',en:'',nl:'',de:''},
             slug: '', status: 'draft', template: 'default',
@@ -983,6 +1061,21 @@ function pageBuilder(initialBlocks, initialCfg) {
         init() {
             this.blocks = (initialBlocks || []).map(b => this.mergeDefaults(b));
             this.$nextTick(() => this.initSortable());
+        },
+
+        async openMediaPicker(callback) {
+            this.mediaPicker.callback = callback;
+            this.mediaPicker.open = true;
+            if (this.mediaPicker.images.length === 0) {
+                this.mediaPicker.loading = true;
+                try {
+                    const res = await fetch('{{ route('admin.media.index') }}?json=1', {
+                        headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+                    });
+                    this.mediaPicker.images = await res.json();
+                } catch {}
+                this.mediaPicker.loading = false;
+            }
         },
 
         initSortable() {
