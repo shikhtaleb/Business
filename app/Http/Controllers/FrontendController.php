@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ContentBlock;
+use App\Models\Menu;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
@@ -56,7 +57,9 @@ class FrontendController extends Controller
             'robots'      => Setting::get("seo_robots_{$lang}", 'index, follow'),
         ];
 
-        $response = response()->view('frontend.landing', compact('content', 'settings', 'seo', 'lang'));
+        $menus = $this->getMenus();
+
+        $response = response()->view('frontend.landing', compact('content', 'settings', 'seo', 'lang', 'menus'));
 
         // Set cookie if lang was changed via query param
         if ($request->has('lang')) {
@@ -79,7 +82,9 @@ class FrontendController extends Controller
             ->orderByDesc('published_at')
             ->paginate(9);
 
-        return response()->view('frontend.blog', compact('posts', 'settings', 'seo', 'lang'));
+        $menus = $this->getMenus();
+
+        return response()->view('frontend.blog', compact('posts', 'settings', 'seo', 'lang', 'menus'));
     }
 
     public function post(Request $request, string $slug)
@@ -113,7 +118,9 @@ class FrontendController extends Controller
             ->limit(3)
             ->get();
 
-        return view('frontend.post', compact('post', 'settings', 'seo', 'lang', 'related'));
+        $menus = $this->getMenus();
+
+        return view('frontend.post', compact('post', 'settings', 'seo', 'lang', 'related', 'menus'));
     }
 
     private function detectLang(Request $request): string
@@ -164,7 +171,9 @@ class FrontendController extends Controller
         $lang     = $this->detectLang($request);
         $settings = $this->getSettings();
 
-        return view('frontend.page', compact('page', 'lang', 'settings'));
+        $menus = $this->getMenus();
+
+        return view('frontend.page', compact('page', 'lang', 'settings', 'menus'));
     }
 
     public function sitemap()
@@ -188,6 +197,19 @@ class FrontendController extends Controller
         $xml .= '</urlset>';
 
         return response($xml, 200)->header('Content-Type', 'application/xml');
+    }
+
+    private function getMenus(): array
+    {
+        $menus = Menu::with(['rootItems.children' => fn($q) => $q->orderBy('sort_order')])
+            ->whereIn('location', ['header', 'footer'])
+            ->get()
+            ->keyBy('location');
+
+        return [
+            'header' => $menus->get('header'),
+            'footer' => $menus->get('footer'),
+        ];
     }
 
     public function robots()

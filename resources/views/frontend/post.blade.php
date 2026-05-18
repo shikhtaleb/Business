@@ -420,11 +420,15 @@
       <span>{{ $settings['site_name'] ?? config('app.name') }}</span>
     </div>
     <nav class="nav-links">
-      <a href="{{ url('/') }}">{{ $lang === 'ar' ? 'الرئيسية' : 'Home' }}</a>
-      <a href="{{ url('/') }}#features">{{ $lang === 'ar' ? 'المميزات' : 'Features' }}</a>
-      <a href="{{ url('/') }}#pricing">{{ $lang === 'ar' ? 'الأسعار' : 'Pricing' }}</a>
-      <a href="{{ route('blog.index') }}" style="color:var(--brand)">{{ $lang === 'ar' ? 'المدونة' : 'Blog' }}</a>
-      <a href="{{ url('/') }}#contact">{{ $lang === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
+      @if(!empty($menus['header']) && $menus['header']->rootItems->isNotEmpty())
+        <x-frontend-menu :menu="$menus['header']" :lang="$lang" />
+      @else
+        <a href="{{ url('/') }}">{{ $lang === 'ar' ? 'الرئيسية' : 'Home' }}</a>
+        <a href="{{ url('/') }}#features">{{ $lang === 'ar' ? 'المميزات' : 'Features' }}</a>
+        <a href="{{ url('/') }}#pricing">{{ $lang === 'ar' ? 'الأسعار' : 'Pricing' }}</a>
+        <a href="{{ route('blog.index') }}" style="color:var(--brand)">{{ $lang === 'ar' ? 'المدونة' : 'Blog' }}</a>
+        <a href="{{ url('/') }}#contact">{{ $lang === 'ar' ? 'تواصل معنا' : 'Contact' }}</a>
+      @endif
     </nav>
     <div class="nav-cta">
       <button class="nav-toggle" id="navToggle" aria-label="menu" aria-expanded="false">
@@ -610,6 +614,11 @@
       @endif
       <span style="font-size:16px">{{ $settings['site_name'] ?? config('app.name') }}</span>
     </div>
+    @if(!empty($menus['footer']) && $menus['footer']->rootItems->isNotEmpty())
+    <nav class="foot-links">
+      <x-frontend-menu :menu="$menus['footer']" :lang="$lang" />
+    </nav>
+    @endif
     <div>&copy; {{ date('Y') }} {{ $settings['site_name'] ?? config('app.name') }}. {{ $lang === 'ar' ? 'جميع الحقوق محفوظة.' : 'All rights reserved.' }}</div>
     <div class="social">
       <div class="lang-wrap">
