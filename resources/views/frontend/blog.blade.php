@@ -331,16 +331,34 @@
 <!-- BLOG HERO -->
 <section class="blog-hero">
   <div class="wrap">
-    <h1>{{ $lang === 'ar' ? 'مد' : 'Our ' }}<span class="accent">{{ $lang === 'ar' ? 'ونة' : 'Blog' }}</span>{{ $lang === 'ar' ? '' : '' }}</h1>
-    @if($lang === 'ar')
-    <h1 style="display:none"></h1>
-    @endif
+    <h1>{{ $lang === 'ar' ? 'المد' : 'Our ' }}<span class="accent">{{ $lang === 'ar' ? 'ونة' : 'Blog' }}</span></h1>
     <p>
-      {{ $lang === 'ar'
-        ? 'أحدث المقالات والنصائح في إدارة الأعمال والتقنية'
-        : 'Latest articles, tips and insights on business management' }}
+      @if($activeCategory)
+        {{ $lang === 'ar' ? 'تصنيف: ' : 'Category: ' }}
+        {{ $activeCategory->{"name_{$lang}"} ?? $activeCategory->name_ar }}
+      @elseif($search)
+        {{ $lang === 'ar' ? 'نتائج البحث: ' : 'Search: ' }}"{{ $search }}"
+      @else
+        {{ $lang === 'ar' ? 'أحدث المقالات والنصائح في إدارة الأعمال والتقنية' : 'Latest articles, tips and insights on business management' }}
+      @endif
     </p>
-    <a href="{{ url('/') }}" class="back-link">
+
+    {{-- Search bar --}}
+    <form action="{{ route('blog.index') }}" method="GET"
+          style="margin-top:1.5rem;display:flex;gap:.5rem;max-width:480px;margin-inline:auto;">
+      @if(request('lang'))
+        <input type="hidden" name="lang" value="{{ request('lang') }}">
+      @endif
+      <input type="search" name="q" value="{{ $search }}"
+             placeholder="{{ $lang === 'ar' ? 'ابحث في المقالات...' : 'Search articles...' }}"
+             style="flex:1;padding:.65rem 1rem;border-radius:.75rem;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:.9rem;outline:none;">
+      <button type="submit"
+              style="padding:.65rem 1.25rem;border-radius:.75rem;background:var(--brand);color:#fff;border:none;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;white-space:nowrap;">
+        {{ $lang === 'ar' ? 'بحث' : 'Search' }}
+      </button>
+    </form>
+
+    <a href="{{ url('/') }}" class="back-link" style="margin-top:1rem;">
       @if($lang === 'ar')
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 18l6-6-6-6"/></svg>
       العودة للرئيسية
@@ -355,11 +373,40 @@
 <!-- POSTS GRID -->
 <section class="blog-grid-section">
   <div class="wrap">
+
+    {{-- Category filter chips --}}
+    @if($categories->isNotEmpty())
+    <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:2rem;align-items:center;">
+      <a href="{{ route('blog.index', request()->only('q', 'lang') ?: []) }}"
+         style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:999px;font-size:.8rem;font-weight:600;transition:all .15s;
+                {{ !$activeCategory ? 'background:var(--brand);color:#fff;' : 'background:var(--soft);color:var(--muted);' }}">
+        {{ $lang === 'ar' ? 'الكل' : 'All' }}
+      </a>
+      @foreach($categories as $cat)
+      <a href="{{ route('blog.index', array_filter(['category' => $cat->slug, 'q' => $search ?: null, 'lang' => request('lang') ?: null])) }}"
+         style="display:inline-flex;align-items:center;gap:.4rem;padding:.35rem .85rem;border-radius:999px;font-size:.8rem;font-weight:600;transition:all .15s;
+                {{ ($activeCategory && $activeCategory->id === $cat->id) ? 'background:var(--brand);color:#fff;' : 'background:var(--soft);color:var(--muted);' }}">
+        {{ $cat->{"name_{$lang}"} ?? $cat->name_ar }}
+        <span style="font-size:.7rem;opacity:.7">({{ $cat->posts_count }})</span>
+      </a>
+      @endforeach
+    </div>
+    @endif
+
     @if($posts->isEmpty())
       <div class="blog-empty">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-        <h3>{{ $lang === 'ar' ? 'لا توجد مقالات حتى الآن' : 'No articles yet' }}</h3>
-        <p>{{ $lang === 'ar' ? 'تابعنا قريبًا لأحدث المقالات.' : 'Stay tuned for upcoming articles.' }}</p>
+        @if($search || $activeCategory)
+          <h3>{{ $lang === 'ar' ? 'لا توجد نتائج' : 'No results found' }}</h3>
+          <p>{{ $lang === 'ar' ? 'لم نعثر على مقالات تطابق بحثك. جرّب كلمات أخرى.' : 'No articles match your search. Try different keywords.' }}</p>
+          <a href="{{ route('blog.index', request()->only('lang') ?: []) }}"
+             style="display:inline-flex;align-items:center;gap:.4rem;margin-top:1rem;padding:.55rem 1.25rem;border-radius:.75rem;background:var(--brand);color:#fff;font-size:.85rem;font-weight:600;text-decoration:none;">
+            {{ $lang === 'ar' ? 'عرض جميع المقالات' : 'View all articles' }}
+          </a>
+        @else
+          <h3>{{ $lang === 'ar' ? 'لا توجد مقالات حتى الآن' : 'No articles yet' }}</h3>
+          <p>{{ $lang === 'ar' ? 'تابعنا قريبًا لأحدث المقالات.' : 'Stay tuned for upcoming articles.' }}</p>
+        @endif
       </div>
     @else
       <div class="blog-grid">

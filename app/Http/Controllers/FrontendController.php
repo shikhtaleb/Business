@@ -75,16 +75,46 @@ class FrontendController extends Controller
         $settings = $this->getSettings();
         $seo = $this->getSeo($lang);
 
-        $posts = \App\Models\Post::with(['category', 'author'])
+        $categorySlug = $request->get('category');
+        $search       = trim($request->get('q', ''));
+
+        $query = \App\Models\Post::with(['category', 'author'])
             ->where('status', 'published')
             ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
-            ->orderByDesc('published_at')
-            ->paginate(9);
+            ->where('published_at', '<=', now());
+
+        if ($categorySlug) {
+            $query->whereHas('category', fn($q) => $q->where('slug', $categorySlug));
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('title_ar', 'like', "%{$search}%")
+                  ->orWhere('title_en', 'like', "%{$search}%")
+                  ->orWhere('excerpt_ar', 'like', "%{$search}%")
+                  ->orWhere('excerpt_en', 'like', "%{$search}%");
+            });
+        }
+
+        $posts = $query->orderByDesc('published_at')->paginate(9)->withQueryString();
+
+        $categories = \App\Models\PostCategory::withCount(['posts' => fn($q) =>
+                $q->where('status', 'published')->whereNotNull('published_at')->where('published_at', '<=', now())
+            ])
+            ->having('posts_count', '>', 0)
+            ->orderBy('sort_order')
+            ->get();
+
+        $activeCategory = $categorySlug
+            ? $categories->firstWhere('slug', $categorySlug)
+            : null;
 
         $menus = $this->getMenus();
 
-        return response()->view('frontend.blog', compact('posts', 'settings', 'seo', 'lang', 'menus'));
+        return response()->view('frontend.blog', compact(
+            'posts', 'settings', 'seo', 'lang', 'menus',
+            'categories', 'activeCategory', 'search'
+        ));
     }
 
     public function post(Request $request, string $slug)
