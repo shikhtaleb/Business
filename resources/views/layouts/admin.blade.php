@@ -49,14 +49,14 @@
     <style>
         [x-cloak] { display: none !important; }
 
-        /* ── Sidebar nav items ── */
+        /* ── Sidebar nav links ── */
         .sidebar-link {
             position: relative;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.5rem 0.75rem;
-            border-radius: 0.625rem;
+            gap: 0.625rem;
+            padding: 0.45rem 0.75rem;
+            border-radius: 0.5rem;
             color: #64748b;
             text-decoration: none;
             transition: color 0.15s, background-color 0.15s;
@@ -66,19 +66,20 @@
             overflow: hidden;
         }
         .sidebar-link:hover {
-            color: #e2e8f0;
-            background-color: rgba(255,255,255,0.05);
+            color: #1e293b;
+            background-color: #f1f5f9;
         }
         .sidebar-link.active {
-            color: #ffffff;
-            background-color: rgba(255,133,40,0.12);
+            color: #FF8528;
+            background-color: #FFF4EA;
+            font-weight: 600;
         }
         .sidebar-link.active svg { color: #FF8528 !important; stroke: #FF8528 !important; }
         .sidebar-link.active::before {
             content: '';
             position: absolute;
             {{ $isRtl ? 'right' : 'left' }}: 0;
-            top: 20%; height: 60%;
+            top: 15%; height: 70%;
             width: 3px;
             border-radius: {{ $isRtl ? '4px 0 0 4px' : '0 4px 4px 0' }};
             background-color: #FF8528;
@@ -87,56 +88,54 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0.6rem 0.75rem 0.3rem;
-            font-size: 0.65rem;
+            padding: 0.45rem 0.75rem 0.2rem;
+            font-size: 0.625rem;
             font-weight: 700;
-            color: #64748b;
+            color: #94a3b8;
             text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-top: 0.75rem;
+            letter-spacing: 0.09em;
+            margin-top: 0.5rem;
             cursor: pointer;
             border-radius: 0.375rem;
             transition: color 0.15s;
         }
-        .sidebar-group-label:hover {
-            color: #94a3b8;
-        }
+        .sidebar-group-label:hover { color: #64748b; }
 
-        /* ── Dark mode overrides ── */
-        [data-admin-theme="dark"] .adm-bg   { background-color: #181c34 !important; }
-        [data-admin-theme="dark"] .adm-header {
-            background-color: #1e2244 !important;
-            border-color: #252848 !important;
-        }
-        [data-admin-theme="dark"] .adm-footer {
-            background-color: #1e2244 !important;
-            border-color: #252848 !important;
-        }
-        [data-admin-theme="dark"] .bg-white      { background-color: #1e2244 !important; }
-        [data-admin-theme="dark"] .bg-gray-100   { background-color: #181c34 !important; }
-        [data-admin-theme="dark"] .bg-gray-50    { background-color: #1e2244 !important; }
-        [data-admin-theme="dark"] .border-gray-100 { border-color: #252848 !important; }
-        [data-admin-theme="dark"] .border-gray-200 { border-color: #2e3360 !important; }
-        [data-admin-theme="dark"] .border-gray-300 { border-color: #2e3360 !important; }
+        /* ── Dark mode ── */
+        [data-admin-theme="dark"] .adm-bg      { background-color: #0f172a !important; }
+        [data-admin-theme="dark"] .adm-sidebar { background-color: #1e293b !important; border-color: #334155 !important; }
+        [data-admin-theme="dark"] .adm-header  { background-color: #1e293b !important; border-color: #334155 !important; }
+        [data-admin-theme="dark"] .adm-footer  { background-color: #1e293b !important; border-color: #334155 !important; }
+        [data-admin-theme="dark"] .adm-dropdown { background-color: #1e293b !important; border-color: #334155 !important; }
+        [data-admin-theme="dark"] .sidebar-link { color: #94a3b8 !important; }
+        [data-admin-theme="dark"] .sidebar-link:hover { color: #e2e8f0 !important; background-color: rgba(255,255,255,0.06) !important; }
+        [data-admin-theme="dark"] .sidebar-link.active { color: #FF8528 !important; background-color: rgba(255,133,40,0.12) !important; }
+        [data-admin-theme="dark"] .sidebar-group-label { color: #475569 !important; }
+        [data-admin-theme="dark"] .sidebar-group-label:hover { color: #64748b !important; }
+        [data-admin-theme="dark"] .bg-white      { background-color: #1e293b !important; }
+        [data-admin-theme="dark"] .bg-gray-100   { background-color: #0f172a !important; }
+        [data-admin-theme="dark"] .bg-gray-50    { background-color: #1e293b !important; }
+        [data-admin-theme="dark"] .bg-slate-50   { background-color: #0f172a !important; }
+        [data-admin-theme="dark"] .border-gray-100 { border-color: #334155 !important; }
+        [data-admin-theme="dark"] .border-gray-200 { border-color: #475569 !important; }
+        [data-admin-theme="dark"] .border-gray-300 { border-color: #475569 !important; }
         [data-admin-theme="dark"] .text-gray-900 { color: #f8fafc !important; }
         [data-admin-theme="dark"] .text-gray-800 { color: #f1f5f9 !important; }
         [data-admin-theme="dark"] .text-gray-700 { color: #e2e8f0 !important; }
         [data-admin-theme="dark"] .text-gray-600 { color: #cbd5e1 !important; }
         [data-admin-theme="dark"] .text-gray-500 { color: #94a3b8 !important; }
         [data-admin-theme="dark"] .text-gray-400 { color: #64748b !important; }
-        [data-admin-theme="dark"] input,
-        [data-admin-theme="dark"] textarea,
-        [data-admin-theme="dark"] select {
-            background-color: #141730 !important;
-            border-color: #2e3360 !important;
+        [data-admin-theme="dark"] input, [data-admin-theme="dark"] textarea, [data-admin-theme="dark"] select {
+            background-color: #0f172a !important;
+            border-color: #334155 !important;
             color: #f1f5f9 !important;
         }
         [data-admin-theme="dark"] input::placeholder,
-        [data-admin-theme="dark"] textarea::placeholder { color: #64748b !important; }
-        [data-admin-theme="dark"] thead { background-color: #252848 !important; }
-        [data-admin-theme="dark"] .divide-gray-50 > * { border-color: #1e2244 !important; }
-        [data-admin-theme="dark"] .hover\:bg-gray-50:hover  { background-color: #1e2244 !important; }
-        [data-admin-theme="dark"] .hover\:bg-gray-100:hover { background-color: #252848 !important; }
+        [data-admin-theme="dark"] textarea::placeholder { color: #475569 !important; }
+        [data-admin-theme="dark"] thead { background-color: #334155 !important; }
+        [data-admin-theme="dark"] .divide-gray-50 > * { border-color: #1e293b !important; }
+        [data-admin-theme="dark"] .hover\:bg-gray-50:hover  { background-color: #1e293b !important; }
+        [data-admin-theme="dark"] .hover\:bg-gray-100:hover { background-color: #334155 !important; }
         [data-admin-theme="dark"] .shadow-sm  { box-shadow: 0 1px 3px 0 rgba(0,0,0,0.5) !important; }
         [data-admin-theme="dark"] .shadow-md  { box-shadow: 0 4px 12px 0 rgba(0,0,0,0.5) !important; }
         [data-admin-theme="dark"] .bg-green-50    { background-color: #052e16 !important; }
@@ -149,11 +148,10 @@
         [data-admin-theme="dark"] .hover\:bg-red-50:hover { background-color: #2d0a0a !important; }
         [data-admin-theme="dark"] .bg-blue-100    { background-color: #1e3a5f !important; }
         [data-admin-theme="dark"] .font-mono      { color: #94a3b8 !important; }
-        [data-admin-theme="dark"] .adm-topbar-text { color: #94a3b8 !important; }
     </style>
     @stack('styles')
 </head>
-<body class="h-full adm-bg" :class="darkMode ? '' : 'bg-gray-100'">
+<body class="h-full adm-bg" :class="darkMode ? '' : 'bg-slate-50'">
 
 <script>
 function adminApp() {
@@ -217,11 +215,11 @@ function adminApp() {
         '{{ $isRtl ? 'translate-x-full' : '-translate-x-full' }} lg:translate-x-0': !sidebarOpen,
         'translate-x-0': sidebarOpen
     }"
-    class="fixed inset-y-0 {{ $isRtl ? 'right-0' : 'left-0' }} z-50 flex flex-col transition-all duration-300 ease-in-out lg:translate-x-0 overflow-hidden"
-    style="background: #0f172a;">
+    class="fixed inset-y-0 {{ $isRtl ? 'right-0' : 'left-0' }} z-50 flex flex-col transition-all duration-300 ease-in-out lg:translate-x-0 overflow-hidden adm-sidebar"
+    style="background:#ffffff; border-{{ $isRtl ? 'left' : 'right' }}:1px solid #e2e8f0; box-shadow:0 0 20px rgba(0,0,0,0.05);">
 
     {{-- ─── Header: Logo + collapse toggle ─── --}}
-    <div class="flex items-center justify-between h-16 px-3 flex-shrink-0 border-b border-white/5">
+    <div class="flex items-center justify-between h-14 px-3 flex-shrink-0 border-b border-gray-100">
         <div class="flex items-center gap-2.5 overflow-hidden min-w-0">
             <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0"
                  style="background: linear-gradient(135deg,#FF8528,#c45e00);">
@@ -230,16 +228,15 @@ function adminApp() {
                           d="M13 10V3L4 14h7v7l9-11h-7z"/>
                 </svg>
             </div>
-            <div x-show="isExpanded" x-cloak class="overflow-hidden leading-none">
-                <p class="text-white font-bold text-sm truncate max-w-36">{{ \App\Models\Setting::get('site_name', config('app.name')) }}</p>
+            <div x-show="isExpanded" x-cloak class="overflow-hidden leading-none min-w-0">
+                <p class="text-gray-900 font-bold text-sm truncate max-w-36">{{ \App\Models\Setting::get('site_name', config('app.name')) }}</p>
                 <p class="text-xs font-medium" style="color:#FF8528;">لوحة التحكم</p>
             </div>
         </div>
 
         {{-- Desktop collapse button --}}
         <button @click="toggleSidebar()"
-                class="hidden lg:flex w-7 h-7 items-center justify-center rounded-lg text-slate-500 hover:text-white hover:bg-white/8 transition-all flex-shrink-0"
-                style="--tw-bg-opacity:1;">
+                class="hidden lg:flex w-7 h-7 items-center justify-center rounded-lg text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-all flex-shrink-0">
             <svg class="w-4 h-4 transition-transform duration-300"
                  :class="sidebarCollapsed ? 'rotate-180' : ''"
                  fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -250,7 +247,7 @@ function adminApp() {
 
         {{-- Mobile close button --}}
         <button @click="sidebarOpen = false"
-                class="lg:hidden w-7 h-7 flex items-center justify-center rounded-lg text-slate-500 hover:text-white">
+                class="lg:hidden w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:text-gray-700">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
             </svg>
@@ -280,7 +277,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.content" x-collapse>
             <a href="{{ route('admin.content.index') }}" title="{{ __('admin.content') }}"
@@ -359,7 +356,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.blog" x-collapse>
             <a href="{{ route('admin.posts.index') }}" title="المقالات"
@@ -402,7 +399,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.pages" x-collapse>
             <a href="{{ route('admin.pages.index') }}" title="الصفحات"
@@ -445,7 +442,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.crm" x-collapse>
             <a href="{{ route('admin.leads.index') }}" title="العملاء المحتملون"
@@ -488,7 +485,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.support" x-collapse>
             <a href="{{ route('admin.tickets.index') }}" title="تذاكر الدعم"
@@ -511,7 +508,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.settings" x-collapse>
             <a href="{{ route('admin.settings.general') }}" title="{{ __('admin.general') }}"
@@ -575,7 +572,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.users" x-collapse>
             <a href="{{ route('admin.users.index') }}" title="{{ __('admin.users') }}"
@@ -628,7 +625,7 @@ function adminApp() {
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
             </svg>
         </button>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
+        <div x-show="!isExpanded" class="my-1 border-t border-gray-100"></div>
 
         <div x-show="!isExpanded || groups.reports" x-collapse>
             <a href="{{ route('admin.analytics.index') }}" title="{{ __('admin.analytics') }}"
@@ -675,12 +672,12 @@ function adminApp() {
     </nav>
 
     {{-- ─── Sign Out ─── --}}
-    <div class="px-2 py-3 flex-shrink-0 border-t border-white/5">
+    <div class="px-2 py-3 flex-shrink-0 border-t border-gray-100">
         <form method="POST" action="{{ route('admin.logout') }}">
             @csrf
             <button type="submit" title="{{ __('admin.sign_out') }}"
                     :class="!isExpanded && 'justify-center !px-2'"
-                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-500 hover:text-red-400 hover:bg-red-500/10 transition-all text-sm font-medium">
+                    class="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-gray-500 hover:text-red-500 hover:bg-red-50 transition-all text-sm font-medium">
                 <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
                           d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
@@ -698,19 +695,19 @@ function adminApp() {
      :class="sidebarCollapsed ? '{{ $isRtl ? 'lg:pr-16' : 'lg:pl-16' }}' : '{{ $isRtl ? 'lg:pr-64' : 'lg:pl-64' }}'">
 
     {{-- Top Bar --}}
-    <header class="sticky top-0 z-30 border-b shadow-sm adm-header"
-            style="background:#1e2244; border-color:#252848;">
+    <header class="sticky top-0 z-30 border-b adm-header"
+            style="background:#ffffff; border-color:#e2e8f0; box-shadow:0 1px 0 #f1f5f9;">
         <div class="flex items-center justify-between px-4 sm:px-6 h-14">
 
             {{-- Left: hamburger + page title --}}
             <div class="flex items-center gap-3">
                 <button @click="sidebarOpen = !sidebarOpen"
-                        class="lg:hidden text-slate-400 hover:text-white focus:outline-none">
+                        class="lg:hidden text-gray-500 hover:text-gray-800 focus:outline-none">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
                 </button>
-                <h1 class="text-sm font-semibold text-white/90 adm-topbar-text">
+                <h1 class="text-sm font-semibold text-gray-800">
                     @yield('page-title', __('admin.dashboard'))
                 </h1>
             </div>
@@ -725,7 +722,7 @@ function adminApp() {
                 @endphp
                 <div class="relative" x-data="{notifOpen:false}" @click.outside="notifOpen=false">
                     <button @click="notifOpen=!notifOpen"
-                            class="relative w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+                            class="relative w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
@@ -744,10 +741,10 @@ function adminApp() {
                          x-transition:leave="transition ease-in duration-75"
                          x-transition:leave-start="opacity-100 scale-100"
                          x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-80 rounded-2xl shadow-xl border z-50 overflow-hidden"
-                         style="background:#1e2244; border-color:#252848;">
-                        <div class="flex items-center justify-between px-4 py-3 border-b" style="border-color:#252848;">
-                            <p class="text-white font-semibold text-sm">{{ __('admin.notifications') }}</p>
+                         class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-80 rounded-2xl shadow-xl border z-50 overflow-hidden adm-dropdown"
+                         style="background:#ffffff; border-color:#e2e8f0;">
+                        <div class="flex items-center justify-between px-4 py-3 border-b border-gray-100">
+                            <p class="text-gray-800 font-semibold text-sm">{{ __('admin.notifications') }}</p>
                             @if($unreadNotifCount > 0)
                             <span class="text-xs px-2 py-0.5 rounded-full text-white font-bold" style="background:#FF8528;">
                                 {{ $unreadNotifCount }} {{ __('admin.new') }}
@@ -760,24 +757,25 @@ function adminApp() {
                         @endphp
                         @if($recentNotifs->isEmpty())
                         <div class="px-4 py-8 text-center">
-                            <p class="text-slate-400 text-sm">{{ __('admin.no_notifications') }}</p>
+                            <p class="text-gray-400 text-sm">{{ __('admin.no_notifications') }}</p>
                         </div>
                         @else
                         <ul>
                             @foreach($recentNotifs as $notif)
                             @php $nData = $notif->data; @endphp
-                            <li class="px-4 py-3 border-b hover:bg-white/5 transition-colors {{ $notif->read_at ? '' : 'bg-orange-500/5' }}" style="border-color:#252848;">
+                            <li class="px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors {{ $notif->read_at ? '' : 'bg-orange-50/60' }}">
                                 <div class="flex items-start gap-2.5">
-                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0" style="{{ $notif->read_at ? 'background:#1a1f3a;' : 'background:rgba(255,133,40,0.15);' }}">
-                                        <svg class="w-4 h-4" fill="none" stroke="{{ $notif->read_at ? '#64748b' : '#FF8528' }}" viewBox="0 0 24 24">
+                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                                         style="{{ $notif->read_at ? 'background:#F8FAFC;' : 'background:#FFF4EA;' }}">
+                                        <svg class="w-4 h-4" fill="none" stroke="{{ $notif->read_at ? '#94a3b8' : '#FF8528' }}" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                   d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
                                         </svg>
                                     </div>
                                     <div class="flex-1 min-w-0">
-                                        <p class="text-sm text-white font-medium truncate">{{ $nData['title'] ?? '' }}</p>
-                                        <p class="text-xs text-slate-400 mt-0.5 truncate">{{ $nData['body'] ?? '' }}</p>
-                                        <p class="text-xs text-slate-500 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
+                                        <p class="text-sm text-gray-800 font-medium truncate">{{ $nData['title'] ?? '' }}</p>
+                                        <p class="text-xs text-gray-500 mt-0.5 truncate">{{ $nData['body'] ?? '' }}</p>
+                                        <p class="text-xs text-gray-400 mt-1">{{ $notif->created_at->diffForHumans() }}</p>
                                     </div>
                                     @if(! $notif->read_at)
                                         <span class="w-2 h-2 rounded-full flex-shrink-0 mt-1.5" style="background:#FF8528;"></span>
@@ -788,7 +786,7 @@ function adminApp() {
                         </ul>
                         @endif
                         <a href="{{ route('admin.notifications.index') }}"
-                           class="block px-4 py-2.5 text-center text-xs font-semibold transition-colors hover:bg-white/5"
+                           class="block px-4 py-2.5 text-center text-xs font-semibold transition-colors hover:bg-gray-50 border-t border-gray-100"
                            style="color:#FF8528;">
                             {{ __('admin.view_all_notifications') }} &rarr;
                         </a>
@@ -798,7 +796,7 @@ function adminApp() {
                 {{-- Dark Mode Toggle --}}
                 <button @click="toggleDark()"
                         :title="darkMode ? '{{ __('admin.light_mode') }}' : '{{ __('admin.dark_mode') }}'"
-                        class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors">
+                        class="w-8 h-8 flex items-center justify-center rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 transition-colors">
                     <svg x-show="!darkMode" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                               d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
@@ -813,7 +811,7 @@ function adminApp() {
                 {{-- Language Selector --}}
                 <div class="relative" @click.outside="langMenuOpen = false">
                     <button @click="langMenuOpen = !langMenuOpen"
-                            class="flex items-center gap-1 px-2 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 text-xs font-semibold transition-colors">
+                            class="flex items-center gap-1 px-2 py-1.5 rounded-lg text-gray-500 hover:text-gray-800 hover:bg-gray-100 text-xs font-semibold transition-colors">
                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <circle cx="12" cy="12" r="9" stroke-width="2"/>
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h18M12 3a13.5 13.5 0 0 1 0 18M12 3a13.5 13.5 0 0 0 0 18"/>
@@ -827,17 +825,17 @@ function adminApp() {
                          x-transition:leave="transition ease-in duration-75"
                          x-transition:leave-start="opacity-100 scale-100"
                          x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-44 rounded-xl shadow-xl border py-1 z-50"
-                         style="background:#1e2244; border-color:#252848;">
+                         class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-44 rounded-xl shadow-xl border py-1 z-50 adm-dropdown"
+                         style="background:#ffffff; border-color:#e2e8f0;">
                         @foreach(['en' => ['EN','English'],'ar' => ['AR','العربية'],'nl' => ['NL','Nederlands'],'de' => ['DE','Deutsch']] as $code => [$abbr, $label])
                             @php $active = session('admin_lang','en') === $code; @endphp
                             <form method="POST" action="{{ route('admin.language') }}">
                                 @csrf
                                 <input type="hidden" name="lang" value="{{ $code }}">
                                 <button type="submit"
-                                        class="w-full flex items-center gap-2.5 px-4 py-2 text-sm hover:bg-white/5 transition-colors {{ $active ? 'text-white font-semibold' : 'text-slate-400' }}">
+                                        class="w-full flex items-center gap-2.5 px-4 py-2 text-sm hover:bg-gray-50 transition-colors {{ $active ? 'text-gray-900 font-semibold' : 'text-gray-600' }}">
                                     <span class="w-7 h-5 rounded text-[10px] font-bold flex items-center justify-center flex-shrink-0"
-                                          style="{{ $active ? 'background:#FF8528;color:#fff;' : 'background:rgba(255,255,255,0.08);color:#94a3b8;' }}">
+                                          style="{{ $active ? 'background:#FF8528;color:#fff;' : 'background:#F1F5F9;color:#64748B;' }}">
                                         {{ $abbr }}
                                     </span>
                                     <span>{{ $label }}</span>
@@ -855,15 +853,15 @@ function adminApp() {
                 {{-- User Menu --}}
                 <div class="relative" @click.outside="userMenuOpen = false">
                     <button @click="userMenuOpen = !userMenuOpen"
-                            class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-white/10 transition-colors focus:outline-none">
+                            class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-gray-100 transition-colors focus:outline-none">
                         <div class="w-7 h-7 rounded-full flex items-center justify-center text-white text-xs font-bold"
                              style="background: linear-gradient(135deg,#FF8528,#c45e00);">
                             {{ strtoupper(substr(auth()->user()->name ?? 'A', 0, 1)) }}
                         </div>
-                        <span class="hidden sm:block text-xs text-slate-300 font-medium max-w-24 truncate">
+                        <span class="hidden sm:block text-xs text-gray-700 font-medium max-w-24 truncate">
                             {{ auth()->user()->name ?? 'Admin' }}
                         </span>
-                        <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                         </svg>
                     </button>
@@ -874,25 +872,25 @@ function adminApp() {
                          x-transition:leave="transition ease-in duration-75"
                          x-transition:leave-start="opacity-100 scale-100"
                          x-transition:leave-end="opacity-0 scale-95"
-                         class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-52 rounded-xl shadow-xl border py-1 z-50"
-                         style="background:#1e2244; border-color:#252848;">
-                        <div class="px-4 py-2.5 border-b" style="border-color:#252848;">
-                            <p class="text-white text-sm font-semibold truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
-                            <p class="text-slate-400 text-xs truncate">{{ auth()->user()->email ?? '' }}</p>
+                         class="absolute {{ $isRtl ? 'left-0' : 'right-0' }} mt-2 w-52 rounded-xl shadow-xl border py-1 z-50 adm-dropdown"
+                         style="background:#ffffff; border-color:#e2e8f0;">
+                        <div class="px-4 py-2.5 border-b border-gray-100">
+                            <p class="text-gray-800 text-sm font-semibold truncate">{{ auth()->user()->name ?? 'Admin' }}</p>
+                            <p class="text-gray-400 text-xs truncate">{{ auth()->user()->email ?? '' }}</p>
                         </div>
                         <a href="{{ route('admin.profile') }}"
-                           class="flex items-center gap-2.5 px-4 py-2 text-sm text-slate-300 hover:text-white hover:bg-white/5 transition-colors mt-1">
-                            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                           class="flex items-center gap-2.5 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors mt-1">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                       d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
                             </svg>
                             {{ __('admin.my_profile') }}
                         </a>
-                        <div class="border-t my-1" style="border-color:#252848;"></div>
+                        <div class="border-t border-gray-100 my-1"></div>
                         <form method="POST" action="{{ route('admin.logout') }}">
                             @csrf
                             <button type="submit"
-                                    class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors">
+                                    class="w-full flex items-center gap-2.5 px-4 py-2 text-sm text-red-500 hover:bg-red-50 transition-colors">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                           d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
@@ -953,8 +951,8 @@ function adminApp() {
     </main>
 
     {{-- Footer --}}
-    <footer class="px-6 py-3 border-t adm-footer" style="background:#1e2244; border-color:#252848;">
-        <p class="text-xs text-slate-600 text-center">&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', config('app.name')) }}</p>
+    <footer class="px-6 py-3 border-t adm-footer" style="background:#ffffff; border-color:#e2e8f0;">
+        <p class="text-xs text-gray-400 text-center">&copy; {{ date('Y') }} {{ \App\Models\Setting::get('site_name', config('app.name')) }}</p>
     </footer>
 </div>
 
