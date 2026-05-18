@@ -48,21 +48,6 @@
 .blog-card-meta { display: flex; align-items: center; justify-content: space-between; font-size: .8rem; color: var(--ink-3, #94a3b8); }
 .blog-card-link { color: var(--brand); font-weight: 600; text-decoration: none; }
 .blog-card-link:hover { text-decoration: underline; }
-
-/* Dynamic nav dropdown */
-.nav-dropdown { position: relative; display: inline-flex; align-items: center; }
-.nav-dropdown-btn { display: inline-flex; align-items: center; gap: 4px; background: none; border: none; cursor: pointer; font: inherit; font-size: .875rem; font-weight: 500; color: var(--ink-2, #64748b); padding: 0; transition: color .2s; }
-.nav-dropdown-btn:hover, .nav-dropdown-btn.open { color: var(--ink, #0f172a); }
-.nav-dropdown-btn svg { transition: transform .2s; }
-.nav-dropdown-btn.open svg { transform: rotate(180deg); }
-.nav-dropdown-menu { display: none; position: absolute; top: calc(100% + 8px); inset-inline-start: 50%; transform: translateX(-50%); background: #fff; border: 1px solid var(--border, #e2e8f0); border-radius: .75rem; box-shadow: 0 8px 24px rgba(0,0,0,.1); padding: .4rem; min-width: 160px; z-index: 100; }
-.nav-dropdown-menu.open { display: block; }
-.nav-dropdown-menu a { display: block; padding: .5rem .75rem; border-radius: .5rem; font-size: .875rem; color: var(--ink-2, #64748b); text-decoration: none; transition: background .15s, color .15s; white-space: nowrap; }
-.nav-dropdown-menu a:hover { background: var(--brand-soft, #FFF4EA); color: var(--brand); }
-/* Footer menu links */
-.foot-links { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; justify-content: center; }
-.foot-links a { font-size: .8rem; color: var(--ink-3, #94a3b8); text-decoration: none; transition: color .15s; }
-.foot-links a:hover { color: var(--brand); }
 </style>
 @if(!empty($settings['ga_id']))
 <!-- Google Analytics -->
