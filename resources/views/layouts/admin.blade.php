@@ -150,16 +150,16 @@ function adminApp() {
         darkMode: localStorage.getItem('adminTheme') === 'dark',
         userMenuOpen: false,
         langMenuOpen: false,
-        // Collapsible sidebar groups - default all open
+        // Collapsible sidebar groups - default closed
         groups: {
-            content:  localStorage.getItem('grp_content')  !== 'false',
-            blog:     localStorage.getItem('grp_blog')     !== 'false',
-            pages:    localStorage.getItem('grp_pages')    !== 'false',
-            crm:      localStorage.getItem('grp_crm')      !== 'false',
-            support:  localStorage.getItem('grp_support')  !== 'false',
-            settings: localStorage.getItem('grp_settings') !== 'false',
-            users:    localStorage.getItem('grp_users')    !== 'false',
-            reports:  localStorage.getItem('grp_reports')  !== 'false',
+            content:  localStorage.getItem('grp_content')  === 'true',
+            blog:     localStorage.getItem('grp_blog')     === 'true',
+            pages:    localStorage.getItem('grp_pages')    === 'true',
+            crm:      localStorage.getItem('grp_crm')      === 'true',
+            support:  localStorage.getItem('grp_support')  === 'true',
+            settings: localStorage.getItem('grp_settings') === 'true',
+            users:    localStorage.getItem('grp_users')    === 'true',
+            reports:  localStorage.getItem('grp_reports')  === 'true',
         },
         toggleGroup(name) {
             this.groups[name] = !this.groups[name];
@@ -213,8 +213,8 @@ function adminApp() {
                 </svg>
             </div>
             <div x-show="isExpanded" x-cloak class="overflow-hidden leading-none">
-                <p class="text-white font-bold text-sm">Retont</p>
-                <p class="text-xs font-medium" style="color:#FF8528;">Business</p>
+                <p class="text-white font-bold text-sm truncate max-w-36">{{ \App\Models\Setting::get('site_name', config('app.name')) }}</p>
+                <p class="text-xs font-medium" style="color:#FF8528;">لوحة التحكم</p>
             </div>
         </div>
 
@@ -654,19 +654,6 @@ function adminApp() {
             </a>
         </div>
 
-        {{-- Site --}}
-        <div x-show="isExpanded" x-cloak class="sidebar-group-label">{{ __('admin.site_label') }}</div>
-        <div x-show="!isExpanded" class="my-1 border-t border-white/5"></div>
-
-        <a href="{{ url('/') }}" target="_blank" title="{{ __('admin.view_site') }}"
-           :class="!isExpanded && 'justify-center !px-2'"
-           class="sidebar-link">
-            <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                      d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-            </svg>
-            <span x-show="isExpanded" x-cloak class="truncate">{{ __('admin.view_site') }}</span>
-        </a>
     </nav>
 
     {{-- ─── Sign Out ─── --}}
