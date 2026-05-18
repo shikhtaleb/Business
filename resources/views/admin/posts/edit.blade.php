@@ -351,22 +351,78 @@
                 </div>
 
                 {{-- Featured Image --}}
-                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-3">
-                    <label class="block text-xs font-semibold text-gray-500">رابط الصورة المميزة</label>
-                    @if($post->featured_image)
-                        <img src="{{ $post->featured_image }}"
-                             alt="صورة مميزة"
-                             class="w-full h-32 object-cover rounded-xl border border-gray-100">
-                    @endif
-                    <input type="text"
-                           name="featured_image"
-                           value="{{ old('featured_image', $post->featured_image) }}"
-                           dir="ltr"
-                           placeholder="https://…"
-                           class="w-full rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 font-mono focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5"
+                     x-data="{
+                         imageUrl: '{{ old('featured_image', $post->featured_image) }}',
+                         picker: { open: false, loading: false, images: [] },
+                         async openPicker() {
+                             this.picker.open = true;
+                             if (!this.picker.images.length) {
+                                 this.picker.loading = true;
+                                 try {
+                                     const r = await fetch('{{ route('admin.media.index') }}?json=1', { headers:{'Accept':'application/json','X-Requested-With':'XMLHttpRequest'} });
+                                     this.picker.images = await r.json();
+                                 } catch {}
+                                 this.picker.loading = false;
+                             }
+                         }
+                     }">
+                    <label class="block text-xs font-semibold text-gray-500 mb-1.5">الصورة المميزة</label>
+                    <div class="flex gap-2">
+                        <input type="text"
+                               name="featured_image"
+                               x-model="imageUrl"
+                               dir="ltr"
+                               placeholder="https://…"
+                               class="flex-1 rounded-xl border border-gray-200 px-3 py-2.5 text-sm text-gray-700 font-mono focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
+                        <button type="button" @click="openPicker()"
+                                class="flex-shrink-0 px-3 py-2 rounded-xl border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors whitespace-nowrap">
+                            🖼 استعراض
+                        </button>
+                    </div>
+                    <div x-show="imageUrl" class="mt-2">
+                        <img :src="imageUrl" class="h-28 w-full object-cover rounded-xl border border-gray-100" loading="lazy">
+                    </div>
                     @error('featured_image')
                         <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
                     @enderror
+
+                    {{-- Media Picker Modal --}}
+                    <div x-show="picker.open" x-cloak
+                         class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                         style="background:rgba(15,23,42,0.6);"
+                         @click.self="picker.open = false"
+                         @keydown.escape.window="picker.open = false">
+                        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl max-h-[75vh] flex flex-col overflow-hidden">
+                            <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                                <h3 class="font-semibold text-gray-900 text-sm">اختر صورة</h3>
+                                <button @click="picker.open = false" class="w-7 h-7 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                </button>
+                            </div>
+                            <div class="flex-1 overflow-y-auto p-4">
+                                <template x-if="picker.loading">
+                                    <p class="text-center text-sm text-gray-400 py-12">جارٍ التحميل...</p>
+                                </template>
+                                <template x-if="!picker.loading && picker.images.length === 0">
+                                    <p class="text-center text-sm text-gray-400 py-12">لا توجد صور في المكتبة</p>
+                                </template>
+                                <div x-show="!picker.loading" class="grid grid-cols-3 sm:grid-cols-4 gap-2.5">
+                                    <template x-for="img in picker.images" :key="img.id">
+                                        <button type="button"
+                                                @click="imageUrl = img.url; picker.open = false"
+                                                class="aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-orange-400 transition-all">
+                                            <img :src="img.url" :alt="img.original_name" class="w-full h-full object-cover" loading="lazy">
+                                        </button>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="px-5 py-3 border-t border-gray-100 flex items-center justify-between">
+                                <a href="{{ route('admin.media.index') }}" target="_blank" class="text-xs font-medium hover:underline" style="color:#FF8528;">+ رفع صورة جديدة</a>
+                                <button @click="picker.open = false" class="px-4 py-2 rounded-xl border border-gray-200 text-xs text-gray-600 hover:bg-gray-50">إلغاء</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
