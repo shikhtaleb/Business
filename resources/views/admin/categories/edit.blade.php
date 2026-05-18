@@ -28,6 +28,14 @@
                 <label class="block text-xs font-medium text-gray-600 mb-1">الاسم (إنجليزي)</label>
                 <input type="text" name="name_en" value="{{ old('name_en', $category->name_en) }}" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
             </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">الاسم (هولندي)</label>
+                <input type="text" name="name_nl" value="{{ old('name_nl', $category->name_nl) }}" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
+            </div>
+            <div>
+                <label class="block text-xs font-medium text-gray-600 mb-1">الاسم (ألماني)</label>
+                <input type="text" name="name_de" value="{{ old('name_de', $category->name_de) }}" class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-200">
+            </div>
         </div>
         <div>
             <label class="block text-xs font-medium text-gray-600 mb-1">الرابط (Slug)</label>

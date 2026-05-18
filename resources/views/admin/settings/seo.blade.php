@@ -64,7 +64,24 @@ $settingsTabs = [
                 </p>
             </div>
 
-            <form method="POST" action="{{ route('admin.settings.seo.save') }}" class="px-6 py-6 space-y-5">
+            <form method="POST" action="{{ route('admin.settings.seo.save') }}" class="px-6 py-6 space-y-5"
+                  x-data="{
+                      ogImage: '{{ old('og_image', $seo['og_image'] ?? '') }}',
+                      mediaPicker: { open: false, loading: false, images: [], callback: null },
+                      async openMediaPicker(cb) {
+                          this.mediaPicker.callback = cb;
+                          this.mediaPicker.open = true;
+                          if (this.mediaPicker.images.length === 0) {
+                              this.mediaPicker.loading = true;
+                              try {
+                                  const r = await fetch('{{ route('admin.media.index') }}?json=1', { headers: {'X-Requested-With':'XMLHttpRequest'} });
+                                  this.mediaPicker.images = await r.json();
+                              } finally { this.mediaPicker.loading = false; }
+                          }
+                      },
+                      pickImage(url) { if(this.mediaPicker.callback) this.mediaPicker.callback(url); this.mediaPicker.open = false; }
+                  }"
+                  @keydown.escape.window="mediaPicker.open = false">
                 @csrf
                 <input type="hidden" name="lang" value="{{ $currentLang ?? 'en' }}">
 
@@ -172,27 +189,60 @@ $settingsTabs = [
                                     id="og_image"
                                     type="text"
                                     name="og_image"
-                                    value="{{ old('og_image', $seo['og_image'] ?? '') }}"
+                                    x-model="ogImage"
                                     class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
                                            focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
                                     placeholder="https://example.com/storage/og-image.jpg"
                                 >
-                                <a href="{{ route('admin.media.index') }}"
-                                   target="_blank"
-                                   title="تصفح مكتبة الوسائط"
-                                   class="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gray-200 text-xs text-gray-600 hover:bg-gray-50 flex-shrink-0 transition-colors">
+                                <button type="button"
+                                        @click="openMediaPicker(url => ogImage = url)"
+                                        class="flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gray-200 text-xs text-gray-600 hover:bg-gray-50 flex-shrink-0 transition-colors whitespace-nowrap">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/>
+                                              d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                                     </svg>
-                                    الوسائط
-                                </a>
+                                    استعراض
+                                </button>
                             </div>
-                            @if (!empty($seo['og_image']))
-                                <div class="mt-2 w-32 h-16 rounded-lg overflow-hidden border border-gray-100">
-                                    <img src="{{ $seo['og_image'] }}" alt="OG Preview" class="w-full h-full object-cover">
+                            <div x-show="ogImage" class="mt-2 w-32 h-16 rounded-lg overflow-hidden border border-gray-100">
+                                <img :src="ogImage" alt="OG Preview" class="w-full h-full object-cover">
+                            </div>
+
+                            {{-- Media Picker Modal --}}
+                            <div x-show="mediaPicker.open" x-cloak
+                                 class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                                 style="background:rgba(0,0,0,.55)">
+                                <div @click.outside="mediaPicker.open = false"
+                                     class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex flex-col overflow-hidden">
+                                    <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                                        <h3 class="font-semibold text-gray-800">اختر صورة OG</h3>
+                                        <button type="button" @click="mediaPicker.open = false"
+                                                class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                                        </button>
+                                    </div>
+                                    <div class="flex-1 overflow-y-auto p-4">
+                                        <div x-show="mediaPicker.loading" class="flex items-center justify-center py-12 text-gray-400 text-sm">
+                                            <svg class="w-5 h-5 animate-spin me-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                                            جاري التحميل...
+                                        </div>
+                                        <div x-show="!mediaPicker.loading && mediaPicker.images.length === 0" class="py-12 text-center text-gray-400 text-sm">
+                                            لا توجد صور في المكتبة
+                                        </div>
+                                        <div x-show="!mediaPicker.loading && mediaPicker.images.length > 0" class="grid grid-cols-4 gap-3">
+                                            <template x-for="img in mediaPicker.images" :key="img.id">
+                                                <button type="button" @click="pickImage(img.url)"
+                                                        class="group relative aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-orange-400 transition-all">
+                                                    <img :src="img.url" :alt="img.original_name" class="w-full h-full object-cover">
+                                                    <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                                        <svg class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                                    </div>
+                                                </button>
+                                            </template>
+                                        </div>
+                                    </div>
                                 </div>
-                            @endif
+                            </div>
                         </div>
                     </div>
                 </div>

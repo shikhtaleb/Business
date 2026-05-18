@@ -48,8 +48,25 @@ $settingsTabs = [
                   x-data="{
                       brandColor: '{{ old('brand_color', $settings['brand_color'] ?? '#FF8528') }}',
                       syncFromPicker(val) { this.brandColor = val; },
-                      syncFromText(val) { if (/^#[0-9A-Fa-f]{6}$/.test(val)) this.brandColor = val; }
+                      syncFromText(val) { if (/^#[0-9A-Fa-f]{6}$/.test(val)) this.brandColor = val; },
+                      mediaPicker: { open: false, loading: false, images: [], callback: null },
+                      async openMediaPicker(callback) {
+                          this.mediaPicker.callback = callback;
+                          this.mediaPicker.open = true;
+                          if (this.mediaPicker.images.length === 0) {
+                              this.mediaPicker.loading = true;
+                              try {
+                                  const res = await fetch('{{ route('admin.media.index') }}?json=1', { headers: { 'X-Requested-With': 'XMLHttpRequest' } });
+                                  this.mediaPicker.images = await res.json();
+                              } finally { this.mediaPicker.loading = false; }
+                          }
+                      },
+                      pickImage(url) {
+                          if (this.mediaPicker.callback) this.mediaPicker.callback(url);
+                          this.mediaPicker.open = false;
+                      }
                   }"
+                  @keydown.escape.window="mediaPicker.open = false"
             >
                 @csrf
 
@@ -178,47 +195,97 @@ $settingsTabs = [
                 </div>
 
                 {{-- Logo URL --}}
-                <div>
+                <div x-data="{ logoUrl: '{{ old('logo_url', $settings['logo_url'] ?? '') }}' }">
                     <label for="logo_url" class="block text-sm font-medium text-gray-700 mb-1.5">
                         {{ __('admin.logo_url') }}
                         <span class="text-gray-400 font-normal ms-1">({{ __('admin.or_paste_media') }})</span>
                     </label>
-                    <input
-                        id="logo_url"
-                        type="text"
-                        name="logo_url"
-                        value="{{ old('logo_url', $settings['logo_url'] ?? '') }}"
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
-                               focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
-                        placeholder="https://example.com/storage/logo.png"
-                    >
-                    <p class="mt-1 text-xs text-gray-400">
-                        {{ __('admin.or_paste_media') }} —
-                        <a href="{{ route('admin.media.index') }}" class="underline" style="color:#FF8528;">{{ __('admin.media_library') }}</a>.
-                    </p>
+                    <div class="flex gap-2">
+                        <input
+                            id="logo_url"
+                            type="text"
+                            name="logo_url"
+                            x-model="logoUrl"
+                            class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
+                                   focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
+                            placeholder="https://example.com/storage/logo.png"
+                        >
+                        <button type="button"
+                                @click="openMediaPicker(url => { logoUrl = url; })"
+                                class="px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 whitespace-nowrap flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            استعراض
+                        </button>
+                    </div>
+                    <div x-show="logoUrl" class="mt-2 w-36 h-16 rounded-xl border border-gray-200 bg-gray-50 flex items-center justify-center p-2">
+                        <img :src="logoUrl" alt="Logo Preview" class="max-w-full max-h-full object-contain">
+                    </div>
                 </div>
 
                 {{-- Dark Mode Logo URL --}}
-                <div>
+                <div x-data="{ darkLogoUrl: '{{ old('dark_logo_url', $settings['dark_logo_url'] ?? '') }}' }">
                     <label for="dark_logo_url" class="block text-sm font-medium text-gray-700 mb-1.5">
                         {{ __('admin.dark_logo_url') }}
                         <span class="text-gray-400 font-normal ms-1 text-xs">({{ __('admin.or_paste_media') }})</span>
                     </label>
-                    @if (!empty($settings['dark_logo_url']))
-                        <div class="mb-2 w-40 h-20 rounded-xl border border-gray-200 bg-gray-800 flex items-center justify-center p-3">
-                            <img src="{{ $settings['dark_logo_url'] }}" alt="Dark Logo Preview" class="max-w-full max-h-full object-contain">
-                        </div>
-                    @endif
-                    <input
-                        id="dark_logo_url"
-                        type="text"
-                        name="dark_logo_url"
-                        value="{{ old('dark_logo_url', $settings['dark_logo_url'] ?? '') }}"
-                        class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
-                               focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
-                        placeholder="https://example.com/storage/logo-dark.png"
-                    >
+                    <div class="flex gap-2">
+                        <input
+                            id="dark_logo_url"
+                            type="text"
+                            name="dark_logo_url"
+                            x-model="darkLogoUrl"
+                            class="flex-1 px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm
+                                   focus:outline-none focus:ring-2 focus:border-transparent transition-shadow"
+                            placeholder="https://example.com/storage/logo-dark.png"
+                        >
+                        <button type="button"
+                                @click="openMediaPicker(url => { darkLogoUrl = url; })"
+                                class="px-3.5 py-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 whitespace-nowrap flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            استعراض
+                        </button>
+                    </div>
+                    <div x-show="darkLogoUrl" class="mt-2 w-36 h-16 rounded-xl border border-gray-200 bg-gray-800 flex items-center justify-center p-2">
+                        <img :src="darkLogoUrl" alt="Dark Logo Preview" class="max-w-full max-h-full object-contain">
+                    </div>
                     <p class="mt-1 text-xs text-gray-400">يُعرض عند تفعيل الزوار الوضع الداكن في الواجهة الأمامية.</p>
+                </div>
+
+                {{-- Media Picker Modal --}}
+                <div x-show="mediaPicker.open" x-cloak
+                     class="fixed inset-0 z-50 flex items-center justify-center p-4"
+                     style="background:rgba(0,0,0,.55)">
+                    <div @click.outside="mediaPicker.open = false"
+                         class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl max-h-[80vh] flex flex-col overflow-hidden">
+                        <div class="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+                            <h3 class="font-semibold text-gray-800">اختر صورة</h3>
+                            <button type="button" @click="mediaPicker.open = false"
+                                    class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-500">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            </button>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-4">
+                            <div x-show="mediaPicker.loading" class="flex items-center justify-center py-12 text-gray-400 text-sm">
+                                <svg class="w-5 h-5 animate-spin me-2" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                                جاري التحميل...
+                            </div>
+                            <div x-show="!mediaPicker.loading && mediaPicker.images.length === 0" class="py-12 text-center text-gray-400 text-sm">
+                                لا توجد صور في المكتبة
+                            </div>
+                            <div x-show="!mediaPicker.loading && mediaPicker.images.length > 0"
+                                 class="grid grid-cols-4 gap-3">
+                                <template x-for="img in mediaPicker.images" :key="img.id">
+                                    <button type="button" @click="pickImage(img.url)"
+                                            class="group relative aspect-square rounded-xl overflow-hidden border-2 border-transparent hover:border-orange-400 transition-all">
+                                        <img :src="img.url" :alt="img.original_name" class="w-full h-full object-cover">
+                                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+                                            <svg class="w-6 h-6 text-white opacity-0 group-hover:opacity-100 transition-opacity drop-shadow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        </div>
+                                    </button>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {{-- Save Button --}}
