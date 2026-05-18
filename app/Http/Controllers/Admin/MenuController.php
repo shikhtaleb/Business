@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Menu;
 use App\Models\MenuItem;
 use App\Models\Page;
-use App\Models\Post;
-use App\Models\Category;
+use App\Models\PostCategory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -31,7 +30,7 @@ class MenuController extends Controller
             ->orderBy('title_ar')
             ->get(['id', 'title_ar', 'title_en', 'slug']);
 
-        $categories = Category::orderBy('name_ar')->get(['id', 'name_ar', 'name_en', 'slug'])->map(function ($c) {
+        $categories = PostCategory::orderBy('name_ar')->get(['id', 'name_ar', 'name_en', 'slug'])->map(function ($c) {
             return ['id' => $c->id, 'title_ar' => $c->name_ar, 'title_en' => $c->name_en, 'slug' => 'blog?category=' . $c->slug];
         });
 
