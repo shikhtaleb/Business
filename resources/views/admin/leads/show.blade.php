@@ -228,11 +228,11 @@
             <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 text-xs text-gray-500 space-y-2">
                 <div class="flex justify-between">
                     <span>تاريخ الإنشاء</span>
-                    <span class="text-gray-700">{{ $lead->created_at->format('d M Y') }}</span>
+                    <span class="text-gray-700">{{ $lead->created_at->translatedFormat('d M Y') }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span>آخر تحديث</span>
-                    <span class="text-gray-700">{{ $lead->updated_at->format('d M Y') }}</span>
+                    <span class="text-gray-700">{{ $lead->updated_at->translatedFormat('d M Y') }}</span>
                 </div>
                 <div class="flex justify-between">
                     <span>عدد الملاحظات</span>

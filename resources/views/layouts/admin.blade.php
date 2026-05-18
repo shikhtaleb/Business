@@ -32,6 +32,19 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @php $isRtl = app()->getLocale() === 'ar'; @endphp
+    @php
+    $activeGroup = match(true) {
+        request()->routeIs('admin.content.*', 'admin.media.*', 'admin.messages.*', 'admin.plans.*', 'admin.coupons.*') => 'content',
+        request()->routeIs('admin.posts.*', 'admin.categories.*') => 'blog',
+        request()->routeIs('admin.pages.*', 'admin.menus.*', 'admin.redirects.*') => 'pages',
+        request()->routeIs('admin.leads.*', 'admin.subscribers.*', 'admin.campaigns.*') => 'crm',
+        request()->routeIs('admin.tickets.*') => 'support',
+        request()->routeIs('admin.settings.*', 'admin.languages.*') => 'settings',
+        request()->routeIs('admin.users.*', 'admin.roles.*', 'admin.api-keys.*', 'admin.two-factor.*') => 'users',
+        request()->routeIs('admin.analytics.*', 'admin.activity.*', 'admin.system.*', 'admin.backups.*') => 'reports',
+        default => null,
+    };
+    @endphp
 
     <style>
         [x-cloak] { display: none !important; }
@@ -173,6 +186,11 @@ function adminApp() {
         toggleSidebar() {
             this.sidebarCollapsed = !this.sidebarCollapsed;
             localStorage.setItem('sidebarCollapsed', this.sidebarCollapsed ? 'true' : 'false');
+        },
+        init() {
+            @if($activeGroup)
+            this.groups['{{ $activeGroup }}'] = true;
+            @endif
         }
     }
 }

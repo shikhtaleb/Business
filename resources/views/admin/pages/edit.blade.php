@@ -224,7 +224,7 @@
                     </div>
                     <div class="flex justify-between">
                         <span>تاريخ الإنشاء</span>
-                        <span class="font-medium text-gray-700">{{ $page->created_at->format('d M Y') }}</span>
+                        <span class="font-medium text-gray-700">{{ $page->created_at->translatedFormat('d M Y') }}</span>
                     </div>
                     <div class="flex justify-between">
                         <span>آخر تحديث</span>

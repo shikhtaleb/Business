@@ -74,7 +74,7 @@
                                     {{ $page->author?->name ?? '—' }}
                                 </td>
                                 <td class="px-5 py-3.5 text-gray-500 text-xs whitespace-nowrap">
-                                    {{ $page->updated_at->format('d M Y, H:i') }}
+                                    {{ $page->updated_at->translatedFormat('d M Y') }}
                                 </td>
                                 <td class="px-5 py-3.5">
                                     <div class="flex items-center justify-end gap-2">
