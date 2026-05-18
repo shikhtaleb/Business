@@ -23,6 +23,14 @@ class SettingsController extends Controller
 
     public function saveGeneral(Request $request)
     {
+        // robots_txt-only submit (from the robots.txt card)
+        if ($request->input('_robots_only')) {
+            $request->validate(['robots_txt' => 'nullable|string|max:5000']);
+            Setting::set('robots_txt', $request->input('robots_txt', ''), 'general');
+            ActivityLog::record('robots.txt updated', 'settings');
+            return back()->with('success', 'تم حفظ ملف robots.txt بنجاح.');
+        }
+
         $request->validate([
             'site_name'        => 'required|string|max:100',
             'site_url'         => 'required|url',
@@ -110,6 +118,7 @@ class SettingsController extends Controller
             'keywords' => Setting::get("seo_keywords_{$currentLang}", ''),
             'og_title' => Setting::get("seo_og_title_{$currentLang}", ''),
             'og_desc'  => Setting::get("seo_og_desc_{$currentLang}",  ''),
+            'og_image' => Setting::get("seo_og_image_{$currentLang}", ''),
             'robots'   => Setting::get("seo_robots_{$currentLang}",   'index, follow'),
         ];
 
@@ -125,6 +134,7 @@ class SettingsController extends Controller
             'keywords' => 'nullable|string|max:500',
             'og_title' => 'nullable|string|max:255',
             'og_desc'  => 'nullable|string|max:500',
+            'og_image' => 'nullable|string|max:500',
             'robots'   => 'nullable|string|max:100',
         ]);
 
@@ -135,6 +145,7 @@ class SettingsController extends Controller
         Setting::set("seo_keywords_{$lang}", $request->input('keywords', ''), 'seo');
         Setting::set("seo_og_title_{$lang}", $request->input('og_title', ''), 'seo');
         Setting::set("seo_og_desc_{$lang}",  $request->input('og_desc',  ''), 'seo');
+        Setting::set("seo_og_image_{$lang}", $request->input('og_image', ''), 'seo');
         Setting::set("seo_robots_{$lang}",   $request->input('robots', 'index, follow'), 'seo');
 
         $this->generateSitemap();

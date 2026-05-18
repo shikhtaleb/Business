@@ -243,6 +243,36 @@ $settingsTabs = [
             </form>
         </div>
 
+        {{-- Robots.txt --}}
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
+            <div class="px-6 py-5 border-b border-gray-100">
+                <h2 class="text-base font-semibold text-gray-800">ملف robots.txt</h2>
+                <p class="text-sm text-gray-500 mt-0.5">تحكم في كيفية فهرسة محركات البحث لموقعك.
+                    <a href="{{ url('/robots.txt') }}" target="_blank" class="ms-1 underline text-xs" style="color:#FF8528;">عرض robots.txt ↗</a>
+                </p>
+            </div>
+            <form method="POST" action="{{ route('admin.settings.general.save') }}" class="px-6 py-6">
+                @csrf
+                <input type="hidden" name="_robots_only" value="1">
+                <textarea name="robots_txt" rows="8"
+                          class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 text-gray-900 text-sm font-mono
+                                 focus:outline-none focus:ring-2 focus:border-transparent transition-shadow resize-y"
+                          placeholder="User-agent: *&#10;Allow: /&#10;Sitemap: https://example.com/sitemap.xml"
+                >{{ old('robots_txt', $settings['robots_txt'] ?? "User-agent: *\nAllow: /\nSitemap: " . (config('app.url')) . "/sitemap.xml") }}</textarea>
+                <div class="flex justify-end mt-4">
+                    <button type="submit"
+                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-white text-sm font-semibold shadow-md transition-all"
+                            style="background:#FF8528;"
+                            onmouseover="this.style.background='#E06800'" onmouseout="this.style.background='#FF8528'">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                        </svg>
+                        حفظ robots.txt
+                    </button>
+                </div>
+            </form>
+        </div>
+
         {{-- Cache Management --}}
         <div class="bg-white rounded-2xl shadow-sm border border-gray-100">
             <div class="px-6 py-5 border-b border-gray-100">
