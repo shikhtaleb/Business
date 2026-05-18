@@ -13,6 +13,8 @@ class MenuItem extends Model
         'parent_id',
         'label_ar',
         'label_en',
+        'label_nl',
+        'label_de',
         'url',
         'target',
         'icon',
