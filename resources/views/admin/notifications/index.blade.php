@@ -11,7 +11,7 @@
         <div>
             <h2 class="text-xl font-bold text-gray-900">الإشعارات</h2>
             @php
-                try { $unreadCount = auth()->user()->unreadNotifications()->count(); } catch (\Throwable) { $unreadCount = 0; }
+                try { $unreadCount = auth()->user()->unreadNotifications()->count(); } catch (\Throwable $e) { $unreadCount = 0; \Illuminate\Support\Facades\Log::warning('notifications unreadCount: '.$e->getMessage()); }
             @endphp
             <p class="text-sm text-gray-500 mt-0.5">
                 {{ $notifications->total() }} إشعار
