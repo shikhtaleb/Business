@@ -224,6 +224,64 @@ $settingsTabs = [
                     </button>
                 </div>
 
+                {{-- Social Media Links --}}
+                <div class="border-t border-gray-100 pt-6 space-y-4">
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-700 mb-3">روابط التواصل الاجتماعي</h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">X / Twitter</label>
+                                <input type="url" name="social_twitter"
+                                       value="{{ old('social_twitter', $settings['social_twitter'] ?? '') }}"
+                                       placeholder="https://x.com/yourhandle"
+                                       class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">Instagram</label>
+                                <input type="url" name="social_instagram"
+                                       value="{{ old('social_instagram', $settings['social_instagram'] ?? '') }}"
+                                       placeholder="https://instagram.com/yourhandle"
+                                       class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">Facebook</label>
+                                <input type="url" name="social_facebook"
+                                       value="{{ old('social_facebook', $settings['social_facebook'] ?? '') }}"
+                                       placeholder="https://facebook.com/yourpage"
+                                       class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-gray-600 mb-1">LinkedIn</label>
+                                <input type="url" name="social_linkedin"
+                                       value="{{ old('social_linkedin', $settings['social_linkedin'] ?? '') }}"
+                                       placeholder="https://linkedin.com/company/yourco"
+                                       class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- CTA / Demo Links --}}
+                <div class="border-t border-gray-100 pt-6 space-y-4">
+                    <h3 class="text-sm font-semibold text-gray-700">روابط الصفحة الرئيسية</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">رابط زر "ابدأ الآن" (CTA)</label>
+                            <input type="text" name="cta_url"
+                                   value="{{ old('cta_url', $settings['cta_url'] ?? '#contact') }}"
+                                   placeholder="#contact أو https://..."
+                                   class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent font-mono">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-gray-600 mb-1">رابط زر "العرض التوضيحي"</label>
+                            <input type="text" name="demo_url"
+                                   value="{{ old('demo_url', $settings['demo_url'] ?? '#contact') }}"
+                                   placeholder="#contact أو https://..."
+                                   class="w-full px-3.5 py-2 rounded-xl border border-gray-300 text-sm focus:outline-none focus:ring-2 focus:border-transparent font-mono">
+                        </div>
+                    </div>
+                </div>
+
                 {{-- Save Button --}}
                 <div class="flex items-center justify-end pt-2 border-t border-gray-100">
                     <button

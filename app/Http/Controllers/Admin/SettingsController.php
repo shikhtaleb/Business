@@ -38,6 +38,12 @@ class SettingsController extends Controller
             'timezone'         => 'required|string',
             'ga_id'            => 'nullable|string',
             'maintenance_mode' => 'nullable',
+            'social_twitter'   => 'nullable|url|max:255',
+            'social_instagram'  => 'nullable|url|max:255',
+            'social_facebook'  => 'nullable|url|max:255',
+            'social_linkedin'  => 'nullable|url|max:255',
+            'cta_url'          => 'nullable|string|max:255',
+            'demo_url'         => 'nullable|string|max:255',
         ]);
 
         Setting::set('site_name',        $request->input('site_name'),        'general');
@@ -46,6 +52,12 @@ class SettingsController extends Controller
         Setting::set('timezone',         $request->input('timezone'),         'general');
         Setting::set('ga_id',            $request->input('ga_id', ''),        'general');
         Setting::set('maintenance_mode', $request->boolean('maintenance_mode') ? '1' : '0', 'general');
+        Setting::set('social_twitter',   $request->input('social_twitter',  ''), 'general');
+        Setting::set('social_instagram', $request->input('social_instagram', ''), 'general');
+        Setting::set('social_facebook',  $request->input('social_facebook',  ''), 'general');
+        Setting::set('social_linkedin',  $request->input('social_linkedin',  ''), 'general');
+        Setting::set('cta_url',          $request->input('cta_url',  '#contact'), 'general');
+        Setting::set('demo_url',         $request->input('demo_url', '#contact'), 'general');
 
         ActivityLog::record('General settings updated', 'settings');
 

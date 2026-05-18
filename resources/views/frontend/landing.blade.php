@@ -98,7 +98,7 @@
         <svg class="sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
       </button>
       <a href="{{ route('admin.login') }}" class="btn btn-ghost" data-i18n="nav.login">{{ $content['nav']['nav.login'] ?? 'تسجيل الدخول' }}</a>
-      <a href="#" class="btn btn-primary" data-i18n="nav.cta">{{ $content['nav']['nav.cta'] ?? 'ابدأ الآن' }}</a>
+      <a href="{{ $settings['cta_url'] }}" class="btn btn-primary" data-i18n="nav.cta">{{ $content['nav']['nav.cta'] ?? 'ابدأ الآن' }}</a>
     </div>
   </div>
 </header>
@@ -113,8 +113,8 @@
     <h1 data-i18n-html="hero.title">{!! $content['hero']['hero.title'] ?? ('منصة <span class="accent">'.config('app.name').'</span><br/>لإدارة مشاريعك وفريقك بسلاسة') !!}</h1>
     <p class="sub" data-i18n="hero.sub">{{ $content['hero']['hero.sub'] ?? 'أدر المشاريع والمهام والعملاء والفواتير من لوحة واحدة.' }}</p>
     <div class="cta-row">
-      <a href="#" class="btn btn-primary" data-i18n="hero.cta1">{{ $content['hero']['hero.cta1'] ?? 'ابدأ تجربة ٣٠ يومًا مجانًا' }}</a>
-      <a href="#" class="btn btn-outline" data-i18n="hero.cta2">{{ $content['hero']['hero.cta2'] ?? 'شاهد العرض التوضيحي' }}</a>
+      <a href="{{ $settings['cta_url'] }}" class="btn btn-primary" data-i18n="hero.cta1">{{ $content['hero']['hero.cta1'] ?? 'ابدأ تجربة ٣٠ يومًا مجانًا' }}</a>
+      <a href="{{ $settings['demo_url'] }}" class="btn btn-outline" data-i18n="hero.cta2">{{ $content['hero']['hero.cta2'] ?? 'شاهد العرض التوضيحي' }}</a>
     </div>
 
     <!-- Dashboard mock -->
@@ -427,7 +427,7 @@
           <span id="price-basic">{{ $content['pricing']['pr.price.basic.monthly'] ?? '199' }}</span>
         </div>
         <div class="note" data-i18n="pr.basicNote">{{ $content['pricing']['pr.basicNote'] ?? 'للفرق الصغيرة حتى ٥ مستخدمين' }}</div>
-        <a class="btn btn-outline" href="#" data-i18n="pr.start">{{ $content['pricing']['pr.start'] ?? 'ابدأ تجربتك' }}</a>
+        <a class="btn btn-outline" href="{{ $settings['cta_url'] }}" data-i18n="pr.start">{{ $content['pricing']['pr.start'] ?? 'ابدأ تجربتك' }}</a>
       </div>
       <div class="pc pop" data-popular="{{ $content['pricing']['pr.popular'] ?? 'الأكثر شعبية' }}">
         <div class="label" data-i18n="pr.pro">{{ $content['pricing']['pr.pro'] ?? 'الباقة الاحترافية' }}</div>
@@ -436,7 +436,7 @@
           <span id="price-pro">{{ $content['pricing']['pr.price.pro.monthly'] ?? '499' }}</span>
         </div>
         <div class="note" data-i18n="pr.proNote">{{ $content['pricing']['pr.proNote'] ?? 'للشركات المتنامية بمستخدمين غير محدودين' }}</div>
-        <a class="btn btn-primary" href="#" data-i18n="pr.start">{{ $content['pricing']['pr.start'] ?? 'ابدأ تجربتك' }}</a>
+        <a class="btn btn-primary" href="{{ $settings['cta_url'] }}" data-i18n="pr.start">{{ $content['pricing']['pr.start'] ?? 'ابدأ تجربتك' }}</a>
       </div>
     </div>
 
@@ -570,14 +570,13 @@
 @php
     try {
         $latestPosts = \App\Models\Post::with(['category', 'author'])
-            ->where('status', 'published')
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
+            ->published()
             ->orderByDesc('published_at')
             ->limit(3)
             ->get();
-    } catch (\Throwable) {
+    } catch (\Throwable $e) {
         $latestPosts = collect();
+        \Illuminate\Support\Facades\Log::warning('Landing blog posts: '.$e->getMessage());
     }
 @endphp
 @if($latestPosts->isNotEmpty())
@@ -640,15 +639,26 @@
     @endif
     <div data-i18n="footer.rights">{{ $content['footer']['footer.rights'] ?? ('© '.date('Y').' '.config('app.name').'. جميع الحقوق محفوظة.') }}</div>
     <div class="social">
-      <a href="#" aria-label="X (Twitter)">
+      @if(!empty($settings['social_twitter']))
+      <a href="{{ $settings['social_twitter'] }}" aria-label="X (Twitter)" target="_blank" rel="noopener">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2H21.5l-7.41 8.466L23 22h-6.8l-5.32-6.95L4.8 22H1.54l7.93-9.06L1 2h6.96l4.81 6.36L18.244 2zm-1.19 18h1.88L7.05 4H5.04l12.014 16z"/></svg>
       </a>
-      <a href="#" aria-label="Instagram">
+      @endif
+      @if(!empty($settings['social_instagram']))
+      <a href="{{ $settings['social_instagram'] }}" aria-label="Instagram" target="_blank" rel="noopener">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>
       </a>
-      <a href="#" aria-label="Facebook">
+      @endif
+      @if(!empty($settings['social_facebook']))
+      <a href="{{ $settings['social_facebook'] }}" aria-label="Facebook" target="_blank" rel="noopener">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88V14.9H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.9h-2.33v6.98A10 10 0 0 0 22 12z"/></svg>
       </a>
+      @endif
+      @if(!empty($settings['social_linkedin']))
+      <a href="{{ $settings['social_linkedin'] }}" aria-label="LinkedIn" target="_blank" rel="noopener">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>
+      </a>
+      @endif
       <div class="lang-wrap">
         <button id="langBtn" aria-label="Language" aria-haspopup="true" aria-expanded="false">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a13.5 13.5 0 0 1 0 18M12 3a13.5 13.5 0 0 0 0 18"/></svg>

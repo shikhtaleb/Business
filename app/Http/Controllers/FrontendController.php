@@ -37,13 +37,19 @@ class FrontendController extends Controller
 
         // Settings
         $settings = [
-            'site_name'   => Setting::get('site_name', config('app.name')),
-            'brand_color' => Setting::get('brand_color', '#FF8528'),
-            'dark_mode'   => Setting::get('dark_mode_default', 'light'),
-            'font_family' => Setting::get('font_family', 'IBM Plex Sans Arabic'),
-            'ga_id'       => Setting::get('ga_id', ''),
-            'logo_url'      => Setting::get('logo_url', ''),
-            'dark_logo_url' => Setting::get('dark_logo_url', ''),
+            'site_name'      => Setting::get('site_name', config('app.name')),
+            'brand_color'    => Setting::get('brand_color', '#FF8528'),
+            'dark_mode'      => Setting::get('dark_mode_default', 'light'),
+            'font_family'    => Setting::get('font_family', 'IBM Plex Sans Arabic'),
+            'ga_id'          => Setting::get('ga_id', ''),
+            'logo_url'       => Setting::get('logo_url', ''),
+            'dark_logo_url'  => Setting::get('dark_logo_url', ''),
+            'social_twitter'  => Setting::get('social_twitter',  ''),
+            'social_instagram'=> Setting::get('social_instagram', ''),
+            'social_facebook' => Setting::get('social_facebook',  ''),
+            'social_linkedin' => Setting::get('social_linkedin',  ''),
+            'cta_url'        => Setting::get('cta_url',  '#contact'),
+            'demo_url'       => Setting::get('demo_url', '#contact'),
         ];
 
         // SEO settings per language

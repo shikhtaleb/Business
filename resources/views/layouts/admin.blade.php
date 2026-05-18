@@ -310,7 +310,7 @@ function adminApp() {
                               d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                     </svg>
                     @php
-                        try { $unread = \App\Models\Message::unreadCount(); } catch (\Throwable) { $unread = 0; }
+                        try { $unread = \App\Models\Message::unreadCount(); } catch (\Throwable $e) { $unread = 0; \Illuminate\Support\Facades\Log::warning('unreadCount: '.$e->getMessage()); }
                     @endphp
                     @if($unread > 0)
                         <span class="absolute -top-1 -end-1 w-4 h-4 rounded-full text-white text-[9px] font-bold flex items-center justify-center" style="background:#FF8528;">{{ $unread > 9 ? '9+' : $unread }}</span>
@@ -718,7 +718,7 @@ function adminApp() {
                 {{-- Notifications Bell --}}
                 @php
                     try { $unreadNotifCount = auth()->user() ? auth()->user()->unreadNotifications()->count() : 0; }
-                    catch (\Throwable) { $unreadNotifCount = 0; }
+                    catch (\Throwable $e) { $unreadNotifCount = 0; \Illuminate\Support\Facades\Log::warning('unreadNotifCount: '.$e->getMessage()); }
                 @endphp
                 <div class="relative" x-data="{notifOpen:false}" @click.outside="notifOpen=false">
                     <button @click="notifOpen=!notifOpen"
@@ -753,7 +753,7 @@ function adminApp() {
                         </div>
                         @php
                             try { $recentNotifs = auth()->user() ? auth()->user()->notifications()->latest()->limit(5)->get() : collect(); }
-                            catch (\Throwable) { $recentNotifs = collect(); }
+                            catch (\Throwable $e) { $recentNotifs = collect(); \Illuminate\Support\Facades\Log::warning('recentNotifs: '.$e->getMessage()); }
                         @endphp
                         @if($recentNotifs->isEmpty())
                         <div class="px-4 py-8 text-center">
