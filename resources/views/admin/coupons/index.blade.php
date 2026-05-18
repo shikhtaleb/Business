@@ -26,6 +26,28 @@
         <div class="bg-red-50 border border-red-200 rounded-xl px-4 py-3 text-sm text-red-700">{{ session('error') }}</div>
     @endif
 
+    {{-- Filter Bar --}}
+    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4">
+        <form method="GET" action="{{ route('admin.coupons.index') }}" class="flex flex-wrap items-end gap-4">
+            <div class="flex-1 min-w-[220px]">
+                <label class="block text-xs font-semibold text-gray-500 mb-1.5">بحث</label>
+                <div class="relative">
+                    <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input type="text" name="q" value="{{ request('q') }}" placeholder="كود الكوبون أو الوصف..."
+                           class="w-full rounded-xl border border-gray-200 pr-9 pl-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <button type="submit" class="px-4 py-2 rounded-xl text-sm font-semibold text-white shadow-sm" style="background:#FF8528;">بحث</button>
+                @if(request('q'))
+                    <a href="{{ route('admin.coupons.index') }}" class="px-4 py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">مسح</a>
+                @endif
+            </div>
+        </form>
+    </div>
+
     {{-- Table --}}
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
         @if($coupons->isEmpty())

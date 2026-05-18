@@ -22,7 +22,16 @@ class MessageController extends Controller
             $query->where('status', $status);
         }
 
-        $messages    = $query->paginate(20);
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('body', 'like', "%{$search}%");
+            });
+        }
+
+        $messages    = $query->paginate(20)->withQueryString();
         $unreadCount = Message::unreadCount();
 
         return view('admin.messages.index', compact('messages', 'status', 'unreadCount'));

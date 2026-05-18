@@ -59,8 +59,21 @@
 
         {{-- Table --}}
         <div class="lg:col-span-3 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="px-5 py-4 border-b border-gray-100">
+            <div class="px-5 py-4 border-b border-gray-100 flex flex-wrap items-center justify-between gap-3">
                 <h3 class="font-semibold text-gray-900">قواعد التوجيه ({{ $redirects->total() }})</h3>
+                <form method="GET" action="{{ route('admin.redirects.index') }}" class="flex gap-2">
+                    <div class="relative">
+                        <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="بحث في المسارات..."
+                               class="rounded-xl border border-gray-200 pr-9 pl-3 py-2 text-sm text-gray-700 w-52 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
+                    </div>
+                    <button type="submit" class="px-3 py-2 rounded-xl text-sm font-semibold text-white shadow-sm" style="background:#FF8528;">بحث</button>
+                    @if(request('q'))
+                        <a href="{{ route('admin.redirects.index') }}" class="px-3 py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">×</a>
+                    @endif
+                </form>
             </div>
 
             @if($redirects->isEmpty())

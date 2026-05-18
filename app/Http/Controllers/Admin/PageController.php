@@ -11,12 +11,26 @@ use Illuminate\View\View;
 
 class PageController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $pages = Page::with('author')
+        $query = Page::with('author')
             ->orderBy('sort_order')
-            ->orderByDesc('updated_at')
-            ->paginate(20);
+            ->orderByDesc('updated_at');
+
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->where(function ($q) use ($search) {
+                $q->where('title_ar', 'like', "%{$search}%")
+                  ->orWhere('title_en', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $pages = $query->paginate(20)->withQueryString();
 
         return view('admin.pages.index', compact('pages'));
     }

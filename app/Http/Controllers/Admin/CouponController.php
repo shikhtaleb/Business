@@ -10,9 +10,19 @@ use Illuminate\View\View;
 
 class CouponController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $coupons = DB::table('coupons')->orderByDesc('created_at')->paginate(20);
+        $query = DB::table('coupons')->orderByDesc('created_at');
+
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->where(function ($q) use ($search) {
+                $q->where('code', 'like', "%{$search}%")
+                  ->orWhere('description', 'like', "%{$search}%");
+            });
+        }
+
+        $coupons = $query->paginate(20)->withQueryString();
 
         return view('admin.coupons.index', compact('coupons'));
     }

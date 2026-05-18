@@ -6,6 +6,25 @@
 
 <div class="space-y-5">
 
+    {{-- Search --}}
+    <form method="GET" action="{{ route('admin.messages.index') }}" class="flex gap-2">
+        @if(request('status') && request('status') !== 'all')
+            <input type="hidden" name="status" value="{{ request('status') }}">
+        @endif
+        <div class="relative flex-1 max-w-sm">
+            <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="بحث باسم أو بريد..."
+                   class="w-full rounded-xl border border-gray-200 bg-white pr-9 pl-3 py-2 text-sm text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
+        </div>
+        <button type="submit" class="px-4 py-2 rounded-xl text-sm font-semibold text-white shadow-sm" style="background:#FF8528;">بحث</button>
+        @if(request('q'))
+            <a href="{{ route('admin.messages.index', request('status') ? ['status' => request('status')] : []) }}"
+               class="px-4 py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">مسح</a>
+        @endif
+    </form>
+
     {{-- Tabs --}}
     <div class="flex items-center gap-1 bg-white rounded-2xl border border-gray-100 shadow-sm p-1 w-fit">
         @foreach(['all' => __('admin.all'), 'unread' => __('admin.unread'), 'read' => __('admin.read'), 'replied' => __('admin.replied')] as $tab => $label)

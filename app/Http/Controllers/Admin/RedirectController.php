@@ -16,9 +16,19 @@ class RedirectController extends Controller
         Cache::forget('redirects_all');
     }
 
-    public function index(): View
+    public function index(Request $request): View
     {
-        $redirects = Redirect::orderByDesc('updated_at')->paginate(30);
+        $query = Redirect::orderByDesc('updated_at');
+
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->where(function ($q) use ($search) {
+                $q->where('from_path', 'like', "%{$search}%")
+                  ->orWhere('to_path', 'like', "%{$search}%");
+            });
+        }
+
+        $redirects = $query->paginate(30)->withQueryString();
 
         return view('admin.redirects.index', compact('redirects'));
     }
