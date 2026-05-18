@@ -36,7 +36,17 @@
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 px-5 py-4">
         <form method="GET" action="{{ route('admin.posts.index') }}"
               class="flex flex-wrap items-end gap-4">
-            <div class="flex-1 min-w-[180px]">
+            <div class="flex-1 min-w-[220px]">
+                <label class="block text-xs font-semibold text-gray-500 mb-1.5">بحث</label>
+                <div class="relative">
+                    <svg class="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                    <input type="text" name="q" value="{{ request('q') }}" placeholder="عنوان أو slug..."
+                           class="w-full rounded-xl border border-gray-200 pr-9 pl-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
+                </div>
+            </div>
+            <div class="flex-1 min-w-[160px]">
                 <label class="block text-xs font-semibold text-gray-500 mb-1.5">الحالة</label>
                 <select name="status"
                         class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
@@ -46,7 +56,7 @@
                     <option value="scheduled" {{ request('status') === 'scheduled' ? 'selected' : '' }}>مجدول</option>
                 </select>
             </div>
-            <div class="flex-1 min-w-[180px]">
+            <div class="flex-1 min-w-[160px]">
                 <label class="block text-xs font-semibold text-gray-500 mb-1.5">التصنيف</label>
                 <select name="category_id"
                         class="w-full rounded-xl border border-gray-200 px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-orange-400 focus:border-transparent">
@@ -64,7 +74,7 @@
                         style="background:#FF8528;">
                     تصفية
                 </button>
-                @if(request()->hasAny(['status','category_id']))
+                @if(request()->hasAny(['status','category_id','q']))
                     <a href="{{ route('admin.posts.index') }}"
                        class="px-4 py-2 rounded-xl text-sm font-medium border border-gray-200 text-gray-600 hover:bg-gray-50 transition-colors">
                         إعادة ضبط
@@ -82,10 +92,17 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                           d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
-                <p class="text-sm font-medium">لا توجد مقالات حتى الآن</p>
-                <a href="{{ route('admin.posts.create') }}"
-                   class="mt-3 text-sm font-semibold hover:underline"
-                   style="color:#FF8528;">أنشئ أول مقال</a>
+                @if(request()->hasAny(['status','category_id','q']))
+                    <p class="text-sm font-medium">لا توجد نتائج مطابقة</p>
+                    <a href="{{ route('admin.posts.index') }}"
+                       class="mt-3 text-sm font-semibold hover:underline"
+                       style="color:#FF8528;">عرض جميع المقالات</a>
+                @else
+                    <p class="text-sm font-medium">لا توجد مقالات حتى الآن</p>
+                    <a href="{{ route('admin.posts.create') }}"
+                       class="mt-3 text-sm font-semibold hover:underline"
+                       style="color:#FF8528;">أنشئ أول مقال</a>
+                @endif
             </div>
         @else
             <div class="overflow-x-auto">

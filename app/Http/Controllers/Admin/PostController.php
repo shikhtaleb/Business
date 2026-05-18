@@ -28,6 +28,15 @@ class PostController extends Controller
             $query->where('category_id', $request->category_id);
         }
 
+        if ($request->filled('q')) {
+            $search = $request->q;
+            $query->where(function ($q) use ($search) {
+                $q->where('title_ar', 'like', "%{$search}%")
+                  ->orWhere('title_en', 'like', "%{$search}%")
+                  ->orWhere('slug', 'like', "%{$search}%");
+            });
+        }
+
         $posts      = $query->paginate(15)->withQueryString();
         $categories = PostCategory::orderBy('name_ar')->get();
 
