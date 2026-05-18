@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ActivityLog;
 use App\Models\Media;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -14,12 +15,12 @@ class MediaController extends Controller
     public function index(Request $request)
     {
         if ($request->wantsJson() || $request->boolean('json')) {
-            $media = Media::whereIn('mime_type', ['image/jpeg','image/png','image/gif','image/webp','image/svg+xml'])
-                ->orWhere('path', 'like', '%.jpg')->orWhere('path', 'like', '%.png')
-                ->orWhere('path', 'like', '%.webp')->orWhere('path', 'like', '%.gif')
-                ->orderBy('created_at', 'desc')
-                ->limit(60)
-                ->get(['id','url','original_name','filename']);
+            $media = Cache::remember('admin_media_picker', 300, fn () =>
+                Media::whereIn('mime_type', ['image/jpeg','image/png','image/gif','image/webp','image/svg+xml'])
+                    ->orderBy('created_at', 'desc')
+                    ->limit(60)
+                    ->get(['id','url','original_name','filename'])
+            );
             return response()->json($media);
         }
 
@@ -66,6 +67,8 @@ class MediaController extends Controller
             'type'          => $type,
         ]);
 
+        Cache::forget('admin_media_picker');
+
         ActivityLog::record(
             "Media uploaded: {$media->original_name} (type={$type})",
             'media',
@@ -85,6 +88,7 @@ class MediaController extends Controller
         $media = Media::findOrFail($id);
 
         Storage::disk('public')->delete($media->path);
+        Cache::forget('admin_media_picker');
 
         ActivityLog::record(
             "Media deleted: {$media->original_name}",

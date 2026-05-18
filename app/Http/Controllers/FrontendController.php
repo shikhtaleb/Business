@@ -78,10 +78,7 @@ class FrontendController extends Controller
         $categorySlug = $request->get('category');
         $search       = trim($request->get('q', ''));
 
-        $query = \App\Models\Post::with(['category', 'author'])
-            ->where('status', 'published')
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now());
+        $query = \App\Models\Post::with(['category', 'author'])->published();
 
         if ($categorySlug) {
             $query->whereHas('category', fn($q) => $q->where('slug', $categorySlug));
@@ -98,9 +95,7 @@ class FrontendController extends Controller
 
         $posts = $query->orderByDesc('published_at')->paginate(9)->withQueryString();
 
-        $categories = \App\Models\PostCategory::withCount(['posts' => fn($q) =>
-                $q->where('status', 'published')->whereNotNull('published_at')->where('published_at', '<=', now())
-            ])
+        $categories = \App\Models\PostCategory::withCount(['posts' => fn($q) => $q->published()])
             ->having('posts_count', '>', 0)
             ->orderBy('sort_order')
             ->get();
